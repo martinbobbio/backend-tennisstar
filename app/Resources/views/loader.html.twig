@@ -1,0 +1,97 @@
+<div class="demo" style="position:fixed; right:2%;top:-5%;">
+    <svg class="loader">
+        <filter id="blur">
+            <fegaussianblur in="SourceGraphic" stddeviation="2"></fegaussianblur>
+        </filter>
+        <circle cx="75" cy="75" r="60" fill="transparent" stroke="#F44336" stroke-width="6" stroke-linecap="round" stroke-dasharray="385" stroke-dashoffset="385" filter="url(#blur)"></circle>
+    </svg>
+    <svg class="loader loader-2">
+        <circle cx="75" cy="75" r="60" fill="transparent" stroke="#FFC107" stroke-width="6" stroke-linecap="round" stroke-dasharray="385" stroke-dashoffset="385" filter="url(#blur)"></circle>
+    </svg>
+    <svg class="loader loader-3">
+        <circle cx="75" cy="75" r="60" fill="transparent" stroke="#3F51B5" stroke-width="6" stroke-linecap="round" stroke-dasharray="385" stroke-dashoffset="385" filter="url(#blur)"></circle>
+    </svg>
+    <svg class="loader loader-4">
+        <circle cx="75" cy="75" r="60" fill="transparent" stroke="#3F51B5" stroke-width="6" stroke-linecap="round" stroke-dasharray="385" stroke-dashoffset="385" filter="url(#blur)"></circle>
+    </svg>
+    <svg class="loader loader-5">
+        <circle cx="75" cy="75" r="60" fill="transparent" stroke="#CDDC39" stroke-width="6" stroke-linecap="round" filter="url(#blur)"></circle>
+    </svg>
+    <svg class="loader loader-6">
+        <circle cx="75" cy="75" r="60" fill="transparent" stroke="#4CAF50" stroke-width="6" stroke-linecap="round" stroke-dasharray="385" stroke-dashoffset="385" filter="url(#blur)"></circle>
+    </svg>
+    <svg class="loader loader-7">
+        <circle cx="75" cy="75" r="60" fill="transparent" stroke="#3F51B5" stroke-width="6" stroke-linecap="round" stroke-dasharray="385" stroke-dashoffset="385" filter="url(#blur)"></circle>
+    </svg>
+    <svg class="loader loader-8">
+        <circle cx="75" cy="75" r="60" fill="transparent" stroke="#212121" stroke-width="6" stroke-linecap="round" stroke-dasharray="385" stroke-dashoffset="385" filter="url(#blur)"></circle>
+    </svg>
+</div>
+<style>
+    .demo {
+        position: relative;
+        margin: 120px auto;
+        width: 150px;
+    }
+
+    .loader {
+        position: absolute;
+        opacity: .7;
+    }
+
+    .loader circle {
+        -webkit-animation: draw 4s infinite ease-in-out;
+        animation: draw 4s infinite ease-in-out;
+        -webkit-transform-origin: center;
+        transform-origin: center;
+        -webkit-transform: rotate(-90deg);
+        transform: rotate(-90deg);
+    }
+
+    .loader-2 circle, .loader-6 circle {
+        -webkit-animation-delay: 1s;
+        animation-delay: 1s;
+    }
+
+    .loader-7 circle {
+        -webkit-animation-delay: 2s;
+        animation-delay: 2s;
+    }
+
+    .loader-4 circle, .loader-8 circle {
+        -webkit-animation-delay: 3s;
+        animation-delay: 3s;
+    }
+
+    .loader-3 {
+        left: -150px;
+        -webkit-transform: rotateY(180deg);
+        transform: rotateY(180deg);
+    }
+
+    .loader-6, .loader-7, .loader-8 {
+        left: -150px;
+        -webkit-transform: rotateX(180deg) rotateY(180deg);
+        transform: rotateX(180deg) rotateY(180deg);
+    }
+
+    .loader-5 circle {
+        opacity: .2;
+    }
+
+    @-webkit-keyframes draw {
+        50% {
+            stroke-dashoffset: 0;
+            -webkit-transform: scale(0.5);
+            transform: scale(0.5);
+        }
+    }
+
+    @keyframes draw {
+        50% {
+            stroke-dashoffset: 0;
+            -webkit-transform: scale(0.5);
+            transform: scale(0.5);
+        }
+    }
+</style>

@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Home{% endblock %}
+
+{% block page_content %}
+
+    <style>
+        .left_col{
+            height:2200px;
+        }
+    </style>
+
+    {% include 'loader.html.twig' %}
+
+    <section id="main">
+
+
+    <h4>Usuarios</h4>
+
+    <div class="row tile_count">
+        <div class="col-xs-4 tile_stats_count">
+            <span class="count_top"><i class="fa fa-user"></i> Total de usuarios</span>
+            <div class="count green animated pulse">20</div>
+        </div>
+        <div class="col-xs-4 tile_stats_count">
+            <span class="count_top"><i class="fa fa-plane"></i> Total de travelers</span>
+            <div class="count green animated pulse">50</div>
+        </div>
+    </div>
+
+    <h4>Wobs</h4>
+
+    <div class="row tile_count">
+        <div class="col-xs-4 tile_stats_count">
+            <span class="count_top">Total de wobs</span>
+            <div class="count green animated pulse">500</div>
+        </div>
+        <div class="col-xs-4 tile_stats_count">
+            <span class="count_top">Total de wobs en <strong>estado abierto</strong></span>
+            <div class="count green animated pulse">20</div>
+        </div>
+        <div class="col-xs-4 tile_stats_count">
+            <span class="count_top">Total de wobs en <strong>estado asociado</strong></span>
+            <div class="count green animated pulse">40</div>
+        </div>
+        <div class="col-xs-4 tile_stats_count">
+            <span class="count_top">Total de wobs en <strong>estado comprado</strong></span>
+            <div class="count green animated pulse">40</div>
+        </div>
+        <div class="col-xs-4 tile_stats_count">
+            <span class="count_top">Total de wobs en <strong>estado entregado</strong></span>
+            <div class="count green animated pulse">40</div>
+        </div>
+        <div class="col-xs-4 tile_stats_count">
+            <span class="count_top">Total de wobs en <strong>otros estados</strong></span>
+            <div class="count green animated pulse">40</div>
+        </div>
+    </div>
+
+
+
+
+    </section>
+
+
+
+{% endblock %}
