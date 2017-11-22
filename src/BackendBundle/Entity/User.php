@@ -7,9 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
- * 
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(name="user")
- * @ORM\Entity(repositoryClass="BackOfficeBundle\Repository\UserRepository")
  */
 class User extends BaseUser
 {
@@ -18,6 +17,7 @@ class User extends BaseUser
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     
      */
     protected $id;
 
@@ -35,8 +35,7 @@ class User extends BaseUser
 
      /**
      * @var string
-     * @Assert\NotBlank() 
-     * @ORM\Column(name="firstname", type="string", length=45, nullable=false)
+     * @ORM\Column(name="firstname", type="string", length=45, nullable=true)
      */
     private $firstname;
 
@@ -67,8 +66,7 @@ class User extends BaseUser
 
     /**
      * @var string
-     * @Assert\NotBlank() 
-     * @ORM\Column(name="lastname", type="string", length=45, nullable=false)
+     * @ORM\Column(name="lastname", type="string", length=45, nullable=true)
      */
     private $lastname;
 
@@ -96,69 +94,6 @@ class User extends BaseUser
         return $this->lastname;
     }
 
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created_at", type="datetime", nullable=true)
-     */
-    private $createdAt;
-
-
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     * @return Users
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = new \DateTime("now");
-        $this->updatedAt = new \DateTime("now");
-
-        return $this;
-    }
-
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime 
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-
-    /**
-     * @var \DateTime
-     */
-    private $updatedAt;
-
-    /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt
-     * @return Order
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = new \DateTime("now");
-
-        return $this;
-    }
-
-    /**
-     * Get updatedAt
-     *
-     * @return \DateTime 
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-
-
     protected $email;
     
     /**
@@ -174,7 +109,6 @@ class User extends BaseUser
     }
 
 
-
     /**
      * Get lastName
      *
@@ -184,6 +118,11 @@ class User extends BaseUser
     {
         return $this->email;
     }
+
+
+
+
+
 
 
 

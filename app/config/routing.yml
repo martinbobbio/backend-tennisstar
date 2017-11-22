@@ -2,6 +2,10 @@ backend:
     resource: "@BackendBundle/Resources/config/routing.yml"
     prefix: /admin
 
+oneup_uploader:
+    resource: .
+    type: uploader
+
 
 
 fos_user_security:

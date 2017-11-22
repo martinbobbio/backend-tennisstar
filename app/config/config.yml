@@ -14,6 +14,13 @@ fos_user:
     firewall_name: main
     user_class: BackendBundle\Entity\User
 
+oneup_uploader:
+    mappings:
+        notices:
+            frontend: blueimp
+            storage:
+                directory: "%kernel.root_dir%/../web/uploads/notices/"
+
 framework:
     translator: ~
     #esi: ~
@@ -41,6 +48,8 @@ framework:
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    form:
+        resources: ['bootstrap_3_layout.html.twig']
 
 # Doctrine Configuration
 doctrine:

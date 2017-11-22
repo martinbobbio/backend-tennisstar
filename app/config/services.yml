@@ -7,3 +7,10 @@ services:
     #service_name:
     #    class: AppBundle\Directory\ClassName
     #    arguments: ['@another_service_name', 'plain_value', '%parameter_name%']
+    acme_hello.upload_listener:
+        class: BackendBundle\Listener\UploadListener
+        arguments: ["@doctrine.orm.entity_manager", "@service_container"]
+        tags:
+            - { name: kernel.event_listener, event: oneup_uploader.post_persist, method: onUpload }
+            - { name: kernel.event_listener, event: oneup_uploader.validation, method: onValidate }
+
