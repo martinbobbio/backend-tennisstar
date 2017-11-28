@@ -1,3 +1,7 @@
 backend_home:
   resource: "@BackendBundle/Resources/config/routes/home.yml"
-  prefix: /home
+  prefix: /
+
+backend_notice:
+  resource: "@BackendBundle/Resources/config/routes/notice.yml"
+  prefix: /

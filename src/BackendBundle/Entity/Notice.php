@@ -19,11 +19,6 @@ class Notice
      */
     protected $id;
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function getId(){
 
         return $this->id;
@@ -121,6 +116,8 @@ class Notice
     {
         return $this->img_src;
     }
+
+    public $fileIds;
 
     /**
      * @var \DateTime

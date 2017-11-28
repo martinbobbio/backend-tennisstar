@@ -19,7 +19,7 @@ oneup_uploader:
         notices:
             frontend: blueimp
             storage:
-                directory: "%kernel.root_dir%/../web/uploads/notices/"
+                directory: "%kernel.root_dir%/../web/uploads/notice/"
 
 framework:
     translator: ~
@@ -49,7 +49,7 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     form:
-        resources: ['bootstrap_3_layout.html.twig']
+        resources: ['bootstrap_3_horizontal_layout.html.twig']
 
 # Doctrine Configuration
 doctrine:

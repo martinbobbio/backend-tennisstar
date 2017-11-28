@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Editar noticias{% endblock %}
+
+{% block page_title %}<h1 class="text-default">Formulario</h1>{% endblock %}
+
+{% block page_content %}
+
+    <style>
+        .left_col{
+            height:1500px;
+        }
+    </style>
+
+    <br>
+
+    <div class="container well" style="padding:25px; background:white">
+
+    <div class="col-xs-offset-2">
+        <h1 class="text-primary">Editar Noticias</h1>
+    </div><br>
+
+    {{ form_start(edit_form) }}
+        {{ form_widget(edit_form) }}
+         <div class='row'>
+          <div class='col-sm-12'>  
+                 <div class="form-group">
+                    <label class="col-xs-2 text-right">Imagen: </label>
+                    <div class="col-xs-10">
+                    <span class="btn btn-primary fileinput-button">
+                        <i class="glyphicon glyphicon-plus"></i>
+                        <span>Examinar</span>
+                        <input id="fileupload" type="file" name="files[]" data-url="{{ oneup_uploader_endpoint('notices') }}" multiple>
+                    </span>
+                    <br><br>
+                    <div id="divImg">         
+                        <img class="img-responsive" src='{{ notice.imgSrc }}' />    
+                    </div>            
+                <br>
+
+                <div class="progress">
+                  <div class="progress-bar" id="progress" role="progressbar" aria-valuenow="70"
+                  aria-valuemin="0" aria-valuemax="100" style="width:0%;height:100%">
+                    <span class="sr-only">70% Complete</span>
+                  </div>
+                </div>
+          </div>
+        </div>
+        <div class="col-xs-offset-2">
+            <input type="submit" value="Guardar" class="btn btn-success" />
+        </div>
+    {{ form_end(edit_form) }}
+
+    <br>
+    <div class='col-xs-offset-2'> 
+        {{ form_start(delete_form) }}
+            <button type="button" onClick="confirmDelete()" class="btn btn-danger">Borrar</button>
+        {{ form_end(delete_form) }}
+    </div>
+
+    </div>
+    
+
+<script>
+
+      $(function () {
+        $('#fileupload').fileupload({
+            dataType: 'json',
+            maxChunkSize: 2000000, // 2 MB
+            add: function (e, data) {
+
+              $('#progress').css('width',0 + '%');
+              data.submit();
+
+            },
+            progressall: function (e, data) {
+             
+                var progress = parseInt(data.loaded / data.total * 100, 10);                       
+                $('#progress').css('width',progress + '%');
+                $('#progress').css('background-color','#1ABB9C');
+                
+            },
+            done: function (e, data) {      
+                $.each(data.result.files, function (index, file) {       
+
+                    $("#backofficebundle_homeslide_fileIds").attr('value', file.path);              
+                    $('<p/>').text('Subido con éxito').css('color','white').addClass('text-center').appendTo($('#progress'));  
+                    $('#divImg').html('<img class="img-responsive" src='+file.path+' />')
+                
+                                          
+                });      
+              }
+            });
+          });
+
+</script>
+
+
+{% endblock %}

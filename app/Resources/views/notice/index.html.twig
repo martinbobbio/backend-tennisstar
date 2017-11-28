@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Ver noticias{% endblock %}
+
+{% block page_title %}<h1 class="text-default">Noticias</h1>{% endblock %}
+
+{% block page_title_right %}
+    <a href="{{ path('notice_new') }}" class="btn btn-success btn">Agregar</a>
+{% endblock %}
+
+
+{% block page_content %}
+
+    <style>
+        .left_col{
+            height:1300px;
+        }
+    </style>
+
+    <br><br>
+
+     <table id="example" class="display" cellspacing="0" width="100%" >
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titulo</th>
+                <th>Descripcion</th>
+                <th>Imagen</th>
+                <th>Creado</th>
+                <th>Modificado</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Id</th>
+                <th>Titulo</th>
+                <th>Descripcion</th>
+                <th>Imagen</th>
+                <th>Creado</th>
+                <th>Modificado</th>
+                <th>Actions</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            {% for n in notice %}
+            <tr>
+                <td>{{ n.id }}</td>
+                <td>{{ n.title }}</td>
+                <td>{{ n.description }}</td>
+                <td> path </td>
+                <td>{{ n.createAt|date('Y-m-d H:i:s')}}</td>
+                <td>{{ n.updateAt|date('Y-m-d H:i:s')}}</td>
+                <td><a href="{{ path('notice_edit', {id: n.id})}}" class="btn btn-xs btn-primary">Editar</a></td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+
+           
+ 
+{% endblock %}

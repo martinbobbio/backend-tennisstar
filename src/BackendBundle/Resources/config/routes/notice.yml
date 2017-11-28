@@ -1,0 +1,19 @@
+notice_index:
+    path:     /notice
+    defaults: { _controller: "BackendBundle:Notice:index" }
+    methods:  GET
+
+notice_edit:
+    path:     /notice/{id}/edit
+    defaults: { _controller: "BackendBundle:Notice:edit" }
+    methods:  [GET, POST]
+
+notice_delete:
+    path:     /notice/{id}/delete
+    defaults: { _controller: "BackendBundle:Notice:delete" }
+    methods:  [DELETE, POST]
+
+notice_new:
+    path:     /notice/new
+    defaults: { _controller: "BackendBundle:Notice:new" }
+    methods:  [GET, POST]
