@@ -1,14 +1,26 @@
-# This file is a "template" of what your parameters.yml file should look like
-# Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
-# https://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
+# This file is auto-generated during the composer install
 parameters:
-    database_host: localhost
+    database_host: mysql.hostinger.com.ar
     database_port: null
-    database_name: tennisstar
+    database_name: u277128184_tstar
     database_user: root
-    database_password: root
+    database_password: root12
     mailer_transport: smtp
     mailer_host: 127.0.0.1
     mailer_user: null
     mailer_password: null
     secret: ThisTokenIsNotSoSecretChangeIt
+
+
+# This file is auto-generated during the composer install
+#parameters:
+#    database_host: localhost
+#    database_port: null
+#    database_name: tennisstar
+#    database_user: root
+#    database_password: root
+#    mailer_transport: smtp
+#    mailer_host: 127.0.0.1
+#    mailer_user: null
+#    mailer_password: null
+#    secret: ThisTokenIsNotSoSecretChangeIt
