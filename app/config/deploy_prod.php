@@ -8,7 +8,7 @@ return new class extends DefaultDeployer
     {
         return $this->getConfigBuilder()
         ->server('u277128184@31.170.166.124:65002')
-        ->deployDir('/var/www/symfony-demo')
+        ->deployDir('/')
         ->repositoryUrl('git@github.com:martinbobbio/davinci-tennisstar-backend.git')
         ->repositoryBranch('master')
     ;
