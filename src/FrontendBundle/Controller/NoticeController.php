@@ -12,6 +12,8 @@ use FrontendBundle\Entity\ResponseRest;
 class NoticeController extends Controller
 {
     public function getNoticeAction(){
+        
+        header("Access-Control-Allow-Origin: *");
 
         $em = $this->getDoctrine()->getManager();
         $notice = $em->getRepository('BackendBundle:Notice')->findAll();
