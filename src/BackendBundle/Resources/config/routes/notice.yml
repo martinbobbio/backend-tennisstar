@@ -11,7 +11,7 @@ notice_edit:
 notice_delete:
     path:     /notice/{id}/delete
     defaults: { _controller: "BackendBundle:Notice:delete" }
-    methods:  [DELETE, POST]
+
 
 notice_new:
     path:     /notice/new

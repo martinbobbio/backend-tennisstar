@@ -1,0 +1,63 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block fos_user_content %}
+{% if error %}
+    <div class="alert alert-danger" role="alert">
+      <strong>Error!</strong> {#error#} La contraseña o email no son correctos
+    </div>
+{% endif %}
+
+<style>
+    .form{
+        color:grey !important;
+    }
+    .form a{
+        color:grey !important;
+        font-weight:bold;
+    }
+</style>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<div class="login_wrapper">
+  <div class="form login_form">
+      <section class="login_content">
+          <form action="{{ path("fos_user_security_check") }}" method="post">
+           <h1>Iniciar sesión</h1>
+              <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+
+              <div class="form-group">
+                <input type="text" id="username" class="form-control" name="_username" value="{{ last_username }}" required="required" placeholder="Email" />
+              </div>
+              
+              <div class="form-group">
+                <input type="password" id="password" class="form-control" name="_password" required="required" placeholder="Contraseña" />
+              </div>
+
+              <div>
+                <input type="submit" id="_submit" name="_submit" class="btn btn-default btn-sm" value="{{ 'Entrar'|trans({}, 'FOSUserBundle') }}" />
+              </div>
+
+              <br><br>
+              <div class="separator">
+                <p class="change_link">Panel de administrador
+                </p>
+                
+                <br>
+                <div>
+                  <h1>Tennis-Star</h1>
+                  <p>©2017 All Rights Reserved.</p>
+                </div>
+              </div>
+          </form>
+      </section>
+  </div>
+</div>
+
+
+
+
+
+
+
+{% endblock fos_user_content %}

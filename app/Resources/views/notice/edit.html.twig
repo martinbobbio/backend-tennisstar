@@ -34,7 +34,7 @@
                     </span>
                     <br><br>
                     <div id="divImg">         
-                        <img class="img-responsive" src='{{ notice.imgSrc }}' />    
+                        <img class="img-responsive" src={{ asset("uploads/notice/")}}{{notice.imgSrc}} />   
                     </div>            
                 <br>
 
@@ -50,13 +50,6 @@
             <input type="submit" value="Guardar" class="btn btn-success" />
         </div>
     {{ form_end(edit_form) }}
-
-    <br>
-    <div class='col-xs-offset-2'> 
-        {{ form_start(delete_form) }}
-            <button type="button" onClick="confirmDelete()" class="btn btn-danger">Borrar</button>
-        {{ form_end(delete_form) }}
-    </div>
 
     </div>
     
@@ -83,11 +76,9 @@
             done: function (e, data) {      
                 $.each(data.result.files, function (index, file) {       
 
-                    $("#backofficebundle_homeslide_fileIds").attr('value', file.path);              
+                    $("#backendbundle_notice_fileIds").attr('value', file.path);              
                     $('<p/>').text('Subido con éxito').css('color','white').addClass('text-center').appendTo($('#progress'));  
-                    $('#divImg').html('<img class="img-responsive" src='+file.path+' />')
-                
-                                          
+                    $('#divImg').html('<img class="img-responsive" src={{ asset("uploads/notice/")}}'+file.path+' />')
                 });      
               }
             });
@@ -95,5 +86,8 @@
 
 </script>
 
+<script>
+    CKEDITOR.replace( 'backendbundle_notice_description' );    
+</script>
 
 {% endblock %}

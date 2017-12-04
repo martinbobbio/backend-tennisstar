@@ -4,6 +4,8 @@
 
 {% block page_title %}<h1 class="text-default">Formulario</h1>{% endblock %}
 
+{% block page_title_right %}<a href="{{ path('notice_index') }}" class="btn btn-default btn">Todas las noticias</a>{% endblock %}
+
 {% block page_content %}
 
     <style>
@@ -34,8 +36,8 @@
                     </span>
                     <br><br>
                     <div id="divImg">       
-                        <img class="img-responsive" src='{{ notice.imgSrc }}' />    
-                    </div>      
+                        <img class="img-responsive" src='' />    
+                    </div>
                 <br>
 
                 <div class="progress">
@@ -75,11 +77,10 @@
                     
                 },
                 done: function (e, data) {  
-                    $.each(data.result.files, function (index, file) {console.log(index);console.log(file);
+                    $.each(data.result.files, function (index, file) {
 
                         $("#backendbundle_notice_fileIds").attr('value', file.path);              
                         $('<p/>').text('Subido con éxito').css('color','white').addClass('text-center').appendTo($('#progress'));  
-                        $('#divImg').html('<img class="img-responsive" src='+file.path+' />');
                         $('#divImg').html('<img class="img-responsive" src={{ asset("uploads/notice/")}}'+file.path+' />');
                         $('#submit').attr('disabled', false);
                                             

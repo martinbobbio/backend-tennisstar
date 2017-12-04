@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new BackendBundle\BackendBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Oneup\UploaderBundle\OneupUploaderBundle(),
+            new FrontendBundle\FrontendBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'), true)) {

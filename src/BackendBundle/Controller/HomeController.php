@@ -12,4 +12,9 @@ class HomeController extends Controller
     {
         return $this->render("home/index.html.twig");
     }
+
+    public function redirectLoginAction(){
+
+        return $this->redirect('/login');
+    }
 }

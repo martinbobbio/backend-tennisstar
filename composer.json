@@ -6,7 +6,8 @@
     "autoload": {
         "psr-4": {
             "AppBundle\\": "src/AppBundle",
-            "BackendBundle\\": "src/BackendBundle"
+            "BackendBundle\\": "src/BackendBundle",
+            "FrontendBundle\\": "src/FrontendBundle"
         },
         "classmap": [ "app/AppKernel.php", "app/AppCache.php" ]
     },
@@ -24,8 +25,7 @@
         "sensio/framework-extra-bundle": "^3.0.2",
         "symfony/monolog-bundle": "^3.0.2",
         "symfony/swiftmailer-bundle": "~2.3,>=2.3.10",
-        "symfony/symfony": "2.8.*",
-        "symfony/web-server-bundle": "^4.0",
+        "symfony/symfony": "2.8.31",
         "twig/twig": "^1.0||^2.0"
     },
     "require-dev": {

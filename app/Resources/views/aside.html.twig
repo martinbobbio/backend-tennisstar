@@ -12,7 +12,7 @@
             </div>
             <div class="profile_info">
                 <span>Bienvenido</span>
-                <h2>Usuario</h2>
+                <h2>{{app.user.firstname}} {{app.user.lastname}}</h2>
             </div>
         </div>
 
@@ -32,14 +32,14 @@
                 <ul class="nav side-menu" style="">
                     <li class=""><a><i class="fa fa-user"></i>Usuarios<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu" style="display: none;">
-                            <li><a href="">Agregar usuario</a></li>
-                            <li><a href="">Ver usuarios</a></li>
+                            <li><a href="newuser">Agregar usuario</a></li>
+                            <li><a href="users">Ver usuarios</a></li>
                         </ul>
                     </li>
                     <li class=""><a><i class="fa fa-book"></i>Noticias<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu" style="display: none;">
-                            <li><a href="">Agregar usuario</a></li>
-                            <li><a href="">Ver noticias</a></li>
+                            <li><a href="{{ path('notice_new') }}">Agregar noticia</a></li>
+                            <li><a href="{{ path('notice_index') }}">Ver noticias</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -50,7 +50,7 @@
                 <ul class="nav side-menu" style="">
                     <li class=""><a><i class="fa fa-home"></i>Home<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu" style="display: none;">
-                            <li><a href="">Slide</a></li>
+                            <li><a href="slide">Slide</a></li>
                         </ul>
                     </li>
                 </ul>

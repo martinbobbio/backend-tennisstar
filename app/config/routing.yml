@@ -2,6 +2,14 @@ backend:
     resource: "@BackendBundle/Resources/config/routing.yml"
     prefix: /admin
 
+frontend:
+    resource: "@FrontendBundle/Resources/config/routing.yml"
+    prefix:   /api
+
+default:
+    path: /
+    defaults: { _controller: BackendBundle:Home:redirectLogin }
+
 oneup_uploader:
     resource: .
     type: uploader

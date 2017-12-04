@@ -18,12 +18,16 @@ class Notice
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
-    public function getId(){
-
-        return $this->id;
-
-    }
+    
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+     public function getId()
+     {
+         return $this->id;
+     }
 
 
      /**

@@ -25,7 +25,7 @@
                 <th>Id</th>
                 <th>Titulo</th>
                 <th>Descripcion</th>
-                <th>Imagen</th>
+                <th>Ruta de imagen</th>
                 <th>Creado</th>
                 <th>Modificado</th>
                 <th>Actions</th>
@@ -35,8 +35,8 @@
             <tr>
                 <th>Id</th>
                 <th>Titulo</th>
-                <th>Descripcion</th>
-                <th>Imagen</th>
+                <th>Contenido</th>
+                <th>Ruta de imagen</th>
                 <th>Creado</th>
                 <th>Modificado</th>
                 <th>Actions</th>
@@ -44,20 +44,26 @@
         </tfoot>
         <tbody>
             {% for n in notice %}
-            <tr>
+            <tr data-id="{{ n.id }}">
                 <td>{{ n.id }}</td>
                 <td>{{ n.title }}</td>
                 <td>{{ n.description }}</td>
-                <td> path </td>
+                <td><a href="{{ asset(n.imgSrc)}}">{{ n.imgSrc }}</a></td>
                 <td>{{ n.createAt|date('Y-m-d H:i:s')}}</td>
                 <td>{{ n.updateAt|date('Y-m-d H:i:s')}}</td>
-                <td><a href="{{ path('notice_edit', {id: n.id})}}" class="btn btn-xs btn-primary">Editar</a></td>
+                <td>
+                <a href="{{ path('notice_edit', {id: n.id})}}" class="btn btn-xs btn-primary">Editar</a>
+                <a href="#" class="btn btn-xs btn-danger btn-delete">Eliminar</a>
+                <a href="{{ asset(n.imgSrc)}}" class="btn btn-xs btn-danger btn-success">Ver imagen</a>
+                </td>
             </tr>
             {% endfor %}
             
         </tbody>
     </table>
 
-           
+    {{ include('Forms/formDelete.html.twig', {form: delete_form, message: 'Estas seguro que quieres borrar la noticia?', id: 'form-delete', with_submit: false}) }}
+    
+    <script src="{{ asset('js/delete-ajax.js') }}"></script>
  
 {% endblock %}

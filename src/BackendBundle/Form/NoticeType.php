@@ -7,7 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class NoticeType extends AbstractType
 {
@@ -18,7 +18,7 @@ class NoticeType extends AbstractType
     {
         $builder
         ->add('title', TextType::class, array('label' => 'Título: '))
-        ->add('description', TextType::class, array('label' => 'Descripción: '))
+        ->add('description', TextareaType::class, array('label' => 'Descripción: '))
         ->add('fileIds', HiddenType::class, array('required'   => false));
     }
     
