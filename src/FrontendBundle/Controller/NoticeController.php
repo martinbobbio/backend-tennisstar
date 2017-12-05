@@ -31,7 +31,7 @@ class NoticeController extends Controller
             $arr[] = $arr1;
         }
 
-        return ResponseRest::returnOk([$arr]);
+        return ResponseRest::returnOk($arr);
 
     }
 

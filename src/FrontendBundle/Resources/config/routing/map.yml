@@ -1,0 +1,4 @@
+frontend_get_notice:
+    path:     /get-clubes/
+    defaults: { _controller: "FrontendBundle:Map:getClubes" }
+    methods:  GET
