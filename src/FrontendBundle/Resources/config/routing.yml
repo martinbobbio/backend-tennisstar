@@ -5,3 +5,11 @@ frontend_notice:
 frontend_map:
         resource: "@FrontendBundle/Resources/config/routing/map.yml"
         prefix:   /map
+
+frontend_login:
+        resource: "@FrontendBundle/Resources/config/routing/login.yml"
+        prefix:   /login
+
+frontend_register:
+        resource: "@FrontendBundle/Resources/config/routing/register.yml"
+        prefix:   /register
