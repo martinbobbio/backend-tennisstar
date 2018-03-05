@@ -7,9 +7,5 @@ frontend_map:
         prefix:   /map
 
 frontend_login:
-        resource: "@FrontendBundle/Resources/config/routing/login.yml"
-        prefix:   /login
-
-frontend_register:
-        resource: "@FrontendBundle/Resources/config/routing/register.yml"
-        prefix:   /register
+        resource: "@FrontendBundle/Resources/config/routing/auth.yml"
+        prefix:   /auth

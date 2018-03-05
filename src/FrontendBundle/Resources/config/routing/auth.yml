@@ -1,0 +1,10 @@
+frontend_check_login:
+    path:     /login
+    defaults: { _controller: "FrontendBundle:Auth:checkLogin" }
+    methods:  [POST]
+
+
+frontend_new_user:
+    path:     /register
+    defaults: { _controller: "FrontendBundle:Auth:newUser" }
+    methods:  [POST]

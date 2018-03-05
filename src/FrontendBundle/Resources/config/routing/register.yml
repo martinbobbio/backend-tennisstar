@@ -1,4 +1,0 @@
-frontend_new_user:
-    path:     /
-    defaults: { _controller: "FrontendBundle:Register:newUser" }
-    methods:  [POST]
