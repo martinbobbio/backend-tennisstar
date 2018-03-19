@@ -1,0 +1,23 @@
+user_index:
+    path:     /user
+    defaults: { _controller: "BackendBundle:User:index" }
+    methods:  GET
+
+user_edit:
+    path:     /user/{id}/edit
+    defaults: { _controller: "BackendBundle:User:edit" }
+    methods:  [GET, POST]
+
+user_delete:
+    path:     /user/{id}/delete
+    defaults: { _controller: "BackendBundle:User:delete" }
+
+user_new:
+    path:     /user/new
+    defaults: { _controller: "BackendBundle:User:new" }
+    methods:  [GET, POST]
+
+user_show:
+    path:     /user/{id}
+    defaults: { _controller: "BackendBundle:User:show" }
+    methods:  GET

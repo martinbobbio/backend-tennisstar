@@ -1,0 +1,11 @@
+frontend_complete_profile:
+    path:     /complete-profile
+    defaults: { _controller: "FrontendBundle:User:completeProfile" }
+    methods:  [POST]
+
+frontend_complete_skill:
+    path:     /complete-skill
+    defaults: { _controller: "FrontendBundle:User:completeSkill" }
+    methods:  [POST]
+
+

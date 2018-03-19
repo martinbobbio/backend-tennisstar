@@ -8,11 +8,15 @@
 
         <div class="profile clearfix">
             <div class="profile_pic">
+                {% if app.user.playerUser.imgSrc == null %}
                 <img src="{{ asset('images/perfil.jpg') }}" alt="..." class="img-circle profile_img">
+                {% else %}
+                <img src="{{ asset('') }}{{app.user.playerUser.imgSrc}}" alt="..." class="img-circle profile_img">
+                {% endif %}
             </div>
             <div class="profile_info">
                 <span>Bienvenido</span>
-                <h2>{{app.user.firstname}} {{app.user.lastname}}</h2>
+                <h2>{{app.user.playerUser.firstname}} {{app.user.playerUser.lastname}}</h2>
             </div>
         </div>
 
@@ -32,8 +36,8 @@
                 <ul class="nav side-menu" style="">
                     <li class=""><a><i class="fa fa-user"></i>Usuarios<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu" style="display: none;">
-                            <li><a href="newuser">Agregar usuario</a></li>
-                            <li><a href="users">Ver usuarios</a></li>
+                            <li><a href="{{ path('user_new') }}">Agregar usuario</a></li>
+                            <li><a href="{{ path('user_index') }}">Ver usuarios</a></li>
                         </ul>
                     </li>
                     <li class=""><a><i class="fa fa-book"></i>Noticias<span class="fa fa-chevron-down"></span></a>
