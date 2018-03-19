@@ -1,0 +1,206 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Ver Usuarios{% endblock %}
+
+{% block page_title %}<h1 class="text-default" style="color:grey !important;">Perfil</h1>{% endblock %}
+
+{% block page_title_right %}
+    <a href="{{ path('user_index') }}" class="btn btn-info btn">Volver</a>
+{% endblock %}
+
+
+{% block page_content %}
+
+    <style>
+        .left_col{
+            height:1300px;
+        }
+        .well {
+        margin-top:-20px;
+        background-color:#007FBD;
+        border:2px solid #0077B2;
+        text-align:center;
+        cursor:pointer;
+        font-size: 25px;
+        padding: 15px;
+        border-radius: 0px !important;
+    }
+
+    .well:hover {
+        margin-top:-20px;
+        background-color:#0077B2;
+        border:2px solid #0077B2;
+        text-align:center;
+        cursor:pointer;
+        font-size: 25px;
+        padding: 15px;
+        border-radius: 0px !important;
+        border-bottom : 2px solid rgba(97, 203, 255, 0.65);
+    }
+
+    body {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #fff;
+    background-color: #F1F1F1;
+    }
+
+
+
+    .bg_blur
+    {
+        background-image:url('http://data2.whicdn.com/images/139218968/large.jpg');
+        height: 300px;
+        background-size: cover;
+    }
+
+    .follow_btn {
+        text-decoration: none;
+        position: absolute;
+        left: 35%;
+        top: 42.5%;
+        width: 35%;
+        height: 15%;
+        background-color: #007FBE;
+        padding: 10px;
+        padding-top: 6px;
+        color: #fff;
+        text-align: center;
+        font-size: 20px;
+        border: 4px solid #007FBE;
+    }
+
+    .follow_btn:hover {
+        text-decoration: none;
+        position: absolute;
+        left: 35%;
+        top: 42.5%;
+        width: 35%;
+        height: 15%;
+        background-color: #007FBE;
+        padding: 10px;
+        padding-top: 6px;
+        color: #fff;
+        text-align: center;
+        font-size: 20px;
+        border: 4px solid rgba(255, 255, 255, 0.8);
+    }
+
+    .header{
+        color : #808080;
+        margin-left:10%;
+        margin-top:70px;
+    }
+
+    .picture{
+        height:150px;
+        width:150px;
+        position:absolute;
+        top: 75px;
+        left:-75px;
+    }
+
+    .picture_mob{
+        position: absolute;
+        width: 35%;
+        left: 35%;
+        bottom: 70%;
+    }
+
+    .btn-style{
+        color: #fff;
+        background-color: #007FBE;
+        border-color: #adadad;
+        width: 33.3%;
+    }
+
+    .btn-style:hover {
+        color: #333;
+        background-color: #3D5DE0;
+        border-color: #adadad;
+        width: 33.3%;
+    
+    }
+
+
+    @media (max-width: 767px) {
+        .header{
+            text-align : center;
+        }
+        
+        
+        
+        .nav{
+            margin-top : 30px;
+        }
+    }
+    </style>
+
+    <div class="container" style="margin-top: 20px; margin-bottom: 20px;">
+	<div class="row panel">
+		<div class="col-md-1 bg_blur ">
+		</div>
+        <div class="col-md-8  col-xs-12">
+            {% if app.user.playerUser.imgSrc == null %}
+                <img src="{{ asset('images/perfil.jpg') }}" alt="..." class="img-thumbnail picture hidden-xs">
+                <img src="{{ asset('images/perfil.jpg') }}" alt="..." class="img-thumbnail visible-xs picture_mob">
+                {% else %}
+                <img src="{{ asset('') }}{{user.playerUser.imgSrc}}" alt="..." class="img-thumbnail picture hidden-xs">
+                <img src="{{ asset('') }}{{user.playerUser.imgSrc}}" alt="..." class="img-thumbnail visible-xs picture_mob">
+            {% endif %}
+           <div class="header">
+                <h1>{{user.playerUser.firstname}} {{user.playerUser.lastname}} ({{user.playerUser.age}})</h1>
+                <h4>{{user.skillUser.gameStyle}} - {{user.skillUser.gameLevel}}</h4>
+                <br><br><br>
+                
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <canvas id="radarChart"></canvas>
+                    </div>
+                </div>
+
+           </div>
+        </div>
+    </div>   
+    
+</div>
+
+    <script>
+        var ctxR = document.getElementById("radarChart").getContext('2d');
+        var myRadarChart = new Chart(ctxR, {
+            type: 'radar',
+            data: {
+                labels: ["Drive", "Reves", "Saque", "Volea", "Resistencia"],
+                datasets: [
+                    {
+                        label: "Mis estadisticas",
+                        fillColor: "rgba(220,220,220,0.2)",
+                        strokeColor: "rgba(220,220,220,1)",
+                        pointColor: "rgba(220,220,220,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        data: [{{user.skillUser.forehand}}, {{user.skillUser.backhand}}, {{user.skillUser.service}}, {{user.skillUser.volley}}, {{user.skillUser.resistence}}]
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scale: {
+                    ticks: {
+                        min:0,
+                        max:100,
+                        display:false,
+                    }
+                }
+            }    
+        });
+    </script>
+
+    {{ include('Forms/formDelete.html.twig', {form: delete_form, message: 'Estas seguro que quieres borrar el usuario?', id: 'form-delete', with_submit: false}) }}
+    
+    <script src="{{ asset('js/delete-ajax.js') }}"></script>
+ 
+{% endblock %}

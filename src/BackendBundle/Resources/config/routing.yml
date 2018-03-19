@@ -5,3 +5,15 @@ backend_home:
 backend_notice:
   resource: "@BackendBundle/Resources/config/routes/notice.yml"
   prefix: /
+
+backend_user:
+  resource: "@BackendBundle/Resources/config/routes/user.yml"
+  prefix: /
+
+backend_playerUser:
+  resource: "@BackendBundle/Resources/config/routes/playerUser.yml"
+  prefix: /
+
+backend_skillUser:
+  resource: "@BackendBundle/Resources/config/routes/skillUser.yml"
+  prefix: /

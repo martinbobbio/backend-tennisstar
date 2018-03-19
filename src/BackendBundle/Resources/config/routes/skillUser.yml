@@ -1,0 +1,4 @@
+skillUser_edit:
+    path:     /skillUser/{id}/edit
+    defaults: { _controller: "BackendBundle:SkillUser:edit" }
+    methods:  [GET, POST]

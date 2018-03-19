@@ -26,7 +26,11 @@ class AuthController extends Controller
    
         $bool = ($encoder->isPasswordValid($user->getPassword(),$password,$user->getSalt())) ? "true" : "false";
 
-        return ResponseRest::returnOk($bool);
+        $arr = [];
+        $arr["status"] = $bool;
+        $arr["id"] = $user->getId();
+
+        return ResponseRest::returnOk($arr);
 
     }
 

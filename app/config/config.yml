@@ -21,6 +21,10 @@ oneup_uploader:
             frontend: blueimp
             storage:
                 directory: "%kernel.root_dir%/../web/uploads/notice/"
+        users:
+            frontend: blueimp
+            storage:
+                directory: "%kernel.root_dir%/../web/uploads/users/"
 
 framework:
     translator: ~

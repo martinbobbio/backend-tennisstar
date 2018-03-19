@@ -854,26 +854,26 @@
         },
         {
             "name": "incenteev/composer-parameter-handler",
-            "version": "v2.1.2",
+            "version": "v2.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Incenteev/ParameterHandler.git",
-                "reference": "d7ce7f06136109e81d1cb9d57066c4d4a99cf1cc"
+                "reference": "933c45a34814f27f2345c11c37d46b3ca7303550"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Incenteev/ParameterHandler/zipball/d7ce7f06136109e81d1cb9d57066c4d4a99cf1cc",
-                "reference": "d7ce7f06136109e81d1cb9d57066c4d4a99cf1cc",
+                "url": "https://api.github.com/repos/Incenteev/ParameterHandler/zipball/933c45a34814f27f2345c11c37d46b3ca7303550",
+                "reference": "933c45a34814f27f2345c11c37d46b3ca7303550",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3",
-                "symfony/yaml": "~2.3|~3.0"
+                "symfony/yaml": "^2.3 || ^3.0 || ^4.0"
             },
             "require-dev": {
-                "composer/composer": "1.0.*@dev",
-                "phpspec/prophecy-phpunit": "~1.0",
-                "symfony/filesystem": "~2.2"
+                "composer/composer": "^1.0@dev",
+                "symfony/filesystem": "^2.3 || ^3 || ^4",
+                "symfony/phpunit-bridge": "^4.0"
             },
             "type": "library",
             "extra": {
@@ -901,7 +901,7 @@
             "keywords": [
                 "parameters management"
             ],
-            "time": "2015-11-10T17:04:01+00:00"
+            "time": "2018-02-13T18:05:56+00:00"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -1473,16 +1473,16 @@
         },
         {
             "name": "symfony/monolog-bundle",
-            "version": "v3.1.2",
+            "version": "v3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/monolog-bundle.git",
-                "reference": "2b41b8b6d2c6edb1a5494f02f8e4129be2a44784"
+                "reference": "8781649349fe418d51d194f8c9d212c0b97c40dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/monolog-bundle/zipball/2b41b8b6d2c6edb1a5494f02f8e4129be2a44784",
-                "reference": "2b41b8b6d2c6edb1a5494f02f8e4129be2a44784",
+                "url": "https://api.github.com/repos/symfony/monolog-bundle/zipball/8781649349fe418d51d194f8c9d212c0b97c40dd",
+                "reference": "8781649349fe418d51d194f8c9d212c0b97c40dd",
                 "shasum": ""
             },
             "require": {
@@ -1532,7 +1532,7 @@
                 "log",
                 "logging"
             ],
-            "time": "2017-11-06T16:02:17+00:00"
+            "time": "2018-03-05T14:51:36+00:00"
         },
         {
             "name": "symfony/polyfill-apcu",
@@ -2249,16 +2249,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v2.4.4",
+            "version": "v2.4.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "eddb97148ad779f27e670e1e3f19fb323aedafeb"
+                "reference": "d2117ec118c1ff3d28ccddca8212d82787a4809f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/eddb97148ad779f27e670e1e3f19fb323aedafeb",
-                "reference": "eddb97148ad779f27e670e1e3f19fb323aedafeb",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/d2117ec118c1ff3d28ccddca8212d82787a4809f",
+                "reference": "d2117ec118c1ff3d28ccddca8212d82787a4809f",
                 "shasum": ""
             },
             "require": {
@@ -2311,7 +2311,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2017-09-27T18:10:31+00:00"
+            "time": "2018-03-03T16:23:01+00:00"
         }
     ],
     "packages-dev": [
@@ -2429,16 +2429,16 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v2.8.34",
+            "version": "v2.8.36",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "5851fbe280d024253d91be980ae0f806928ab3bf"
+                "reference": "a110b329168654bc8069d129af022e6b8bbe9468"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/5851fbe280d024253d91be980ae0f806928ab3bf",
-                "reference": "5851fbe280d024253d91be980ae0f806928ab3bf",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/a110b329168654bc8069d129af022e6b8bbe9468",
+                "reference": "a110b329168654bc8069d129af022e6b8bbe9468",
                 "shasum": ""
             },
             "require": {
@@ -2483,7 +2483,7 @@
             ],
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
-            "time": "2018-01-14T14:14:42+00:00"
+            "time": "2018-02-11T16:53:59+00:00"
         }
     ],
     "aliases": [],

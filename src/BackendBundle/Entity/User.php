@@ -5,6 +5,7 @@ namespace BackendBundle\Entity;
 use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use BackendBundle\Entity\PlayerUser;
 /**
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks()
@@ -17,7 +18,6 @@ class User extends BaseUser
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
-     
      */
     protected $id;
 
@@ -33,66 +33,66 @@ class User extends BaseUser
     }
 
 
-     /**
-     * @var string
-     * @ORM\Column(name="firstname", type="string", length=45, nullable=true)
+    /**
+     * @ORM\OneToOne(targetEntity="PlayerUser")
+     * @ORM\JoinColumn(name="playerUser_id", referencedColumnName="id")
      */
-    private $firstname;
-
+    private $playerUser;
 
     /**
-     * Set firstname
+     * Set playerUser
      *
-     * @param string $firstname
-     * @return Users
-     */
-    public function setfirstname($firstname)
-    {
-        $this->firstname = $firstname;
-
-        return $this;
-    }
-
-    /**
-     * Get firstname
-     *
-     * @return string 
-     */
-    public function getfirstname()
-    {
-        return $this->firstname;
-    }
-
-
-    /**
-     * @var string
-     * @ORM\Column(name="lastname", type="string", length=45, nullable=true)
-     */
-    private $lastname;
-
-
-    /**
-     * Set lastName
-     *
-     * @param string $lastName
+     * @param PlayerUser $playerUser
      * @return User
      */
-    public function setlastname($lastname)
+    public function setPlayerUser($playerUser)
     {
-        $this->lastname = $lastname;
+        $this->playerUser = $playerUser;
 
         return $this;
     }
 
     /**
-     * Get lastName
+     * Get playerUser
      *
-     * @return string 
+     * @return User 
      */
-    public function getlastname()
+    public function getPlayerUser()
     {
-        return $this->lastname;
+        return $this->playerUser;
     }
+
+
+
+    /**
+     * @ORM\OneToOne(targetEntity="SkillUser")
+     * @ORM\JoinColumn(name="skillUser_id", referencedColumnName="id")
+     */
+    private $skillUser;
+
+    /**
+     * Set skillUser
+     *
+     * @param PlayerUser $skillUser
+     * @return User
+     */
+    public function setSkillUser($skillUser)
+    {
+        $this->skillUser = $skillUser;
+
+        return $this;
+    }
+
+    /**
+     * Get skillUser
+     *
+     * @return User 
+     */
+    public function getSkillUser()
+    {
+        return $this->skillUser;
+    }
+
 
     protected $email;
     
@@ -104,8 +104,9 @@ class User extends BaseUser
      */
     public function setEmail($email)
     {
-        $this->setUsername($email);
-        return parent::setEmail($email);
+        $this->email = $email;
+        
+        return $this;
     }
 
 
@@ -121,11 +122,35 @@ class User extends BaseUser
 
 
 
+    protected $username;
+    
+    /**
+     * Overridden so that username is now optional
+     *
+     * @param string $username
+     * @return User
+     */
+    public function setUsername1($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
 
 
+    /**
+     * Get username
+     *
+     * @return string 
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
 
-
-
+    public function getName(){
+        return $this->playerUser->getFirstname();
+    }
 
 
 

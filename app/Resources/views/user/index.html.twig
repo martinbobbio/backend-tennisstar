@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Ver Usuarios{% endblock %}
+
+{% block page_title %}<h1 class="text-default">Usuarios</h1>{% endblock %}
+
+{% block page_title_right %}
+    <a href="{{ path('user_new') }}" class="btn btn-success btn">Agregar</a>
+{% endblock %}
+
+
+{% block page_content %}
+
+    <style>
+        .left_col{
+            height:1300px;
+        }
+    </style>
+
+    <br><br>
+
+     <table id="example" class="display" cellspacing="0" width="100%" >
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Usuario</th>
+                <th>Email</th>
+                <th>Último ingreso</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Id</th>
+                <th>Usuario</th>
+                <th>Email</th>
+                <th>Último ingreso</th>
+                <th>Actions</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            {% for n in user %}
+            <tr data-id="{{ n.id }}">
+                <td>{{ n.id }}</td>
+                <td>{{ n.username }}</td>
+                <td>{{ n.email }}</td>
+                {% if n.lastLogin != null %}
+                    <td>{{ n.lastLogin|date('Y-m-d H:i:s')}}</td>
+                {% else %}
+                    <td>No hay fecha</td>
+                {% endif %}
+                <td>
+                <a href="{{ path('user_show', {id: n.id})}}" class="btn btn-xs btn-info">Ver</a>
+                <div class="dropdown">
+                    <button class="btn btn-xs btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Editar <i class="fa fa-angle-down"></i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="{{ path('user_edit', {id: n.id})}}">Editar usuario</a><br>
+                        <a class="dropdown-item" href="{{ path('playerUser_edit', {id: n.id})}}">Editar datos personales</a><br>
+                        <a class="dropdown-item" href="{{ path('skillUser_edit', {id: n.id})}}">Editar habilidades personales</a><br>
+                    </div>
+                </div>
+                <a href="#" class="btn btn-xs btn-danger btn-delete">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+
+    {{ include('Forms/formDelete.html.twig', {form: delete_form, message: 'Estas seguro que quieres borrar el usuario?', id: 'form-delete', with_submit: false}) }}
+    
+    <script src="{{ asset('js/delete-ajax.js') }}"></script>
+ 
+{% endblock %}

@@ -1,0 +1,4 @@
+playerUser_edit:
+    path:     /playerUser/{id}/edit
+    defaults: { _controller: "BackendBundle:PlayerUser:edit" }
+    methods:  [GET, POST]
