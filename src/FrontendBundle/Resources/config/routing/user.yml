@@ -8,4 +8,19 @@ frontend_complete_skill:
     defaults: { _controller: "FrontendBundle:User:completeSkill" }
     methods:  [POST]
 
+frontend_get_user:
+    path:     /get-user/{id}
+    defaults: { _controller: "FrontendBundle:User:getUser" }
+    methods:  [GET]
+
+frontend_get_user_status:
+    path:     /get-user-status/{id}
+    defaults: { _controller: "FrontendBundle:User:getUserStatus" }
+    methods:  [GET]
+
+frontend_get_user_random:
+    path:     /get-user-random
+    defaults: { _controller: "FrontendBundle:User:getUsersRandom" }
+    methods:  [POST]
+
 

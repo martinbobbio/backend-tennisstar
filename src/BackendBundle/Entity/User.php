@@ -154,5 +154,71 @@ class User extends BaseUser
 
 
 
+    /**
+     * @var string
+     * @ORM\Column(name="fullplayer", type="boolean", nullable=true)
+     */
+    private $fullPlayer;
+
+
+    /**
+     * Set fullPlayer
+     *
+     * @param string $fullPlayer
+     * @return User
+     */
+    public function setFullPlayer($fullPlayer)
+    {
+        $this->fullPlayer = $fullPlayer;
+
+        return $this;
+    }
+
+    /**
+     * Get fullPlayer
+     *
+     * @return string 
+     */
+    public function getFullPlayer()
+    {
+        return $this->fullPlayer;
+    }
+
+
+    /**
+     * @var string
+     * @ORM\Column(name="fullgame", type="boolean", nullable=true)
+     */
+    private $fullGame;
+
+
+    /**
+     * Set fullGame
+     *
+     * @param string $fullGame
+     * @return User
+     */
+    public function setFullGame($fullGame)
+    {
+        $this->fullGame = $fullGame;
+
+        return $this;
+    }
+
+    /**
+     * Get fullGame
+     *
+     * @return string 
+     */
+    public function getFullGame()
+    {
+        return $this->fullGame;
+    }
+
+
+
+
+
+
 
 }
