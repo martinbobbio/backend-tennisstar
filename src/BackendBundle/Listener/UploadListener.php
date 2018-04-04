@@ -19,6 +19,7 @@ class UploadListener
     
     public function onUpload(PostPersistEvent $event)
     {
+
         $request_file = $event->getFile();
         $request = $event->getRequest();
 
