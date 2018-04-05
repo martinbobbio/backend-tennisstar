@@ -13,6 +13,7 @@ default:
 oneup_uploader:
     resource: .
     type: uploader
+    methods:  [OPTIONS,POST]
     
 
 fos_user_security:
