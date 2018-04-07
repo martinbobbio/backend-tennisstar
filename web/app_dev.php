@@ -10,6 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
 
 // This check prevents access to debug front controllers that are deployed by accident to production servers.
 // Feel free to remove this, extend it, or make something more sophisticated.
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Headers: X-Requested-With");
 
 require __DIR__.'/../app/autoload.php';
 Debug::enable();

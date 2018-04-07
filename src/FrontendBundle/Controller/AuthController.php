@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FrontendBundle\Entity\ResponseRest;
 use BackendBundle\Entity\User;
+use BackendBundle\Entity\PlayerUser;
+use BackendBundle\Entity\SkillUser;
 
 class AuthController extends Controller
 {
@@ -65,7 +67,15 @@ class AuthController extends Controller
         $user->setEnabled(1);
         $user->setPassword($this->container->get('security.encoder_factory')->getEncoder($user)->encodePassword($password, $user->getSalt()));
 
+        $userPlayer = new PlayerUser();
+        $user->setPlayerUser($userPlayer);
+        
+        $skillUser = new SkillUser();
+        $user->setSkillUser($skillUser);
+
         $em->persist($user);
+        $em->persist($userPlayer);
+        $em->persist($skillUser);
         $em->flush();
 
         return ResponseRest::returnOk($request);

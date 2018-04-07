@@ -23,10 +23,12 @@ class UserController extends Controller
         $firstname = $request->get("firstname");
         $lastname = $request->get("lastname");
         $age = $request->get("age");
+        $path = $request->get("path");
 
         $user->getPlayerUser()->setFirstname($firstname);
         $user->getPlayerUser()->setLastname($lastname);
         $user->getPlayerUser()->setAge($age);
+        $user->getPlayerUser()->setImgSrc("uploads/users/".$path);
         $user->setFullPlayer(true);
 
         $em->persist($user);
@@ -83,6 +85,7 @@ class UserController extends Controller
         $arr = [];
         $arr["username"] = $user->getUsername();
         $arr["email"] = $user->getEmail();
+        $arr["path"] = $this->get('kernel')->getRootDir() . '/../web/'.$user->getPlayerUser()->getImgSrc();
         $arr["firstname"] = $user->getPlayerUser()->getFirstname();
         $arr["lastname"] = $user->getPlayerUser()->getLastname();
         $arr["age"] = $user->getPlayerUser()->getAge();
