@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class NoticeType extends AbstractType
@@ -19,6 +20,7 @@ class NoticeType extends AbstractType
         $builder
         ->add('title', TextType::class, array('label' => 'Título: '))
         ->add('description', TextareaType::class, array('label' => 'Descripción: '))
+        ->add('videoLink', UrlType::class, array('label' => 'Link de youtube: ','required'   => false))
         ->add('fileIds', HiddenType::class, array('required'   => false));
     }
     

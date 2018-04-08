@@ -31,6 +31,23 @@ class Notice
 
 
      /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="notice")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $user;
+
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+    }
+
+
+     /**
      * @var string
      * @ORM\Column(name="title", type="string", length=50, nullable=false)
      */
@@ -120,6 +137,38 @@ class Notice
     {
         return $this->img_src;
     }
+
+
+    /**
+     * @var string
+     * @ORM\Column(name="videoLink", type="string", length=255, nullable=true)
+     */
+    private $videoLink;
+
+
+    /**
+     * Set videoLink
+     *
+     * @param string $videoLink
+     * @return Notice
+     */
+    public function setVideoLink($videoLink)
+    {
+        $this->videoLink = $videoLink;
+
+        return $this;
+    }
+
+    /**
+     * Get videoLink
+     *
+     * @return string 
+     */
+    public function getVideoLink()
+    {
+        return $this->videoLink;
+    }
+
 
     public $fileIds;
 

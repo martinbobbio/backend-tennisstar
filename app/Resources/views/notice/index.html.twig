@@ -25,10 +25,10 @@
                 <th>Id</th>
                 <th>Titulo</th>
                 <th>Descripcion</th>
-                <th>Ruta de imagen</th>
+                <th>Autor</th>
                 <th>Creado</th>
                 <th>Modificado</th>
-                <th>Actions</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tfoot>
@@ -36,10 +36,10 @@
                 <th>Id</th>
                 <th>Titulo</th>
                 <th>Contenido</th>
-                <th>Ruta de imagen</th>
+                <th>Autor</th>
                 <th>Creado</th>
                 <th>Modificado</th>
-                <th>Actions</th>
+                <th>Acciones</th>
             </tr>
         </tfoot>
         <tbody>
@@ -48,13 +48,16 @@
                 <td>{{ n.id }}</td>
                 <td>{{ n.title }}</td>
                 <td>{{ n.description }}</td>
-                <td><a href="{{ asset(n.imgSrc)}}">{{ n.imgSrc }}</a></td>
+                <td>{{ n.user.username }}</td>
                 <td>{{ n.createAt|date('Y-m-d H:i:s')}}</td>
                 <td>{{ n.updateAt|date('Y-m-d H:i:s')}}</td>
                 <td>
                 <a href="{{ path('notice_edit', {id: n.id})}}" class="btn btn-xs btn-primary">Editar</a>
                 <a href="#" class="btn btn-xs btn-danger btn-delete">Eliminar</a>
                 <a href="{{ asset(n.imgSrc)}}" class="btn btn-xs btn-danger btn-success">Ver imagen</a>
+                {% if n.videoLink is not null %}
+                <a href="https://www.youtube.com/embed/{{n.videoLink}}" class="btn btn-xs btn-danger btn-success">Ver video</a>
+                {% endif %}
                 </td>
             </tr>
             {% endfor %}

@@ -32,6 +32,9 @@ class AuthController extends Controller
         $arr["status"] = $bool;
         $arr["id"] = $user->getId();
 
+
+
+
         return ResponseRest::returnOk($arr);
 
     }
@@ -78,7 +81,10 @@ class AuthController extends Controller
         $em->persist($skillUser);
         $em->flush();
 
-        return ResponseRest::returnOk($request);
+        $arr = [];
+        $arr["id"] = $user->getId();
+
+        return ResponseRest::returnOk($arr);
 
     }
 

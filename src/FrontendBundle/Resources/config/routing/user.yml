@@ -13,6 +13,11 @@ frontend_get_user:
     defaults: { _controller: "FrontendBundle:User:getUser" }
     methods:  [GET]
 
+frontend_get_profile_img:
+    path:     /get-profile-image/{id}
+    defaults: { _controller: "FrontendBundle:User:getProfileImage" }
+    methods:  [GET]
+
 frontend_get_user_status:
     path:     /get-user-status/{id}
     defaults: { _controller: "FrontendBundle:User:getUserStatus" }
@@ -22,5 +27,10 @@ frontend_get_user_random:
     path:     /get-user-random
     defaults: { _controller: "FrontendBundle:User:getUsersRandom" }
     methods:  [POST]
+
+frontend_check_if_player:
+    path:     /check-if-player/{id}
+    defaults: { _controller: "FrontendBundle:User:checkIfPlayerUser" }
+    methods:  [GET]
 
 

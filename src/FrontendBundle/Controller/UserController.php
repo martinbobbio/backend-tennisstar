@@ -24,11 +24,12 @@ class UserController extends Controller
         $lastname = $request->get("lastname");
         $age = $request->get("age");
         $path = $request->get("path");
+        $pathStatus = $request->get("pathstatus");
 
         $user->getPlayerUser()->setFirstname($firstname);
         $user->getPlayerUser()->setLastname($lastname);
         $user->getPlayerUser()->setAge($age);
-        $user->getPlayerUser()->setImgSrc("uploads/users/".$path);
+        $user->getPlayerUser()->setImgSrc($path);
         $user->setFullPlayer(true);
 
         $em->persist($user);
@@ -85,7 +86,7 @@ class UserController extends Controller
         $arr = [];
         $arr["username"] = $user->getUsername();
         $arr["email"] = $user->getEmail();
-        $arr["path"] = $this->get('kernel')->getRootDir() . '/../web/'.$user->getPlayerUser()->getImgSrc();
+        $arr["path"] = $user->getPlayerUser()->getImgSrc();
         $arr["firstname"] = $user->getPlayerUser()->getFirstname();
         $arr["lastname"] = $user->getPlayerUser()->getLastname();
         $arr["age"] = $user->getPlayerUser()->getAge();
@@ -113,6 +114,9 @@ class UserController extends Controller
         $arr = [];
         $arr["fullPlayer"] = $user->getFullPlayer();
         $arr["fullGame"] = $user->getFullGame();
+        if($user->getFullPlayer() == 1){
+            $arr["path"] = $user->getPlayerUser()->getImgSrc();
+        }
 
         return ResponseRest::returnOk($arr);
     }
@@ -142,7 +146,43 @@ class UserController extends Controller
             $arr1['lastname'] = $u->getPlayerUser()->getLastname();
             $arr1['gameStyle'] = $u->getSkillUser()->getGameStyle();
             $arr1['gameLevel'] = $u->getSkillUser()->getGameLevel();
+            if($u->getFullPlayer() == 1){
+                $arr1["path"] = $u->getPlayerUser()->getImgSrc();
+            }
             $arr[] = $arr1;
+        }
+
+        return ResponseRest::returnOk($arr);
+    }
+
+    public function getProfileImageAction($id){
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('BackendBundle:User')->findOneById($id);
+
+        $arr = [];
+        if($user->getFullPlayer() == 1){
+            $arr["path"] = $user->getPlayerUser()->getImgSrc();
+        }else{
+            $arr["path"] = "default.jpg";
+        }
+
+        return ResponseRest::returnOk($arr);
+    }
+
+
+    public function checkIfPlayerUserAction($id){
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('BackendBundle:User')->findOneById($id);
+
+        $arr = [];
+        if($user->getFullPlayer() == 1){
+            $arr["status"] = true;
+            $arr["firstname"] = $user->getPlayerUser()->getFirstname();
+            $arr["lastname"] = $user->getPlayerUser()->getLastname();
+            $arr["age"] = $user->getPlayerUser()->getAge();
+            $arr["path"] = $user->getPlayerUser()->getImgSrc();
+        }else{
+            $arr["status"] = false;
         }
 
         return ResponseRest::returnOk($arr);

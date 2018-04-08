@@ -22,7 +22,7 @@ class PlayerUserController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
 
             if(!empty($user->getPlayerUser()->fileIds)){
-                $user->getPlayerUser()->setImgSrc("uploads/users/".$user->getPlayerUser()->fileIds);
+                $user->getPlayerUser()->setImgSrc($user->getPlayerUser()->fileIds);
             }
 
             $this->getDoctrine()->getManager()->flush();

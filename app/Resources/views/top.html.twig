@@ -11,7 +11,7 @@
                         {% if app.user.playerUser.imgSrc == null %}
                         <img src="{{ asset('images/perfil.jpg') }}" alt="...">
                         {% else %}
-                        <img src="{{ asset('') }}{{app.user.playerUser.imgSrc}}" alt="...">
+                        <img src="{{ asset('uploads/users/') }}{{app.user.playerUser.imgSrc}}" alt="...">
                         {% endif %}
                         <span class="fa fa-angle-down"></span>
                     </a>

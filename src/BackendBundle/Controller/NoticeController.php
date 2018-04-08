@@ -33,6 +33,15 @@ class NoticeController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
 
+            $notice->setUser($this->container->get('security.context')->getToken()->getUser());
+            $urlYoutube = $notice->getVideoLink();
+            $urlYoutubeStatus = preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $urlYoutube, $match);
+            if($urlYoutubeStatus == 1){
+                $notice->setVideoLink($match[1]);
+            }else{
+                $notice->setVideoLink(null);
+            }
+
             if(!empty($notice->fileIds)){
                 $notice->setImgSrc("uploads/notice/".$notice->fileIds);
             }
@@ -61,6 +70,15 @@ class NoticeController extends Controller
 
             if(!empty($notice->fileIds)){
                 $notice->setImgSrc("uploads/notice/".$notice->fileIds);
+            }
+
+            $notice->setUser($this->container->get('security.context')->getToken()->getUser());
+            $urlYoutube = $notice->getVideoLink();
+            $urlYoutubeStatus = preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $urlYoutube, $match);
+            if($urlYoutubeStatus == 1){
+                $notice->setVideoLink($match[1]);
+            }else{
+                $notice->setVideoLink(null);
             }
             
             $em = $this->getDoctrine()->getManager();

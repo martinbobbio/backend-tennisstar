@@ -11,7 +11,7 @@
                 {% if app.user.playerUser.imgSrc == null %}
                 <img src="{{ asset('images/perfil.jpg') }}" alt="..." class="img-circle profile_img">
                 {% else %}
-                <img src="{{ asset('') }}{{app.user.playerUser.imgSrc}}" alt="..." class="img-circle profile_img">
+                <img src="{{ asset('uploads/users/') }}{{app.user.playerUser.imgSrc}}" alt="..." class="img-circle profile_img">
                 {% endif %}
             </div>
             <div class="profile_info">

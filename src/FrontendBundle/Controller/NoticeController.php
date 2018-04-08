@@ -26,6 +26,7 @@ class NoticeController extends Controller
             $arr1['title'] = $n->getTitle();
             $arr1['description'] = $n->getDescription();
             $arr1['imgsrc'] = $n->getImgSrc();
+            $arr1['videoLink'] = $n->getVideoLink();
             $arr1['created'] = $n->getCreateAt();
             $arr1['updated'] = $n->getUpdateAt();
             $arr[] = $arr1;
