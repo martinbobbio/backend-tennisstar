@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }}Editar Usuario{% endblock %}
+{% block title %}{{ parent() }}Editar amistades{% endblock %}
+
+{% block page_title_right %}<a href="{{ path('request_friend_index') }}" class="btn btn-default btn">Todos las amistades</a>{% endblock %}
 
 {% block page_title %}<h1 class="text-default">Formulario</h1>{% endblock %}
-
-{% block page_title_right %}<a href="{{ path('user_index') }}" class="btn btn-default btn">Todos los Usuarios</a>{% endblock %}
 
 {% block page_content %}
 
@@ -19,7 +19,7 @@
     <div class="container well" style="padding:25px; background:white">
 
     <div class="col-xs-offset-2">
-        <h1 class="text-primary">Editar Usuario</h1>
+        <h1 class="text-primary">Editar Amistad</h1>
     </div><br>
 
     {{ form_start(edit_form) }}
@@ -30,5 +30,7 @@
     {{ form_end(edit_form) }}
 
     </div>
+    
+
 
 {% endblock %}

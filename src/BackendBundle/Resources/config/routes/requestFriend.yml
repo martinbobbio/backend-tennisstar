@@ -1,0 +1,19 @@
+request_friend_index:
+    path:     /requestfriend
+    defaults: { _controller: "BackendBundle:RequestFriend:index" }
+    methods:  GET
+
+request_friend_edit:
+    path:     /requestfriend/{id}/edit
+    defaults: { _controller: "BackendBundle:RequestFriend:edit" }
+    methods:  [GET, POST]
+
+request_friend_delete:
+    path:     /requestfriend/{id}/delete
+    defaults: { _controller: "BackendBundle:RequestFriend:delete" }
+
+
+request_friend_new:
+    path:     /requestfriend/new
+    defaults: { _controller: "BackendBundle:RequestFriend:new" }
+    methods:  [GET, POST]

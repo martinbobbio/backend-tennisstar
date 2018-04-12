@@ -40,6 +40,12 @@
                             <li><a href="{{ path('user_index') }}">Ver usuarios</a></li>
                         </ul>
                     </li>
+                    <li class=""><a><i class="fa fa-users"></i>Amistades<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu" style="display: none;">
+                            <li><a href="{{ path('request_friend_new') }}">Agregar amistad</a></li>
+                            <li><a href="{{ path('request_friend_index') }}">Ver amistades</a></li>
+                        </ul>
+                    </li>
                     <li class=""><a><i class="fa fa-book"></i>Noticias<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu" style="display: none;">
                             <li><a href="{{ path('notice_new') }}">Agregar noticia</a></li>

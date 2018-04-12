@@ -1,0 +1,19 @@
+frontend_request_friend_by_user:
+    path:     /get-friend
+    defaults: { _controller: "FrontendBundle:RequestFriend:getFriends" }
+    methods:  POST
+
+frontend_request_friend_requests:
+    path:     /get-requests
+    defaults: { _controller: "FrontendBundle:RequestFriend:getRequests" }
+    methods:  POST
+
+frontend_request_friend_send:
+    path:     /send-request-friend
+    defaults: { _controller: "FrontendBundle:RequestFriend:sendRequestFriend" }
+    methods:  POST
+
+frontend_request_friend_response:
+    path:     /send-response-friend
+    defaults: { _controller: "FrontendBundle:RequestFriend:sendResponseFriend" }
+    methods:  POST

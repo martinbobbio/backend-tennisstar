@@ -17,3 +17,7 @@ backend_playerUser:
 backend_skillUser:
   resource: "@BackendBundle/Resources/config/routes/skillUser.yml"
   prefix: /
+
+backend_requestFriend:
+  resource: "@BackendBundle/Resources/config/routes/requestFriend.yml"
+  prefix: /

@@ -13,3 +13,7 @@ frontend_login:
 frontend_user:
         resource: "@FrontendBundle/Resources/config/routing/user.yml"
         prefix:   /user
+
+frontend_request_friend:
+        resource: "@FrontendBundle/Resources/config/routing/requestfriend.yml"
+        prefix:   /requestfriend
