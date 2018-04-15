@@ -133,23 +133,43 @@ class UserController extends Controller
         FROM BackendBundle:User u
         WHERE u.id != :id AND u.fullGame = 1
         ')->setParameter('id', $id)
-        ->setMaxResults(3)->getResult();
+        ->getResult();
+
+        $friends = $this->getDoctrine()->getEntityManager()
+        ->createQuery('SELECT f FROM BackendBundle:RequestFriend f 
+        WHERE (f.user_send = :id OR f.user_receive = :id)'
+        )->setParameter('id', $id)
+        ->getResult();
 
         $arr = [];
         $arr1 = [];
 
+        $usersLimit = 0;
+
         foreach($users as $u){
 
-            $arr1['id'] = $u->getId();
-            $arr1['username'] = $u->getUsername();
-            $arr1['firstname'] = $u->getPlayerUser()->getFirstname();
-            $arr1['lastname'] = $u->getPlayerUser()->getLastname();
-            $arr1['gameStyle'] = $u->getSkillUser()->getGameStyle();
-            $arr1['gameLevel'] = $u->getSkillUser()->getGameLevel();
-            if($u->getFullPlayer() == 1){
-                $arr1["path"] = $u->getPlayerUser()->getImgSrc();
+            $userNoFriend = 0;
+
+            foreach($friends as $rf){
+                if($u->getId() != $rf->getUserReceive()->getId() && $u->getId() != $rf->getUserSend()->getId()){
+                    $userNoFriend++;
+                }
             }
-            $arr[] = $arr1;
+            
+            if(sizeof($friends) == $userNoFriend && $usersLimit < 3){
+                $arr1['id'] = $u->getId();
+                $arr1['username'] = $u->getUsername();
+                $arr1['firstname'] = $u->getPlayerUser()->getFirstname();
+                $arr1['lastname'] = $u->getPlayerUser()->getLastname();
+                $arr1['gameStyle'] = $u->getSkillUser()->getGameStyle();
+                $arr1['gameLevel'] = $u->getSkillUser()->getGameLevel();
+                if($u->getFullPlayer() == 1){
+                    $arr1["path"] = $u->getPlayerUser()->getImgSrc();
+                }
+                $arr[] = $arr1;
+                $usersLimit++;
+            }
+            $userNoFriend = 0;
         }
 
         return ResponseRest::returnOk($arr);

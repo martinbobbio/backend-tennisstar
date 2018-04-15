@@ -18,7 +18,16 @@ class MapController extends Controller
         $longitud = "-58.396329";
 
         $url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=".$latitud.",".$longitud."&radius=5000&name=tenis&key=AIzaSyAQZGWfnDR3C28jqGEiJqEQT4BvTXRy_bM";
-        $json = file_get_contents($url);
+        
+        $arrContextOptions=array(
+            "ssl"=>array(
+                "verify_peer"=>false,
+                "verify_peer_name"=>false,
+            ),
+        );  
+        
+        $json = file_get_contents($url, false, stream_context_create($arrContextOptions));
+
         $json_data = json_decode($json, true);
 
         return ResponseRest::returnOk($json_data);

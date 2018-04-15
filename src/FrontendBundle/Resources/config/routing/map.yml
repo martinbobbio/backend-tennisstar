@@ -2,3 +2,4 @@ frontend_get_map:
     path:     /get-clubes
     defaults: { _controller: "FrontendBundle:Map:getClubes" }
     methods:  GET
+

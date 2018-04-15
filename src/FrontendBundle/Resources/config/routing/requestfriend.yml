@@ -1,5 +1,5 @@
 frontend_request_friend_by_user:
-    path:     /get-friend
+    path:     /get-friends
     defaults: { _controller: "FrontendBundle:RequestFriend:getFriends" }
     methods:  POST
 

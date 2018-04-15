@@ -16,7 +16,9 @@ class NoticeController extends Controller
         header("Access-Control-Allow-Origin: *");
 
         $em = $this->getDoctrine()->getManager();
-        $notice = $em->getRepository('BackendBundle:Notice')->findAll();
+        $notice = $this->getDoctrine()->getEntityManager()
+        ->createQuery('SELECT n FROM BackendBundle:Notice n ORDER BY n.createAt DESC'
+        )->getResult();
 
         $arr = [];
         $arr1 = [];
