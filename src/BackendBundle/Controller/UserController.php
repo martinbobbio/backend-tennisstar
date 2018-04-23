@@ -22,7 +22,7 @@ class UserController extends Controller
 
         $delete_form = $this->createCustomForm(':ID','DELETE','user_delete');
 
-        return $this->render('user/index.html.twig', array('user' => $user,'delete_form' => $delete_form->createView() ));
+        return $this->render('user/index.html.twig', array('user' => $user,'delete_form' => $delete_form->createView()));
 
     }
 

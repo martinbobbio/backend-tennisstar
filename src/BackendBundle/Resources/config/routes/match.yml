@@ -1,0 +1,23 @@
+match_index:
+    path:     /match
+    defaults: { _controller: "BackendBundle:Match:index" }
+    methods:  GET
+
+match_edit:
+    path:     /match/{id}/edit
+    defaults: { _controller: "BackendBundle:Match:edit" }
+    methods:  [GET, POST]
+
+match_delete:
+    path:     /match/{id}/delete
+    defaults: { _controller: "BackendBundle:Match:delete" }
+
+match_new:
+    path:     /match/new
+    defaults: { _controller: "BackendBundle:Match:new" }
+    methods:  [GET, POST]
+
+match_players:
+    path:     /match/players/{id}
+    defaults: { _controller: "BackendBundle:Match:editPlayers" }
+    methods:  [GET, POST]

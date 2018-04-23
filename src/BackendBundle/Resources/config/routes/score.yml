@@ -1,0 +1,18 @@
+score_index:
+    path:     /score
+    defaults: { _controller: "BackendBundle:Score:index" }
+    methods:  GET
+
+score_edit:
+    path:     /score/{id}/edit
+    defaults: { _controller: "BackendBundle:Score:edit" }
+    methods:  [GET, POST]
+
+score_delete:
+    path:     /score/{id}/delete
+    defaults: { _controller: "BackendBundle:Score:delete" }
+
+score_new:
+    path:     /score/new
+    defaults: { _controller: "BackendBundle:Score:new" }
+    methods:  [GET, POST]

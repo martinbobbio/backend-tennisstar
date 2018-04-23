@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Ver los Resultados{% endblock %}
+
+{% block page_title %}<h1 class="text-default">Resultado</h1>{% endblock %}
+
+{% block page_title_right %}
+{% endblock %}
+
+
+{% block page_content %}
+
+    <style>
+        .left_col{
+            height:1300px;
+        }
+    </style>
+
+    <br><br>
+
+     <table id="example" class="display" cellspacing="0" width="100%" >
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Partido Completado</th>
+                <th>Resultado</th>
+                <th>Creado</th>
+                <th>Modificado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Id</th>
+                <th>Partido Completado</th>
+                <th>Resultado</th>
+                <th>Creado</th>
+                <th>Modificado</th>
+                <th>Acciones</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            {% for s in score %}
+            <tr data-id="{{ s.id }}">
+                <td>{{ s.id }}</td>
+                <td>
+                {% if s.status == 1 %}
+                    <i class="fa fa-check"></i>
+                {% else %}
+                    <i class="fa fa-times"></i>
+                {% endif %}
+                </td>
+                <td>{{s.firstSetJ1 }}-{{ s.firstSetJ2}} {{s.secondSetJ1 }}-{{ s.secondSetJ2}} {{s.thirdSetJ1 }}-{{ s.thirdSetJ2}}</td> 
+                <td>{{ s.createAt|date('Y-m-d H:i:s')}}</td>
+                <td>{{ s.updateAt|date('Y-m-d H:i:s')}}</td>
+                <td>
+                <a href="{{ path('score_edit', {id: s.id})}}" class="btn btn-xs btn-primary">Editar</a>
+                </td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+
+    {{ include('Forms/formDelete.html.twig', {form: delete_form, message: 'Estas seguro que quieres borrar el Resultado?', id: 'form-delete', with_submit: false}) }}
+    
+    <script src="{{ asset('js/delete-ajax.js') }}"></script>
+ 
+{% endblock %}

@@ -1,0 +1,152 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Ver los Partidos{% endblock %}
+
+{% block page_title %}<h1 class="text-default">Partidos</h1>{% endblock %}
+
+{% block page_title_right %}
+    <a href="{{ path('match_new') }}" class="btn btn-success btn">Crear Partido</a>
+{% endblock %}
+
+
+{% block page_content %}
+
+    <style>
+        .left_col{
+            height:1300px;
+        }
+    </style>
+
+    <br><br>
+
+     <table id="example" class="display" cellspacing="0" width="100%" >
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Tipo Partido</th>
+                <th class="text-center">Encuentro</th>
+                <th>Resultado</th>
+                <th>Creador</th>
+                <th>Fecha</th>
+                <th>Público</th>
+                <th>Partido completado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Tipo Partido</th>
+                <th class="text-center">Encuentro</th>
+                <th>Resultado</th>
+                <th>Creador</th>
+                <th>Fecha</th>
+                <th>Público</th>
+                <th>Partido completado</th>
+                <th>Acciones</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            {% for m in match %}
+            <tr data-id="{{ m.id }}">
+                <td>{{ m.id }}</td>
+                <td>{{ m.title }}</td>
+                <td>{{ m.type }}</td>
+                <td class="text-center">
+                    {% if m.players|length == 0 %}
+                        Aún no hay jugadores
+                    {% elseif m.players|length == 1 %}
+                        <a href="{{ path('user_show', {id: m.players[0].user.id})}}"><b>{{m.players[0].user.username}}</b></a>
+                        {% if m.type == "Singles" %}
+                            está esperando 1 jugador más
+                        {% elseif m.type == "Dobles" %}
+                            están esperando 3 jugadores más
+                        {% endif %}
+                    {% elseif m.players|length == 2 %}
+                        {% if m.type == "Singles" %}    
+                            <a href="{{ path('user_show', {id: m.players[0].user.id})}}"><b>{{m.players[0].user.username}}</b></a>
+                            <br> vs <br>
+                            <a href="{{ path('user_show', {id: m.players[1].user.id})}}"><b>{{m.players[1].user.username}}</b></a>
+                        {% elseif m.type == "Dobles" %}
+                            {% set playerThird = false %}
+                            {% set playerFourth = false %}
+                            {% set playerCount = 2 %}
+                            <a href="{{ path('user_show', {id: m.players[0].user.id})}}"><b>{{m.players[0].user.username}}</b></a>
+                            <a href="{{ path('user_show', {id: m.players[1].user.id})}}"><b>{{m.players[1].user.username}}</b></a>
+                            {% if m.players[0].user2 is not null %}
+                                {% set playerThird = true %}
+                                <a href="{{ path('user_show', {id: m.players[0].user2.id})}}"><b>{{m.players[0].user2.username}}</b></a>
+                            {% endif %}
+                            {% if m.players[1].user2 is not null %}
+                                {% set playerFourth = true %}
+                                <a href="{{ path('user_show', {id: m.players[1].user2.id})}}"><b>{{m.players[1].user2.username}}</b></a>
+                            {% endif %}
+                            {% if playerThird and playerFourth %}
+                                están listos para jugar
+                            {% elseif playerThird == false and playerFourth == false %}
+                                están esperando 2 jugadores más
+                            {% elseif playerThird == false or playerFourth == false %}
+                                están esperando 1 jugador más
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                </td>
+                <td>{{m.score.firstSetJ1 }}-{{ m.score.firstSetJ2}} {{m.score.secondSetJ1 }}-{{ m.score.secondSetJ2}} {{m.score.thirdSetJ1 }}-{{ m.score.thirdSetJ2}}</td> 
+                <td>{{ m.creator.username }}</td>
+                <td>{{ m.dateMatch|date('Y-m-d H:i')}}hs</td>
+                <td class="text-center">
+                    {% if m.isPrivate != 1 %}
+                        <i class="fa fa-check"></i>
+                    {% else %}
+                        <i class="fa fa-times"></i>
+                    {% endif %}
+                </td>
+                <td class="text-center">
+                    {% if m.status == 1 %}
+                        <i class="fa fa-check"></i>
+                    {% else %}
+                        <i class="fa fa-times"></i>
+                    {% endif %}
+                </td>
+                <td>
+                {% if m.status != 1 %}
+                    <a href="{{ path('match_edit', {id: m.id})}}" class="btn btn-xs btn-primary">Editar</a>
+                {% endif %}
+                {% if m.players|length == 2 and m.type == "Singles" %}
+                    <a href="{{ path('score_edit', {id: m.score.id})}}" class="btn btn-xs btn-info">
+                    {% if m.score.status == 1 %}
+                        Editar resultado
+                    {% else %}
+                        Completar resultado
+                    {% endif %}
+                    </a>
+                {% endif %}
+                {% if m.type == "Dobles" and m.players|length == 2 %}
+                    {% if m.players[0].user2 is not null and m.players[1].user2 is not null %}
+                        <a href="{{ path('score_edit', {id: m.score.id})}}" class="btn btn-xs btn-info">
+                        {% if m.score.status == 1 %}
+                            Editar resultado
+                        {% else %}
+                            Completar resultado
+                        {% endif %}
+                        </a>
+                    {% endif %}
+                {% endif %}
+                {% if m.status != 1 %}
+                    <a href="{{ path('match_players', {id: m.id})}}" class="btn btn-xs btn-success">Ingresar jugadores</a>
+                {% endif %}
+                <a href="{{ path('match_delete', {id: m.id})}}" class="btn btn-xs btn-danger btn-delete">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+
+    {{ include('Forms/formDelete.html.twig', {form: delete_form, message: 'Estas seguro que quieres borrar el Resultado?', id: 'form-delete', with_submit: false}) }}
+    
+    <script src="{{ asset('js/delete-ajax.js') }}"></script>
+ 
+{% endblock %}

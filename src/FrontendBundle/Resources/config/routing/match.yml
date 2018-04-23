@@ -1,0 +1,9 @@
+frontend_get_match_random:
+    path:     /get-match-random
+    defaults: { _controller: "FrontendBundle:Match:getMatchRandom" }
+    methods:  GET
+
+frontend_new_match:
+    path:     /new-match
+    defaults: { _controller: "FrontendBundle:Match:newMatch" }
+    methods:  [POST]

@@ -146,8 +146,8 @@
                 <img src="{{ asset('images/perfil.jpg') }}" alt="..." class="img-thumbnail picture hidden-xs">
                 <img src="{{ asset('images/perfil.jpg') }}" alt="..." class="img-thumbnail visible-xs picture_mob">
                 {% else %}
-                <img src="{{ asset('') }}{{user.playerUser.imgSrc}}" alt="..." class="img-thumbnail picture hidden-xs">
-                <img src="{{ asset('') }}{{user.playerUser.imgSrc}}" alt="..." class="img-thumbnail visible-xs picture_mob">
+                <img src="{{ asset('uploads/users/') }}{{user.playerUser.imgSrc}}" alt="..." class="img-thumbnail picture hidden-xs">
+                <img src="{{ asset('uploads/users/') }}{{user.playerUser.imgSrc}}" alt="..." class="img-thumbnail visible-xs picture_mob">
             {% endif %}
            <div class="header">
                 <h1>{{user.playerUser.firstname}} {{user.playerUser.lastname}} ({{user.playerUser.age}})</h1>

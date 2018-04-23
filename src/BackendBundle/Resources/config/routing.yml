@@ -21,3 +21,11 @@ backend_skillUser:
 backend_requestFriend:
   resource: "@BackendBundle/Resources/config/routes/requestFriend.yml"
   prefix: /
+
+backend_score:
+  resource: "@BackendBundle/Resources/config/routes/score.yml"
+  prefix: /
+
+backend_match:
+  resource: "@BackendBundle/Resources/config/routes/match.yml"
+  prefix: /
