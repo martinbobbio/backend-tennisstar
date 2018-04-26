@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FrontendBundle\Entity\ResponseRest;
 use BackendBundle\Entity\User;
+use BackendBundle\Entity\ClubFavorite;
 
 class UserController extends Controller
 {
@@ -83,6 +84,12 @@ class UserController extends Controller
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('BackendBundle:User')->findOneById($id);
 
+        $club_favorite = $em->getRepository('BackendBundle:ClubFavorite')->findOneByUser($id);
+
+        $friends = $this->getDoctrine()->getEntityManager()
+        ->createQuery('SELECT f FROM BackendBundle:RequestFriend f WHERE (f.user_send = :user OR f.user_receive = :user) AND f.status = 1'
+        )->setParameter('user', $id )->getResult();
+
         $arr = [];
         $arr["username"] = $user->getUsername();
         $arr["email"] = $user->getEmail();
@@ -98,6 +105,37 @@ class UserController extends Controller
         $arr["service"] = $user->getSkillUser()->getService();
         $arr["volley"] = $user->getSkillUser()->getVolley();
         $arr["resistence"] = $user->getSkillUser()->getResistence();
+        if($club_favorite != null){
+            $arr["googlePlaceId"] = $club_favorite->getGooglePlaceId();
+        }
+        if($friends != null){
+            $arr_aux = [];
+            $arr1 = [];
+            foreach($friends as $f){
+    
+                if($f->getUserSend()->getId() == $id){
+                    $arr1['id'] = $f->getId();
+                    $arr1['id_user'] = $f->getUserReceive()->getId();
+                    $arr1['username'] = $f->getUserReceive()->getUsername();
+                    $arr1["path"] = $f->getUserReceive()->getPlayerUser()->getImgSrc();
+                    $arr1['firstname'] = $f->getUserReceive()->getPlayerUser()->getFirstname();
+                    $arr1['lastname'] = $f->getUserReceive()->getPlayerUser()->getLastname();
+                    $arr1['gameLevel'] = $f->getUserReceive()->getSkillUser()->getGameLevel();
+                    $arr1['gameStyle'] = $f->getUserReceive()->getSkillUser()->getGameStyle();
+                }else{
+                    $arr1['id'] = $f->getId();
+                    $arr1['id_user'] = $f->getUserSend()->getId();
+                    $arr1['username'] = $f->getUserSend()->getUsername();
+                    $arr1["path"] = $f->getUserSend()->getPlayerUser()->getImgSrc();
+                    $arr1['firstname'] = $f->getUserSend()->getPlayerUser()->getFirstname();
+                    $arr1['lastname'] = $f->getUserSend()->getPlayerUser()->getLastname();
+                    $arr1['gameLevel'] = $f->getUserSend()->getSkillUser()->getGameLevel();
+                    $arr1['gameStyle'] = $f->getUserSend()->getSkillUser()->getGameStyle();
+                }
+                $arr_aux[] = $arr1;
+            }
+            $arr["friends"] = $arr_aux;
+        }
 
         return ResponseRest::returnOk($arr);
     }
