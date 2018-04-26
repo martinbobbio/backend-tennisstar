@@ -3,3 +3,9 @@ frontend_get_map:
     defaults: { _controller: "FrontendBundle:Map:getClubes" }
     methods:  GET
 
+frontend_get_club:
+    path:     /get-club
+    defaults: { _controller: "FrontendBundle:Map:getClub" }
+    methods:  [POST]
+
+

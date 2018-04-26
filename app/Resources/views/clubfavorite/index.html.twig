@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Ver clubes favoritos{% endblock %}
+
+{% block page_title %}<h1 class="text-default">Clubes favoritos</h1>{% endblock %}
+
+{% block page_content %}
+
+    <style>
+        .left_col{
+            height:1300px;
+        }
+    </style>
+
+    <br><br>
+
+     <table id="example" class="display" cellspacing="0" width="100%" >
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Usuario</th>
+                <th>Google Place Id</th>
+                <th>Creado</th>
+                <th>Modificado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Id</th>
+                <th>Usuario</th>
+                <th>Google Place Id</th>
+                <th>Creado</th>
+                <th>Modificado</th>
+                <th>Acciones</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            {% for c in club %}
+            <tr data-id="{{ c.id }}">
+                <td>{{ c.id }}</td>
+                <td>{{ c.user.username }}</td>
+                <td>{{ c.googlePlaceId }}</td>
+                <td>{{ c.createAt|date('Y-m-d H:i:s')}}</td>
+                <td>{{ c.updateAt|date('Y-m-d H:i:s')}}</td>
+                <td>
+                    <a href="{{ path('favorite_club_delete', {id: c.id})}}" class="btn btn-xs btn-danger btn-delete">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+
+    {{ include('Forms/formDelete.html.twig', {form: delete_form, message: 'Estas seguro que quieres borrar la noticia?', id: 'form-delete', with_submit: false}) }}
+    
+    <script src="{{ asset('js/delete-ajax.js') }}"></script>
+ 
+{% endblock %}

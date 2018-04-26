@@ -29,3 +29,7 @@ backend_score:
 backend_match:
   resource: "@BackendBundle/Resources/config/routes/match.yml"
   prefix: /
+
+backend_favoriteClub:
+  resource: "@BackendBundle/Resources/config/routes/favoriteClub.yml"
+  prefix: /

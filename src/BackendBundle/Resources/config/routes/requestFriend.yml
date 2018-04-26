@@ -8,7 +8,7 @@ request_friend_edit:
     defaults: { _controller: "BackendBundle:RequestFriend:edit" }
     methods:  [GET, POST]
 
-request_friend_d  |elete:
+request_friend_delete:
     path:     /requestfriend/{id}/delete
     defaults: { _controller: "BackendBundle:RequestFriend:delete" }
 

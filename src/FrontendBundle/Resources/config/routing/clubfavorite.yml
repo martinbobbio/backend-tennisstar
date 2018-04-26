@@ -1,0 +1,4 @@
+frontend_club_favorite_new:
+    path:     /new
+    defaults: { _controller: "FrontendBundle:ClubFavorite:new" }
+    methods:  [POST]

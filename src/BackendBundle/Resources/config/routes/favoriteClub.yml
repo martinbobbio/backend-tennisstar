@@ -1,0 +1,8 @@
+favorite_club_index:
+    path:     /favoriteclub
+    defaults: { _controller: "BackendBundle:ClubFavorite:index" }
+    methods:  GET
+
+favorite_club_delete:
+    path:     /favoriteclub/{id}/delete
+    defaults: { _controller: "BackendBundle:ClubFavorite:delete" }
