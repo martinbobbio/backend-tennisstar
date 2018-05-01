@@ -19,6 +19,10 @@ frontend_request_friend:
         prefix:   /requestfriend
 
 frontend_request_match:
+        resource: "@FrontendBundle/Resources/config/routing/requestmatch.yml"
+        prefix:   /requestmatch
+
+frontend_match:
         resource: "@FrontendBundle/Resources/config/routing/match.yml"
         prefix:   /match
 

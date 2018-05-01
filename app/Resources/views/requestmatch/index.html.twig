@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Ver todas solicitudes de partidos{% endblock %}
+
+{% block page_title %}<h1 class="text-default">Solicitud de partidos</h1>{% endblock %}
+
+{% block page_title_right %}
+    <a href="{{ path('request_match_new') }}" class="btn btn-success btn">Crear solicitud de partido</a>
+{% endblock %}
+
+
+{% block page_content %}
+
+    <style>
+        .left_col{
+            height:1300px;
+        }
+    </style>
+
+    <br><br>
+
+     <table id="example" class="display" cellspacing="0" width="100%" >
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Envio</th>
+                <th>Recibio</th>
+                <th>Acepto</th>
+                <th>Creado</th>
+                <th>Modificado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Id</th>
+                <th>Envio</th>
+                <th>Recibio</th>
+                <th>Acepto</th>
+                <th>Creado</th>
+                <th>Modificado</th>
+                <th>Acciones</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            {% for f in request_match %}
+            <tr data-id="{{ f.id }}">
+                <td>{{ f.id }}</td>
+                <td>{{ f.userSend.username }}</td>
+                <td>{{ f.userReceive.username }}</td>
+                <td>
+                {% if f.status == 1 %}
+                    <i class="fa fa-check"></i>
+                {% else %}
+                    <i class="fa fa-times"></i>
+                {% endif %}
+                </td>
+                <td>{{ f.createAt|date('Y-m-d H:i:s')}}</td>
+                <td>{{ f.updateAt|date('Y-m-d H:i:s')}}</td>
+                <td>
+                <a href="{{ path('request_match_edit', {id: f.id})}}" class="btn btn-xs btn-primary">Editar</a>
+                <a href="{{ path('request_match_delete', {id: f.id})}}" class="btn btn-xs btn-danger btn-delete">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+
+    {{ include('Forms/formDelete.html.twig', {form: delete_form, message: 'Estas seguro que quieres borrar la solicitud?', id: 'form-delete', with_submit: false}) }}
+    
+    <script src="{{ asset('js/delete-ajax.js') }}"></script>
+ 
+{% endblock %}

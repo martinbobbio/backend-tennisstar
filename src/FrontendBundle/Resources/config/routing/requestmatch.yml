@@ -1,0 +1,14 @@
+frontend_request_match_by_user:
+    path:     /get-matchs
+    defaults: { _controller: "FrontendBundle:RequestMatch:getRequests" }
+    methods:  POST
+
+frontend_request_match_send:
+    path:     /send-request-match
+    defaults: { _controller: "FrontendBundle:RequestMatch:sendRequestMatch" }
+    methods:  POST
+
+frontend_request_match_response:
+    path:     /send-response-match
+    defaults: { _controller: "FrontendBundle:RequestMatch:sendResponseMatch" }
+    methods:  POST

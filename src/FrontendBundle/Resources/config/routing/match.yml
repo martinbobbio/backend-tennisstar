@@ -3,6 +3,11 @@ frontend_get_match_random:
     defaults: { _controller: "FrontendBundle:Match:getMatchRandom" }
     methods:  GET
 
+frontend_get_matchs:
+    path:     /get-matchs
+    defaults: { _controller: "FrontendBundle:Match:getMatchs" }
+    methods:  [POST]
+
 frontend_new_match:
     path:     /new-match
     defaults: { _controller: "FrontendBundle:Match:newMatch" }

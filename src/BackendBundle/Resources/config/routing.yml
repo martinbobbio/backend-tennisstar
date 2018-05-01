@@ -22,6 +22,10 @@ backend_requestFriend:
   resource: "@BackendBundle/Resources/config/routes/requestFriend.yml"
   prefix: /
 
+backend_requestMatch:
+  resource: "@BackendBundle/Resources/config/routes/requestMatch.yml"
+  prefix: /
+
 backend_score:
   resource: "@BackendBundle/Resources/config/routes/score.yml"
   prefix: /

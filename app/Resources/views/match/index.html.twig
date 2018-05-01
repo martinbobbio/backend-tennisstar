@@ -70,11 +70,16 @@
                             <br> vs <br>
                             <a href="{{ path('user_show', {id: m.players[1].user.id})}}"><b>{{m.players[1].user.username}}</b></a>
                         {% elseif m.type == "Dobles" %}
+                            {% set playerSecond = false %}
                             {% set playerThird = false %}
                             {% set playerFourth = false %}
-                            {% set playerCount = 2 %}
-                            <a href="{{ path('user_show', {id: m.players[0].user.id})}}"><b>{{m.players[0].user.username}}</b></a>
-                            <a href="{{ path('user_show', {id: m.players[1].user.id})}}"><b>{{m.players[1].user.username}}</b></a>
+                            {% if m.players[0].user is not null %}
+                                {% set playerSecond = true %}
+                                <a href="{{ path('user_show', {id: m.players[0].user.id})}}"><b>{{m.players[0].user.username}}</b></a>
+                            {% endif %}
+                            {% if m.players[1].user is not null %}
+                                <a href="{{ path('user_show', {id: m.players[1].user.id})}}"><b>{{m.players[1].user.username}}</b></a>
+                            {% endif %}
                             {% if m.players[0].user2 is not null %}
                                 {% set playerThird = true %}
                                 <a href="{{ path('user_show', {id: m.players[0].user2.id})}}"><b>{{m.players[0].user2.username}}</b></a>
@@ -83,8 +88,10 @@
                                 {% set playerFourth = true %}
                                 <a href="{{ path('user_show', {id: m.players[1].user2.id})}}"><b>{{m.players[1].user2.username}}</b></a>
                             {% endif %}
-                            {% if playerThird and playerFourth %}
+                            {% if playerThird and playerFourth and playerSecond %}
                                 están listos para jugar
+                            {% elseif playerThird == false and playerFourth == false and playerSecond == false %}
+                                está esperando 3 jugadores más
                             {% elseif playerThird == false and playerFourth == false %}
                                 están esperando 2 jugadores más
                             {% elseif playerThird == false or playerFourth == false %}

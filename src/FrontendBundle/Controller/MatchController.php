@@ -117,19 +117,127 @@ class MatchController extends Controller
         $userMatch->setUser($creator);
         $userMatch->setUser2(null);
         $userMatch->setMatch($match);
+        if($type == "Dobles"){
+            $userMatch2 = new UserMatch();
+            $userMatch2->setUser(null);
+            $userMatch2->setUser2(null);
+            $userMatch2->setMatch($match);
+            $em->persist($userMatch2);
+        }
 
         $em->persist($userMatch);
         $em->flush();
 
-        //dump($match->getId());die;
-
-        
-
         return ResponseRest::returnOk("ok");
 
+    }
 
+    public function getMatchsAction(Request $request){
 
+        header("Access-Control-Allow-Origin: *");
+        $id_user = $request->get("id_user");
 
+        $em = $this->getDoctrine()->getManager();
+
+        $match = $this->getDoctrine()->getEntityManager()
+        ->createQuery('SELECT m FROM BackendBundle:UserMatch m
+        WHERE m.user = :user OR m.user2 = :user'
+        )->setParameter('user', $id_user)->getResult();
+
+        $arr = [];
+        $arr1 = [];
+
+        foreach($match as $m){
+
+            $arr1['player1AUsername'] = "";
+            $arr1['player1AId'] = null;
+            $arr1['player1APath'] = null;
+            $arr1['player2AUsername'] = "";
+            $arr1['player2AId'] = null;
+            $arr1['player2APath'] = null;
+            $arr1['player1BUsername'] = "";
+            $arr1['player1BId'] = null;
+            $arr1['player1BPath'] = null;
+            $arr1['player2BUsername'] = "";
+            $arr1['player2BId'] = null;
+            $arr1['player2BPath'] = null;
+
+            if($m->getMatch()->getType() == "Singles" && $m->getUser() != null){
+                $match_aux = $this->getDoctrine()->getEntityManager()
+                ->createQuery('SELECT m FROM BackendBundle:UserMatch m
+                WHERE m.match = :match'
+                )->setParameter('match', $m->getMatch()->getId())->getResult();
+                if(sizeof($match_aux) == 2){
+                    $arr1['dateText'] = $match_aux[0]->getMatch()->getDateMatch()->format('d-m-Y')." a las ".$match_aux[0]->getMatch()->getDateMatch()->format('h:i')." hs";
+                    $arr1['title'] = $match_aux[0]->getMatch()->getTitle();
+                    $arr1['type'] = $match_aux[0]->getMatch()->getType();
+                    $arr1['idMatch'] = $match_aux[0]->getMatch()->getId();
+                    $arr1['player1AUsername'] = $match_aux[0]->getUser()->getUsername();
+                    $arr1['player1AId'] = $match_aux[0]->getUser()->getId();
+                    $arr1['player1APath'] = $match_aux[0]->getUser()->getPlayerUser()->getImgSrc();
+                    $arr1['player2AUsername'] = $match_aux[1]->getUser()->getUsername();
+                    $arr1['player2AId'] = $match_aux[1]->getUser()->getId();
+                    $arr1['player2APath'] = $match_aux[1]->getUser()->getPlayerUser()->getImgSrc();
+                    $arr1['count'] = 2;
+                    $arr[] = $arr1;
+                }else if(sizeof($match_aux) == 1){
+                    $arr1['dateText'] = $match_aux[0]->getMatch()->getDateMatch()->format('d-m-Y')." a las ".$match_aux[0]->getMatch()->getDateMatch()->format('h:i')." hs";
+                    $arr1['title'] = $match_aux[0]->getMatch()->getTitle();
+                    $arr1['type'] = $match_aux[0]->getMatch()->getType();
+                    $arr1['idMatch'] = $match_aux[0]->getMatch()->getId();
+                    $arr1['player1AUsername'] = $match_aux[0]->getUser()->getUsername();
+                    $arr1['player1AId'] = $match_aux[0]->getUser()->getId();
+                    $arr1['player1APath'] = $match_aux[0]->getUser()->getPlayerUser()->getImgSrc();
+                    $arr1['count'] = 1;
+                    $arr[] = $arr1;
+                }
+
+            }else if($m->getMatch()->getType() == "Dobles" && $m->getUser() != null){
+                $match_aux = $this->getDoctrine()->getEntityManager()
+                ->createQuery('SELECT m FROM BackendBundle:UserMatch m
+                WHERE m.match = :match')->setParameter('match', $m->getMatch()->getId())->getResult();
+
+                $count = 0;
+
+                $arr1['dateText'] = $match_aux[0]->getMatch()->getDateMatch()->format('d-m-Y')." a las ".$match_aux[0]->getMatch()->getDateMatch()->format('h:i')." hs";
+                $arr1['title'] = $match_aux[0]->getMatch()->getTitle();
+                $arr1['type'] = $match_aux[0]->getMatch()->getType();
+                $arr1['idMatch'] = $match_aux[0]->getMatch()->getId();
+                
+                if($match_aux[0]->getUser() != null && $match_aux[0]->getMatch()->getType() == "Dobles"){
+                    $arr1['player1AUsername'] = $match_aux[0]->getUser()->getUsername();
+                    $arr1['player1AId'] = $match_aux[0]->getUser()->getId();
+                    $arr1['player1APath'] = $match_aux[0]->getUser()->getPlayerUser()->getImgSrc();
+                    $count += 1;
+                }
+                if($match_aux[0]->getUser2() != null && $match_aux[0]->getMatch()->getType() == "Dobles"){
+                    $arr1['player1BUsername'] = $match_aux[0]->getUser2()->getUsername();
+                    $arr1['player1BId'] = $match_aux[0]->getUser2()->getId();
+                    $arr1['player1BPath'] = $match_aux[0]->getUser2()->getPlayerUser()->getImgSrc();
+                    $count += 1;
+                }
+                if($match_aux[1]->getUser() != null && $match_aux[1]->getMatch()->getType() == "Dobles"){
+                    $arr1['player2AUsername'] = $match_aux[1]->getUser()->getUsername();
+                    $arr1['player2AId'] = $match_aux[1]->getUser()->getId();
+                    $arr1['player2APath'] = $match_aux[1]->getUser()->getPlayerUser()->getImgSrc();
+                    $count += 1;
+                }
+                if($match_aux[1]->getUser2() != null && $match_aux[1]->getMatch()->getType() == "Dobles"){
+                    $arr1['player2BUsername'] = $match_aux[1]->getUser2()->getUsername();
+                    $arr1['player2BId'] = $match_aux[1]->getUser2()->getId();
+                    $arr1['player2BPath'] = $match_aux[1]->getUser2()->getPlayerUser()->getImgSrc();
+                    $count += 1;
+                }
+
+                $arr1['count'] = $count;
+                $arr[] = $arr1;
+        
+            }
+            
+        }
+
+        return ResponseRest::returnOk($arr);
+        
     }
 
 

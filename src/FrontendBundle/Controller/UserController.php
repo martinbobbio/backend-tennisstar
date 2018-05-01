@@ -91,6 +91,7 @@ class UserController extends Controller
         )->setParameter('user', $id )->getResult();
 
         $arr = [];
+        $arr["id"] = $user->getId();
         $arr["username"] = $user->getUsername();
         $arr["email"] = $user->getEmail();
         $arr["path"] = $user->getPlayerUser()->getImgSrc();
@@ -135,6 +136,34 @@ class UserController extends Controller
                 $arr_aux[] = $arr1;
             }
             $arr["friends"] = $arr_aux;
+        }
+        $requestfriend = $this->getDoctrine()->getEntityManager()
+        ->createQuery('SELECT f FROM BackendBundle:RequestFriend f WHERE (f.user_send = :user OR f.user_receive = :user) AND f.status IS NULL'
+        )->setParameter('user', $user->getId())->getResult();
+        if($requestfriend != null){
+            $arr_aux = [];
+            $arr1 = [];
+            foreach($requestfriend as $f){
+    
+                $arr1['id_send'] = $f->getUserSend()->getId();
+                $arr1['id_receive'] = $f->getUserReceive()->getId();
+                $arr_aux[] = $arr1;
+            }
+            $arr["requestfriend"] = $arr_aux;
+        }
+        $requestmatch = $this->getDoctrine()->getEntityManager()
+        ->createQuery('SELECT f FROM BackendBundle:RequestMatch f WHERE (f.user_send = :user OR f.user_receive = :user) AND f.status IS NULL'
+        )->setParameter('user', $user->getId())->getResult();
+        if($requestmatch != null){
+            $arr_aux = [];
+            $arr1 = [];
+            foreach($requestmatch as $f){
+    
+                $arr1['id_send'] = $f->getUserSend()->getId();
+                $arr1['id_receive'] = $f->getUserReceive()->getId();
+                $arr_aux[] = $arr1;
+            }
+            $arr["requestmatch"] = $arr_aux;
         }
 
         return ResponseRest::returnOk($arr);

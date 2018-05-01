@@ -46,6 +46,12 @@
                             <li><a href="{{ path('request_friend_index') }}">Ver amistades</a></li>
                         </ul>
                     </li>
+                    <li class=""><a><i class="fa fa-calendar-o"></i>Solicitudes de Partidos<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu" style="display: none;">
+                            <li><a href="{{ path('request_match_new') }}">Agregar solicitud de partido</a></li>
+                            <li><a href="{{ path('request_match_index') }}">Ver solicitud de partido</a></li>
+                        </ul>
+                    </li>
                     <li class=""><a><i class="fa fa-trophy"></i>Partidos<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu" style="display: none;">
                             <li><a href="{{ path('match_new') }}">Agregar Partido</a></li>

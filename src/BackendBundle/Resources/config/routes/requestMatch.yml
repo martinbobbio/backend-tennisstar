@@ -1,0 +1,18 @@
+request_match_index:
+    path:     /requestmatch
+    defaults: { _controller: "BackendBundle:RequestMatch:index" }
+    methods:  GET
+
+request_match_edit:
+    path:     /requestmatch/{id}/edit
+    defaults: { _controller: "BackendBundle:RequestMatch:edit" }
+    methods:  [GET, POST]
+
+request_match_delete:
+    path:     /requestmatch/{id}/delete
+    defaults: { _controller: "BackendBundle:RequestMatch:delete" }
+
+request_match_new:
+    path:     /requestmatch/new
+    defaults: { _controller: "BackendBundle:RequestMatch:new" }
+    methods:  [GET, POST]
