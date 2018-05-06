@@ -10,12 +10,12 @@ use FrontendBundle\Entity\ResponseRest;
 
 class MapController extends Controller
 {
-    public function getClubesAction(){
+    public function getClubesAction(Request $request){
         
         header("Access-Control-Allow-Origin: *");
 
-        $latitud = "-34.604486";
-        $longitud = "-58.396329";
+        $latitud = $request->get("lat");
+        $longitud = $request->get("lon");
 
         $url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=".$latitud.",".$longitud."&radius=5000&name=tenis&key=AIzaSyAQZGWfnDR3C28jqGEiJqEQT4BvTXRy_bM";
         

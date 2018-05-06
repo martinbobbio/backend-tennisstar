@@ -12,3 +12,9 @@ frontend_new_match:
     path:     /new-match
     defaults: { _controller: "FrontendBundle:Match:newMatch" }
     methods:  [POST]
+
+frontend_check_match:
+    path:     /check-match
+    defaults: { _controller: "FrontendBundle:Match:checkMatch" }
+    methods:  [POST]
+

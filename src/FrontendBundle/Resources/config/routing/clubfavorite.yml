@@ -2,3 +2,8 @@ frontend_club_favorite_new:
     path:     /new
     defaults: { _controller: "FrontendBundle:ClubFavorite:new" }
     methods:  [POST]
+
+frontend_club_favorite_get_random:
+    path:     /get-clubes
+    defaults: { _controller: "FrontendBundle:ClubFavorite:getMostClubes" }
+    methods:  get

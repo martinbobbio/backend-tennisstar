@@ -45,12 +45,14 @@ class MatchController extends Controller
             $arr1['player2AUsername'] = null; $arr1['player2AId'] = null; $arr1['player2APath'] = null;
             $arr1['player2BUsername'] = null; $arr1['player2BId'] = null; $arr1['player2BPath'] = null;
 
-            if(isset($players[0]))
+            if(isset($players[0])){
                 if($players[0]->getUser() != null){
                     $arr1['player1AUsername'] = $players[0]->getUser()->getUsername();
                     $arr1['player1AId'] = $players[0]->getUser()->getId();
                     $arr1['player1APath'] = $players[0]->getUser()->getPlayerUser()->getImgSrc();
                 }
+                $arr1['id_um'] = $players[0]->getId();
+            }
             if(isset($players[0]))
                 if($players[0]->getUser2() != null){
                     $arr1['player1BUsername'] = $players[0]->getUser2()->getUsername();
@@ -129,6 +131,42 @@ class MatchController extends Controller
         $em->flush();
 
         return ResponseRest::returnOk("ok");
+
+    }
+
+    public function checkMatchAction(Request $request){
+
+        header("Access-Control-Allow-Origin: *");
+
+        $em = $this->getDoctrine()->getManager();
+
+        $id_match = $request->get("id_um");
+        $id_user = $request->get("id_user");
+
+        $userMatch = $em->getRepository('BackendBundle:UserMatch')->findByMatch($id_match);
+
+        if(isset($userMatch[0]) && isset($userMatch[1])){
+            if($userMatch[1]->getUser() == null){
+                $userMatch[1]->setUser($em->getRepository('BackendBundle:User')->findOneById($id_user));
+                $em->persist($userMatch[1]);
+                $em->flush();
+                return ResponseRest::returnOk("ok");
+            }
+            if($userMatch[0]->getUser2() == null){
+                $userMatch[0]->setUser2($em->getRepository('BackendBundle:User')->findOneById($id_user));
+                $em->persist($userMatch[0]);
+                $em->flush();
+                return ResponseRest::returnOk("ok");
+            }
+            if($userMatch[1]->getUser2() == null){
+                $userMatch[1]->setUser2($em->getRepository('BackendBundle:User')->findOneById($id_user));
+                $em->persist($userMatch[1]);
+                $em->flush();
+                return ResponseRest::returnOk("ok");
+            }
+        }
+
+        return ResponseRest::returnOk("error");
 
     }
 
