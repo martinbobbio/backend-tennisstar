@@ -40,16 +40,59 @@
     </div>
     
     {% if players is defined %}
-        {% for p in players %}
-        <script>
-            var x=document.getElementById("backendbundle_score_user");
-            for (var i = 0; i < x.options.length; i++) {
-                if(x.options[i].value == {{p.user.id}}){
-                    x.options[i].selected = true;
+        {% if players[0] is defined %}
+            <script>
+                var x=document.getElementById("backendbundle_score_user");
+                for (var i = 0; i < x.options.length; i++) {
+                    if(x.options[i].value == {{players[0].user.id}}){
+                        x.options[i].selected = true;
+                    }
                 }
-            }
-        </script>
-        {% endfor %}
+            </script>
+            {% if players[0].user2.id is defined %}
+                <script>
+                var x=document.getElementById("backendbundle_score_user");
+                for (var i = 0; i < x.options.length; i++) {
+                    if(x.options[i].value == {{players[0].user2.id}}){
+                        x.options[i].selected = true;
+                    }
+                }
+                </script>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+    {% if players is defined %}
+        {% if players[1] is defined %}
+            <script>
+                var x=document.getElementById("backendbundle_score_user2");
+                for (var i = 0; i < x.options.length; i++) {
+                    if(x.options[i].value == {{players[1].user.id}}){
+                        x.options[i].selected = true;
+                    }
+                }
+            </script>
+            <script>
+                var x=document.getElementById("backendbundle_score_user2");
+                if(x == null){
+                    x = document.getElementById("backendbundle_score_user");
+                    for (var i = 0; i < x.options.length; i++) {
+                        if(x.options[i].value == {{players[1].user.id}}){
+                            x.options[i].selected = true;
+                        }
+                    }
+                }
+            </script>
+            {% if players[1].user2.id is defined %}
+                <script>
+                var x=document.getElementById("backendbundle_score_user2");
+                for (var i = 0; i < x.options.length; i++) {
+                    if(x.options[i].value == {{players[1].user2.id}}){
+                        x.options[i].selected = true;
+                    }
+                }
+                </script>
+            {% endif %}
+        {% endif %}
     {% endif %}
 
 {% endblock %}

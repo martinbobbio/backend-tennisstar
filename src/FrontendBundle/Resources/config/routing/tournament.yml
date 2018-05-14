@@ -1,0 +1,14 @@
+frontend_get_tournament_random:
+    path:     /get-tournament-random
+    defaults: { _controller: "FrontendBundle:Tournament:getTournamentRandom" }
+    methods:  GET
+
+frontend_get_tournament:
+    path:     /get-tournament/{id}
+    defaults: { _controller: "FrontendBundle:Tournament:getTournament" }
+    methods:  GET
+
+frontend_new_tournament:
+    path:     /new-tournament
+    defaults: { _controller: "FrontendBundle:Tournament:newTournament" }
+    methods:  POST

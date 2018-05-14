@@ -58,6 +58,12 @@
                             <li><a href="{{ path('match_index') }}">Ver Partidos</a></li>
                         </ul>
                     </li>
+                    <li class=""><a><i class="fa fa-calendar"></i>Torneos<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu" style="display: none;">
+                            <li><a href="{{ path('tournament_new') }}">Agregar Torneo</a></li>
+                            <li><a href="{{ path('tournament_index') }}">Ver Torneos</a></li>
+                        </ul>
+                    </li>
                     <li class=""><a><i class="fa fa-book"></i>Noticias<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu" style="display: none;">
                             <li><a href="{{ path('notice_new') }}">Agregar noticia</a></li>
@@ -68,17 +74,6 @@
                         <a  href="{{ path('favorite_club_index') }}">
                             <i class="fa fa-flag"></i>Clubes Favoritos
                         </a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="menu_section active">
-                <h3>Personalizar página</h3>
-                <ul class="nav side-menu" style="">
-                    <li class=""><a><i class="fa fa-home"></i>Home<span class="fa fa-chevron-down"></span></a>
-                        <ul class="nav child_menu" style="display: none;">
-                            <li><a href="slide">Slide</a></li>
-                        </ul>
                     </li>
                 </ul>
             </div>

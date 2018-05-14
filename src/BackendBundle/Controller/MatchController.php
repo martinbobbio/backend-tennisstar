@@ -203,7 +203,6 @@ class MatchController extends Controller
             }
 
         $usersMatch = $em->getRepository('BackendBundle:UserMatch')->findByMatch($match);
-
         return $this->render('match/player.html.twig', array(
             'match' => $match,
             'edit_form' => $editForm->createView(),

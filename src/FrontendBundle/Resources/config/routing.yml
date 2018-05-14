@@ -29,3 +29,7 @@ frontend_match:
 frontend_club_favorite:
         resource: "@FrontendBundle/Resources/config/routing/clubfavorite.yml"
         prefix:   /club-favorite
+
+frontend_tournament:
+        resource: "@FrontendBundle/Resources/config/routing/tournament.yml"
+        prefix:   /tournament

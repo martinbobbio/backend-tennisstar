@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Ver los Torneos{% endblock %}
+
+{% block page_title %}<h1 class="text-default">Torneos</h1>{% endblock %}
+
+{% block page_title_right %}
+    <a href="{{ path('tournament_new') }}" class="btn btn-success btn">Crear Torneo</a>
+{% endblock %}
+
+
+{% block page_content %}
+
+    <style>
+        .left_col{
+            height:1300px;
+        }
+    </style>
+
+    <br><br>
+
+     <table id="example" class="display" cellspacing="0" width="100%" >
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Máximo de jugadores</th>
+                <th>Creador</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Máximo de jugadores</th>
+                <th>Creador</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            {% for t in tournament %}
+            <tr data-id="{{ t.id }}">
+                <td>{{ t.id }}</td>
+                <td>{{ t.title }}</td>
+                <td>{{ t.count }}</td>
+                <td>{{ t.creator.username }}</td>
+                <td>{{ t.dateTournament|date('Y-m-d H:i')}}hs</td>
+                <td class="text-center">
+                    {% if t.status == 1 %}
+                        <i class="fa fa-check"></i>
+                    {% else %}
+                        <i class="fa fa-times"></i>
+                    {% endif %}
+                </td>
+                <td>
+                <a href="{{ path('usertournament_index', {id: t.id})}}" class="btn btn-xs btn-success">Ver partidos</a>
+                <a href="{{ path('tournament_edit', {id: t.id})}}" class="btn btn-xs btn-primary">Editar</a>
+                <a href="{{ path('tournament_delete', {id: t.id})}}" class="btn btn-xs btn-danger btn-delete">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+
+    {{ include('Forms/formDelete.html.twig', {form: delete_form, message: 'Estas seguro que quieres borrar el Torneo?', id: 'form-delete', with_submit: false}) }}
+    
+    <script src="{{ asset('js/delete-ajax.js') }}"></script>
+ 
+{% endblock %}

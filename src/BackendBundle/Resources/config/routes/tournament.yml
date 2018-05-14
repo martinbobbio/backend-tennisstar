@@ -1,0 +1,23 @@
+tournament_index:
+    path:     /tournament
+    defaults: { _controller: "BackendBundle:Tournament:index" }
+    methods:  GET
+
+tournament_edit:
+    path:     /tournament/{id}/edit
+    defaults: { _controller: "BackendBundle:Tournament:edit" }
+    methods:  [GET, POST]
+
+tournament_delete:
+    path:     /tournament/{id}/delete
+    defaults: { _controller: "BackendBundle:Tournament:delete" }
+
+tournament_new:
+    path:     /tournament/new
+    defaults: { _controller: "BackendBundle:Tournament:new" }
+    methods:  [GET, POST]
+
+usertournament_index:
+    path:     /tournament/players/{id}
+    defaults: { _controller: "BackendBundle:Tournament:indexPlayers" }
+    methods:  GET

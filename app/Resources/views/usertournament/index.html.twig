@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Ver los jugadores del torneo{% endblock %}
+
+{% block page_title %}<h1 class="text-default">Jugadores del torneo</h1>{% endblock %}
+
+{% block page_content %}
+
+    <style>
+        .left_col{
+            height:1300px;
+        }
+    </style>
+
+    <br><br>
+
+     <table id="example" class="display" cellspacing="0" width="100%" >
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Jugador</th>
+                <th>Resultado</th>
+                <th>Instancia</th>
+                <th>Gano</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Id</th>
+                <th>Jugador</th>
+                <th>Resultado</th>
+                <th>Instancia</th>
+                <th>Gano</th>
+                <th>Acciones</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            {% for ut in userTournament %}
+            <tr data-id="{{  ut.id }}">
+                <td>{{ ut.id }}</td>
+                <td>
+                    {% if ut.user is not null %}
+                        {{ ut.user.username }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if ut.user is not null %}
+                        {{ut.score.firstSetJ1 }}-{{ ut.score.firstSetJ2}} {{ut.score.secondSetJ1 }}-{{ ut.score.secondSetJ2}} {{ut.score.thirdSetJ1 }}-{{ ut.score.thirdSetJ2}}
+                    {% endif %}
+                </td>
+                <td>{{ut.instance}}</td>
+                <td>
+                    {% if ut.win == 1 %}
+                        <i class="fa fa-check"></i>
+                    {% elseif ut.win == 0 and ut.win is not null %}
+                        <i class="fa fa-times"></i>
+                    {% endif %}
+                </td>
+                <td></td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+
+{% endblock %}

@@ -37,3 +37,7 @@ backend_match:
 backend_favoriteClub:
   resource: "@BackendBundle/Resources/config/routes/favoriteClub.yml"
   prefix: /
+
+backend_tournament:
+  resource: "@BackendBundle/Resources/config/routes/tournament.yml"
+  prefix: /
