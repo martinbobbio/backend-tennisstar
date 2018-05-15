@@ -70,7 +70,6 @@ class TournamentController extends Controller
         $id_user = $request->get("id_user");
         $title = $request->get("title");
         $count = $request->get("count");
-        $isPrivate = $request->get("isPrivate");
         $date = $request->get("date");
         $hour = $request->get("hour");
         $lon = $request->get("lon");
@@ -80,13 +79,14 @@ class TournamentController extends Controller
         $tournament = new Tournament();
         $tournament->setTitle($title);
         $tournament->setCount($count);
-        $dateMatch = new \DateTime($date." ".$hour);
-        $tournament->setDateTournament($tournament);
+        $dateTournament = new \DateTime($date." ".$hour);
+        $tournament->setDateTournament($dateTournament);
         $tournament->setLon($lat);
         $tournament->setLat($lon);
         $tournament->setGooglePlaceId($googlePlaceId);
         $creator = $em->getRepository('BackendBundle:User')->findOneById($id_user);
         $tournament->setCreator($creator);
+        $tournament->setStatus(0);
 
         if($tournament->getCount() == 16){
             $this->createUserTournament("Octavos de final", 16, $tournament);
