@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use BackendBundle\Entity\ClubFavorite;
+use BackendBundle\Entity\Notification;
 
 class ClubFavoriteController extends Controller
 {
@@ -34,8 +35,19 @@ class ClubFavoriteController extends Controller
         $form = $this->createCustomForm($club->getId(),'DELETE', 'favorite_club_delete');
         $form->handleRequest($request);
 
-        $em->remove($club) ;
+        $em->remove($club);
         $em->flush();
+        
+        $notification = new Notification();
+        $notification->setTitle(
+        "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
+        ." ha borrado el club favorito (id:".$club->getId().")");
+        $notification->setType("delete");
+        $notification->setEntity("clubFavorite");
+        $notification->setEnvironment("Backend");
+        $notification->setUser($this->container->get('security.context')->getToken()->getUser());
+        $this->getDoctrine()->getManager()->persist($notification);
+        $this->getDoctrine()->getManager()->flush();
 
         return $this->redirectToRoute('favorite_club_index');
     }

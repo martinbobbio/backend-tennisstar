@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use BackendBundle\Entity\User;
 use BackendBundle\Entity\PlayerUser;
 use BackendBundle\Entity\SkillUser;
+use BackendBundle\Entity\Notification;
 
 class UserController extends Controller
 {
@@ -47,6 +48,17 @@ class UserController extends Controller
 
             $user->setPassword($this->container->get('security.encoder_factory')->getEncoder($user)->encodePassword($user->getPassword(), $user->getSalt()));
 
+            $this->getDoctrine()->getManager()->flush();
+
+            $notification = new Notification();
+            $notification->setTitle(
+            "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
+            ." ha editado el usuario (id:".$user->getId().")");
+            $notification->setType("edit");
+            $notification->setEntity("user");
+            $notification->setEnvironment("Backend");
+            $notification->setUser($this->container->get('security.context')->getToken()->getUser());
+            $this->getDoctrine()->getManager()->persist($notification);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('user_index', array('id' => $user->getId()));
@@ -92,6 +104,17 @@ class UserController extends Controller
             $em->persist($skillUser);
             $em->flush();
 
+            $notification = new Notification();
+            $notification->setTitle(
+            "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
+            ." ha agregado el usuario (id:".$user->getId().")");
+            $notification->setType("add");
+            $notification->setEntity("user");
+            $notification->setEnvironment("Backend");
+            $notification->setUser($this->container->get('security.context')->getToken()->getUser());
+            $this->getDoctrine()->getManager()->persist($notification);
+            $this->getDoctrine()->getManager()->flush();
+
             return $this->redirectToRoute('user_index');
         }
 
@@ -122,6 +145,17 @@ class UserController extends Controller
 
             $em->remove($user) ;
             $em->flush();
+
+            $notification = new Notification();
+            $notification->setTitle(
+            "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
+            ." ha borrado el usuario (id:".$user->getId().")");
+            $notification->setType("delete");
+            $notification->setEntity("user");
+            $notification->setEnvironment("Backend");
+            $notification->setUser($this->container->get('security.context')->getToken()->getUser());
+            $this->getDoctrine()->getManager()->persist($notification);
+            $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('user_index');
         }

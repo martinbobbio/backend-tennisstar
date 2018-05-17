@@ -41,7 +41,7 @@ class MatchType extends AbstractType
                 'Dobles' => 'Dobles',
             ),'label' => 'Tipo de partido'
         ))
-        ->add('isPrivate', CheckboxType::class, array('label'=> 'Partido privado? (Solo amigos)'));
+        ->add('isPrivate', CheckboxType::class, array('label'=> 'Partido privado? (Solo amigos)', 'required' => false));
     }
     
     /**

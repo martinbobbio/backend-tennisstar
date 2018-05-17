@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use BackendBundle\Entity\Match;
 use BackendBundle\Entity\UserMatch;
 use BackendBundle\Entity\Score;
+use BackendBundle\Entity\Notification;
 
 class MatchController extends Controller
 {
@@ -46,6 +47,17 @@ class MatchController extends Controller
             );
             $this->getDoctrine()->getManager()->flush();
 
+            $notification = new Notification();
+            $notification->setTitle(
+            "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
+            ." ha editado el partido (id:".$match->getId().")");
+            $notification->setType("edit");
+            $notification->setEntity("match");
+            $notification->setEnvironment("Backend");
+            $notification->setUser($this->container->get('security.context')->getToken()->getUser());
+            $this->getDoctrine()->getManager()->persist($notification);
+            $this->getDoctrine()->getManager()->flush();
+
             return $this->redirectToRoute('match_index', array('id' => $match->getId()));
         }
 
@@ -80,6 +92,17 @@ class MatchController extends Controller
             $em->persist($score);
             $em->flush();
 
+            $notification = new Notification();
+            $notification->setTitle(
+            "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
+            ." ha agregado el partido (id:".$match->getId().")");
+            $notification->setType("add");
+            $notification->setEntity("match");
+            $notification->setEnvironment("Backend");
+            $notification->setUser($this->container->get('security.context')->getToken()->getUser());
+            $this->getDoctrine()->getManager()->persist($notification);
+            $this->getDoctrine()->getManager()->flush();
+
             return $this->redirectToRoute('match_index');
         }
 
@@ -102,6 +125,17 @@ class MatchController extends Controller
         $em->remove($match->getScore());
         $em->remove($match);
         $em->flush();
+        
+        $notification = new Notification();
+        $notification->setTitle(
+        "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
+        ." ha borrado el partido (id:".$match->getId().")");
+        $notification->setType("delete");
+        $notification->setEntity("match");
+        $notification->setEnvironment("Backend");
+        $notification->setUser($this->container->get('security.context')->getToken()->getUser());
+        $this->getDoctrine()->getManager()->persist($notification);
+        $this->getDoctrine()->getManager()->flush();
 
         return $this->redirectToRoute('match_index');
 
@@ -148,6 +182,17 @@ class MatchController extends Controller
 
                 $em->persist($userMatch);
                 $em->flush();
+
+                $notification = new Notification();
+                $notification->setTitle(
+                "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
+                ." ha editado los jugadores del partido de singles");
+                $notification->setType("edit");
+                $notification->setEntity("match");
+                $notification->setEnvironment("Backend");
+                $notification->setUser($this->container->get('security.context')->getToken()->getUser());
+                $this->getDoctrine()->getManager()->persist($notification);
+                $this->getDoctrine()->getManager()->flush();
                 }
 
             }else if(($match->getType() == "Dobles" && sizeof($userMatch->getUser()->getValues()) <= 2 && sizeof($userMatch->getUser2()->getValues()) <= 2)){
@@ -189,6 +234,17 @@ class MatchController extends Controller
                     }
 
                     $em->flush();
+
+                    $notification = new Notification();
+                    $notification->setTitle(
+                    "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
+                    ." ha editado los jugadores del partido de dobles");
+                    $notification->setType("edit");
+                    $notification->setEntity("match");
+                    $notification->setEnvironment("Backend");
+                    $notification->setUser($this->container->get('security.context')->getToken()->getUser());
+                    $this->getDoctrine()->getManager()->persist($notification);
+                    $this->getDoctrine()->getManager()->flush();
                     
                 }else{
                 return $this->render('match/player.html.twig', array(

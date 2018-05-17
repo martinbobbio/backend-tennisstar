@@ -33,3 +33,7 @@ frontend_club_favorite:
 frontend_tournament:
         resource: "@FrontendBundle/Resources/config/routing/tournament.yml"
         prefix:   /tournament
+
+frontend_notification:
+        resource: "@FrontendBundle/Resources/config/routing/notification.yml"
+        prefix:   /notification

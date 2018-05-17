@@ -1,0 +1,4 @@
+frontend_get_notifications:
+    path:     /get-notifications
+    defaults: { _controller: "FrontendBundle:Notification:getNotifications" }
+    methods:  GET

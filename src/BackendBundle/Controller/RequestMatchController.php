@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use BackendBundle\Entity\RequestMatch;
+use BackendBundle\Entity\Notification;
 
 class RequestMatchController extends Controller
 {
@@ -35,6 +36,17 @@ class RequestMatchController extends Controller
 
             $this->getDoctrine()->getManager()->flush();
 
+            $notification = new Notification();
+            $notification->setTitle(
+            "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
+            ." ha editado la solicitud de partido (id:".$request_match->getId().")");
+            $notification->setType("edit");
+            $notification->setEntity("requestMatch");
+            $notification->setEnvironment("Backend");
+            $notification->setUser($this->container->get('security.context')->getToken()->getUser());
+            $this->getDoctrine()->getManager()->persist($notification);
+            $this->getDoctrine()->getManager()->flush();
+
             return $this->redirectToRoute('request_match_index', array('id' => $request_match->getId()));
         }
 
@@ -59,6 +71,17 @@ class RequestMatchController extends Controller
             $em->persist($request_match);
             $em->flush();
 
+            $notification = new Notification();
+            $notification->setTitle(
+            "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
+            ." ha agregado la solicitud de partido (id:".$request_match->getId().")");
+            $notification->setType("add");
+            $notification->setEntity("requestMatch");
+            $notification->setEnvironment("Backend");
+            $notification->setUser($this->container->get('security.context')->getToken()->getUser());
+            $this->getDoctrine()->getManager()->persist($notification);
+            $this->getDoctrine()->getManager()->flush();
+
             return $this->redirectToRoute('request_match_index');
         }
 
@@ -80,6 +103,17 @@ class RequestMatchController extends Controller
 
         $em->remove($request_match) ;
         $em->flush();
+
+        $notification = new Notification();
+        $notification->setTitle(
+        "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
+        ." ha borrado la solicitud de partido (id:".$request_match->getId().")");
+        $notification->setType("remove");
+        $notification->setEntity("requestMatch");
+        $notification->setEnvironment("Backend");
+        $notification->setUser($this->container->get('security.context')->getToken()->getUser());
+        $this->getDoctrine()->getManager()->persist($notification);
+        $this->getDoctrine()->getManager()->flush();
 
         return $this->redirectToRoute('request_match_index');
 

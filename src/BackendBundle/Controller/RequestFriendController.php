@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use BackendBundle\Entity\RequestFriend;
+use BackendBundle\Entity\Notification;
 
 class RequestFriendController extends Controller
 {
@@ -35,6 +36,17 @@ class RequestFriendController extends Controller
 
             $this->getDoctrine()->getManager()->flush();
 
+            $notification = new Notification();
+            $notification->setTitle(
+            "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
+            ." ha editado la solicitud de amistad (id:".$request_friend->getId().")");
+            $notification->setType("edit");
+            $notification->setEntity("requestFriend");
+            $notification->setEnvironment("Backend");
+            $notification->setUser($this->container->get('security.context')->getToken()->getUser());
+            $this->getDoctrine()->getManager()->persist($notification);
+            $this->getDoctrine()->getManager()->flush();
+
             return $this->redirectToRoute('request_friend_index', array('id' => $request_friend->getId()));
         }
 
@@ -59,6 +71,17 @@ class RequestFriendController extends Controller
             $em->persist($request_friend);
             $em->flush();
 
+            $notification = new Notification();
+            $notification->setTitle(
+            "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
+            ." ha agregado la solicitud de amistad (id:".$request_friend->getId().")");
+            $notification->setType("add");
+            $notification->setEntity("requestFriend");
+            $notification->setEnvironment("Backend");
+            $notification->setUser($this->container->get('security.context')->getToken()->getUser());
+            $this->getDoctrine()->getManager()->persist($notification);
+            $this->getDoctrine()->getManager()->flush();
+
             return $this->redirectToRoute('request_friend_index');
         }
 
@@ -80,6 +103,17 @@ class RequestFriendController extends Controller
 
         $em->remove($request_friend) ;
         $em->flush();
+
+        $notification = new Notification();
+        $notification->setTitle(
+        "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
+        ." ha borrado la solicitud de amistad (id:".$request_friend->getId().")");
+        $notification->setType("delete");
+        $notification->setEntity("requestFriend");
+        $notification->setEnvironment("Backend");
+        $notification->setUser($this->container->get('security.context')->getToken()->getUser());
+        $this->getDoctrine()->getManager()->persist($notification);
+        $this->getDoctrine()->getManager()->flush();
 
         return $this->redirectToRoute('request_friend_index');
 

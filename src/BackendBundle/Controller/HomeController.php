@@ -8,9 +8,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 class HomeController extends Controller
 {
-    public function indexAction(Request $request)
+    public function statsAction(Request $request)
     {
-        return $this->render("home/index.html.twig");
+        return $this->render("home/stats.html.twig");
+    }
+
+    public function notificationAction(Request $request)
+    {
+        $con = $this->getDoctrine()->getManager();
+        $notification = $con->getRepository('BackendBundle:Notification')->findAll();
+
+        return $this->render('home/notification.html.twig', array('notification' => $notification));
     }
 
     public function redirectLoginAction(){

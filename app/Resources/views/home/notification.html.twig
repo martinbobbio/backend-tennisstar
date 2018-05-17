@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}Ver notificaciones{% endblock %}
+
+{% block page_title %}<h1 class="text-default">Notificaciones</h1>{% endblock %}
+
+{% block page_content %}
+
+    <style>
+        .left_col{
+            height:1300px;
+        }
+    </style>
+
+    <br><br>
+
+     <table id="example" class="display" cellspacing="0" width="100%" >
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Usuario</th>
+                <th>Acción</th>
+                <th>Entidad</th>
+                <th>Entorno</th>
+                <th>Fecha</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th>Id</th>
+                <th>Usuario</th>
+                <th>Acción</th>
+                <th>Entidad</th>
+                <th>Entorno</th>
+                <th>Fecha</th>
+                <th>Descripción</th>
+            </tr>
+        </tfoot>
+        <tbody>
+            {% for n in notification %}
+            <tr data-id="{{ n.id }}">
+                <td>{{ n.id }}</td>
+                <td>{{ n.user.username }}</td>
+                <td>{{ n.type }}</td>
+                <td>{{ n.entity }}</td>
+                <td>{{ n.environment }}</td>
+                <td>{{ n.createAt|date('Y-m-d H:i:s')}}</td>
+                <td>{{ n.title }}</td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+ 
+{% endblock %}

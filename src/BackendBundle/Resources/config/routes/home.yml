@@ -1,3 +1,7 @@
 home_index:
-  path: /home
-  defaults: { _controller: BackendBundle:Home:index }
+  path: /stats
+  defaults: { _controller: BackendBundle:Home:stats }
+
+notification_index:
+  path: /notification
+  defaults: { _controller: BackendBundle:Home:notification }

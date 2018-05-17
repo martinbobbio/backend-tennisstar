@@ -53,7 +53,7 @@
                 <td>{{ n.updateAt|date('Y-m-d H:i:s')}}</td>
                 <td>
                 <a href="{{ path('notice_edit', {id: n.id})}}" class="btn btn-xs btn-primary">Editar</a>
-                <a href="#" class="btn btn-xs btn-danger btn-delete">Eliminar</a>
+                <a href="{{ path('notice_delete', {id: n.id})}}" class="btn btn-xs btn-danger btn-delete">Eliminar</a>
                 <a href="{{ asset(n.imgSrc)}}" class="btn btn-xs btn-danger btn-success">Ver imagen</a>
                 {% if n.videoLink is not null %}
                 <a href="https://www.youtube.com/embed/{{n.videoLink}}" class="btn btn-xs btn-danger btn-success">Ver video</a>

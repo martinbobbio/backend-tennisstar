@@ -16,21 +16,19 @@
                         <span class="fa fa-angle-down"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-usermenu pull-right">
-                        <li><a href="#">Perfil</a></li>
+                        <li><a href="{{ path('user_show', {id: app.user.id})}}">Perfil</a></li>
                         {% if app.user.playerUser.imgSrc == null or app.user.playerUser.firstname == null or app.user.playerUser.lastname == null or app.user.playerUser.age == null %}
                         {% else %}
-                        <li><a href="{{ path('playerUser_edit', {id: app.user.id})}}">Editar perfil</a></li>
+                        <li><a href="{{ path('user_edit', {id: app.user.id})}}">Editar cuenta</a></li>
+                        <li><a href="{{ path('playerUser_edit', {id: app.user.id})}}">Editar datos personales</a></li>
+                        <li><a href="{{ path('skillUser_edit', {id: app.user.id})}}">Editar datos de juego</a></li>
                         {% endif %}
                         <li><a href="/web/app_dev.php/admin/logout"><i class="fa fa-sign-out pull-right"></i>Salir</a></li>
                     </ul>
                 </li>
                 <li class="">
-                    <a href="#" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        {% if app.user.playerUser.imgSrc == null or app.user.playerUser.firstname == null or app.user.playerUser.lastname == null or app.user.playerUser.age == null %}
-                        <span style="color:red" class="fa fa-bell"></span>
-                        {% else %}
+                    <a href="{{ path('notification_index') }}" class="user-profile" >
                         <span class="fa fa-bell"></span>
-                        {% endif %}
                     </a>
                     <ul class="dropdown-menu dropdown-usermenu pull-right">
                         {% if app.user.playerUser.imgSrc == null or app.user.playerUser.firstname == null or app.user.playerUser.lastname == null or app.user.playerUser.age == null %}

@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use BackendBundle\Entity\Score;
+use BackendBundle\Entity\Notification;
 
 class ScoreController extends Controller
 {
@@ -38,6 +39,17 @@ class ScoreController extends Controller
             $match->setStatus(1);
             $this->getDoctrine()->getManager()->flush();
 
+            $notification = new Notification();
+            $notification->setTitle(
+            "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
+            ." ha editado el score del partido (id:".$score->getId().")");
+            $notification->setType("edit");
+            $notification->setEntity("score");
+            $notification->setEnvironment("Backend");
+            $notification->setUser($this->container->get('security.context')->getToken()->getUser());
+            $this->getDoctrine()->getManager()->persist($notification);
+            $this->getDoctrine()->getManager()->flush();
+            
             return $this->redirectToRoute('match_index', array('id' => $score->getId()));
         }
 
@@ -64,6 +76,17 @@ class ScoreController extends Controller
             $em->persist($score);
             $em->flush();
 
+            $notification = new Notification();
+            $notification->setTitle(
+            "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
+            ." ha agregado el score del partido (id:".$score->getId().")");
+            $notification->setType("add");
+            $notification->setEntity("score");
+            $notification->setEnvironment("Backend");
+            $notification->setUser($this->container->get('security.context')->getToken()->getUser());
+            $this->getDoctrine()->getManager()->persist($notification);
+            $this->getDoctrine()->getManager()->flush();
+
             return $this->redirectToRoute('score_index');
         }
 
@@ -85,6 +108,17 @@ class ScoreController extends Controller
 
         $em->remove($score) ;
         $em->flush();
+
+        $notification = new Notification();
+        $notification->setTitle(
+        "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
+        ." ha borrado el score del partido (id:".$score->getId().")");
+        $notification->setType("delete");
+        $notification->setEntity("score");
+        $notification->setEnvironment("Backend");
+        $notification->setUser($this->container->get('security.context')->getToken()->getUser());
+        $this->getDoctrine()->getManager()->persist($notification);
+        $this->getDoctrine()->getManager()->flush();
 
         return $this->redirectToRoute('score_index');
 

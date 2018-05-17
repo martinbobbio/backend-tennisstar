@@ -23,7 +23,8 @@ class TournamentType extends AbstractType
     {
         $builder
         ->add('title', TextType::class, array('label'=> 'Nombre', 'required' => true,))
-        ->add('creator','entity',array('class' => 'BackendBundle:User','choice_label' => 'getUsername', 'label'=> 'Creador del partido'))
+        ->add('creator','entity',array('class' => 'BackendBundle:User','choice_label' => 'getUsername', 'label'=> 'Creador del torneo'))
+        ->add('googlePlaceId', TextType::class, array('label'=> 'Google Place Id', 'required' => true,))
         ->add('dateTournament', DateType::class, array(
             'widget' => 'single_text',
             'html5' => false,

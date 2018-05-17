@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use BackendBundle\Entity\Notice;
+use BackendBundle\Entity\Notification;
 
 class NoticeController extends Controller
 {
@@ -48,6 +49,17 @@ class NoticeController extends Controller
 
             $this->getDoctrine()->getManager()->flush();
 
+            $notification = new Notification();
+            $notification->setTitle(
+            "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
+            ." ha editado la noticia (id:".$notice->getId().")");
+            $notification->setType("edit");
+            $notification->setEntity("notice");
+            $notification->setEnvironment("Backend");
+            $notification->setUser($this->container->get('security.context')->getToken()->getUser());
+            $this->getDoctrine()->getManager()->persist($notification);
+            $this->getDoctrine()->getManager()->flush();
+
             return $this->redirectToRoute('notice_index', array('id' => $notice->getId()));
         }
 
@@ -85,6 +97,17 @@ class NoticeController extends Controller
             $em->persist($notice);
             $em->flush();
 
+            $notification = new Notification();
+            $notification->setTitle(
+            "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
+            ." ha agregado la noticia (id:".$notice->getId().")");
+            $notification->setType("add");
+            $notification->setEntity("notice");
+            $notification->setEnvironment("Backend");
+            $notification->setUser($this->container->get('security.context')->getToken()->getUser());
+            $this->getDoctrine()->getManager()->persist($notification);
+            $this->getDoctrine()->getManager()->flush();
+
             return $this->redirectToRoute('notice_index');
         }
 
@@ -104,20 +127,21 @@ class NoticeController extends Controller
         $form = $this->createCustomForm($notice->getId(),'DELETE', 'notice_delete');
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
-            
-            if($request->isXMLHttpRequest()){
-                
-                $em->remove($notice) ;
-                $em->flush();   
-                return new Response(json_encode(array('removed' => 1,'message' => 'Noticia borrado')),200, array('Content-Type' => 'application/json'));
-            }
+        $em->remove($notice);
+        $em->flush();
 
-            $em->remove($notice) ;
-            $em->flush();
+        $notification = new Notification();
+        $notification->setTitle(
+        "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
+        ." ha borrado la noticia (id:".$notice->getId().")");
+        $notification->setType("delete");
+        $notification->setEntity("notice");
+        $notification->setEnvironment("Backend");
+        $notification->setUser($this->container->get('security.context')->getToken()->getUser());
+        $this->getDoctrine()->getManager()->persist($notification);
+        $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('notice_index');
-        }
+        return $this->redirectToRoute('notice_index');
     }
 
     //---------------------FORMS------------------------------

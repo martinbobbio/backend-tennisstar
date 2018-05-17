@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use BackendBundle\Entity\SkillUser;
 use BackendBundle\Entity\User;
+use BackendBundle\Entity\Notification;
 
 class SkillUserController extends Controller
 {
@@ -22,6 +23,18 @@ class SkillUserController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
 
             $this->getDoctrine()->getManager()->flush();
+
+            $notification = new Notification();
+            $notification->setTitle(
+            "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
+            ." ha editado la informacion de juego (id:".$user->getSkillUser()->getId().")");
+            $notification->setType("edit");
+            $notification->setEntity("playerUser");
+            $notification->setEnvironment("Backend");
+            $notification->setUser($this->container->get('security.context')->getToken()->getUser());
+            $this->getDoctrine()->getManager()->persist($notification);
+            $this->getDoctrine()->getManager()->flush();
+
             return $this->redirectToRoute('user_index', array('id' => $user->getId()));
         }
 

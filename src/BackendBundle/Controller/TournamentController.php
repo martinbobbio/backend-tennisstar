@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use BackendBundle\Entity\Tournament;
 use BackendBundle\Entity\UserTournament;
+use BackendBundle\Entity\Notification;
 
 class TournamentController extends Controller
 {
@@ -39,6 +40,17 @@ class TournamentController extends Controller
                 $tournament->getDateHour()->format('i'))
             );
             
+            $this->getDoctrine()->getManager()->flush();
+
+            $notification = new Notification();
+            $notification->setTitle(
+            "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
+            ." ha editado el torneo (id:".$tournament->getId().")");
+            $notification->setType("edit");
+            $notification->setEntity("tournament");
+            $notification->setEnvironment("Backend");
+            $notification->setUser($this->container->get('security.context')->getToken()->getUser());
+            $this->getDoctrine()->getManager()->persist($notification);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('tournament_index', array('id' => $tournament->getId()));
@@ -84,6 +96,17 @@ class TournamentController extends Controller
             $em->persist($tournament);
             $em->flush();
 
+            $notification = new Notification();
+            $notification->setTitle(
+            "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
+            ." ha agregado el torneo (id:".$tournament->getId().")");
+            $notification->setType("add");
+            $notification->setEntity("tournament");
+            $notification->setEnvironment("Backend");
+            $notification->setUser($this->container->get('security.context')->getToken()->getUser());
+            $this->getDoctrine()->getManager()->persist($notification);
+            $this->getDoctrine()->getManager()->flush();
+
             return $this->redirectToRoute('tournament_index');
         }
 
@@ -119,6 +142,17 @@ class TournamentController extends Controller
         }
         $em->remove($tournament);
         $em->flush();
+
+        $notification = new Notification();
+        $notification->setTitle(
+        "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
+        ." ha borrado el torneo (id:".$tournament->getId().")");
+        $notification->setType("delete");
+        $notification->setEntity("tournament");
+        $notification->setEnvironment("Backend");
+        $notification->setUser($this->container->get('security.context')->getToken()->getUser());
+        $this->getDoctrine()->getManager()->persist($notification);
+        $this->getDoctrine()->getManager()->flush();
 
         return $this->redirectToRoute('tournament_index');
 
