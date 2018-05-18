@@ -11,6 +11,7 @@ use BackendBundle\Entity\RequestMatch;
 use BackendBundle\Entity\Match;
 use BackendBundle\Entity\Score;
 use BackendBundle\Entity\UserMatch;
+use BackendBundle\Entity\Notification;
 
 class RequestMatchController extends Controller
 {
@@ -74,6 +75,17 @@ class RequestMatchController extends Controller
 
         $em->persist($request_match);
         $em->flush();
+        
+        $notification = new Notification();
+        $notification->setTitle(
+        "El usuario ".$user_send->getUsername()
+        ." ha enviado una solicitud de partido(id:".$request_match->getId().")");
+        $notification->setType("add");
+        $notification->setEntity("requestMatch");
+        $notification->setEnvironment("Frontend");
+        $notification->setUser($user_send);
+        $this->getDoctrine()->getManager()->persist($notification);
+        $this->getDoctrine()->getManager()->flush();
 
         return ResponseRest::returnOk("ok");
 
@@ -116,7 +128,27 @@ class RequestMatchController extends Controller
             $em->persist($userMatch);
             $em->persist($userMatch_aux);
             $em->persist($request_match);
+            $notification = new Notification();
+            $notification->setTitle(
+            "El usuario ".$request_match->getUserSend()->getUsername()
+            ." ha aceptado la solicitud de partido (id:".$id_request_match.")");
+            $notification->setType("edit");
+            $notification->setEntity("requestMatch");
+            $notification->setEnvironment("Frontend");
+            $notification->setUser($request_match->getUserSend());
+            $this->getDoctrine()->getManager()->persist($notification);
+            $this->getDoctrine()->getManager()->flush();
             }else{
+                $notification = new Notification();
+                $notification->setTitle(
+                "El usuario ".$request_match->getUserSend()->getUsername()
+                ." ha rechazado la solicitud de partido (id:".$request_match->getId().")");
+                $notification->setType("delete");
+                $notification->setEntity("requestMatch");
+                $notification->setEnvironment("Frontend");
+                $notification->setUser($request_match->getUserSend());
+                $this->getDoctrine()->getManager()->persist($notification);
+                $this->getDoctrine()->getManager()->flush();
                 $em->remove($request_match);
         }
         $em->flush();

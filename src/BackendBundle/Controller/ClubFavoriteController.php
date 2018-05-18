@@ -41,7 +41,7 @@ class ClubFavoriteController extends Controller
         $notification = new Notification();
         $notification->setTitle(
         "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
-        ." ha borrado el club favorito (id:".$club->getId().")");
+        ." ha borrado el club favorito (id:".$id.")");
         $notification->setType("delete");
         $notification->setEntity("clubFavorite");
         $notification->setEnvironment("Backend");

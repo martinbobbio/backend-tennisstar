@@ -26,7 +26,7 @@ class HomeController extends Controller
         if($this->container->get('security.context')->getToken()->getUser() == "anon."){
             return $this->redirect('/web/app_dev.php/login');
         }else{
-            return $this->redirect('/web/app_dev.php/admin/home');
+            return $this->redirect('/web/app_dev.php/admin/stats');
         }
         
     }

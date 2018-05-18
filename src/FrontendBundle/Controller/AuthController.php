@@ -10,6 +10,7 @@ use FrontendBundle\Entity\ResponseRest;
 use BackendBundle\Entity\User;
 use BackendBundle\Entity\PlayerUser;
 use BackendBundle\Entity\SkillUser;
+use BackendBundle\Entity\Notification;
 
 class AuthController extends Controller
 {
@@ -80,6 +81,17 @@ class AuthController extends Controller
         $em->persist($userPlayer);
         $em->persist($skillUser);
         $em->flush();
+        
+        $notification = new Notification();
+        $notification->setTitle(
+        "El usuario ".$user->getUsername()
+        ." ha registrado con éxito (id:".$user->getId().")");
+        $notification->setType("add");
+        $notification->setEntity("user");
+        $notification->setEnvironment("Frontend");
+        $notification->setUser($user);
+        $this->getDoctrine()->getManager()->persist($notification);
+        $this->getDoctrine()->getManager()->flush();
 
         $arr = [];
         $arr["id"] = $user->getId();

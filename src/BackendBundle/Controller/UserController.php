@@ -149,7 +149,7 @@ class UserController extends Controller
             $notification = new Notification();
             $notification->setTitle(
             "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
-            ." ha borrado el usuario (id:".$user->getId().")");
+            ." ha borrado el usuario (id:".$id.")");
             $notification->setType("delete");
             $notification->setEntity("user");
             $notification->setEnvironment("Backend");

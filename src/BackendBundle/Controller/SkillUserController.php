@@ -29,7 +29,7 @@ class SkillUserController extends Controller
             "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
             ." ha editado la informacion de juego (id:".$user->getSkillUser()->getId().")");
             $notification->setType("edit");
-            $notification->setEntity("playerUser");
+            $notification->setEntity("skillUser");
             $notification->setEnvironment("Backend");
             $notification->setUser($this->container->get('security.context')->getToken()->getUser());
             $this->getDoctrine()->getManager()->persist($notification);

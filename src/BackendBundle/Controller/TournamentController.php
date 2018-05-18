@@ -146,7 +146,7 @@ class TournamentController extends Controller
         $notification = new Notification();
         $notification->setTitle(
         "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
-        ." ha borrado el torneo (id:".$tournament->getId().")");
+        ." ha borrado el torneo (id:".$id.")");
         $notification->setType("delete");
         $notification->setEntity("tournament");
         $notification->setEnvironment("Backend");

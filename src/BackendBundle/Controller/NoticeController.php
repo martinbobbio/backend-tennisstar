@@ -133,7 +133,7 @@ class NoticeController extends Controller
         $notification = new Notification();
         $notification->setTitle(
         "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
-        ." ha borrado la noticia (id:".$notice->getId().")");
+        ." ha borrado la noticia (id:".$id.")");
         $notification->setType("delete");
         $notification->setEntity("notice");
         $notification->setEnvironment("Backend");

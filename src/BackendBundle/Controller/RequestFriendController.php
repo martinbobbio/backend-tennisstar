@@ -107,7 +107,7 @@ class RequestFriendController extends Controller
         $notification = new Notification();
         $notification->setTitle(
         "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
-        ." ha borrado la solicitud de amistad (id:".$request_friend->getId().")");
+        ." ha borrado la solicitud de amistad (id:".$id.")");
         $notification->setType("delete");
         $notification->setEntity("requestFriend");
         $notification->setEnvironment("Backend");

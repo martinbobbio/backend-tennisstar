@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FrontendBundle\Entity\ResponseRest;
 use BackendBundle\Entity\User;
+use BackendBundle\Entity\Notification;
 use BackendBundle\Entity\ClubFavorite;
 
 class UserController extends Controller
@@ -35,6 +36,16 @@ class UserController extends Controller
 
         $em->persist($user);
         $em->flush();
+        $notification = new Notification();
+        $notification->setTitle(
+        "El usuario ".$user->getUsername()
+        ." ha completado su información personal(id:".$user->getId().")");
+        $notification->setType("edit");
+        $notification->setEntity("playerUser");
+        $notification->setEnvironment("Frontend");
+        $notification->setUser($user);
+        $this->getDoctrine()->getManager()->persist($notification);
+        $this->getDoctrine()->getManager()->flush();
 
         return ResponseRest::returnOk("ok");
 
@@ -70,6 +81,18 @@ class UserController extends Controller
 
         $em->persist($user);
         $em->flush();
+        
+        $em->flush();
+        $notification = new Notification();
+        $notification->setTitle(
+        "El usuario ".$user->getUsername()
+        ." ha completado su información de hablidades(id:".$user->getId().")");
+        $notification->setType("edit");
+        $notification->setEntity("skillUser");
+        $notification->setEnvironment("Frontend");
+        $notification->setUser($user);
+        $this->getDoctrine()->getManager()->persist($notification);
+        $this->getDoctrine()->getManager()->flush();
 
         return ResponseRest::returnOk("ok");
 

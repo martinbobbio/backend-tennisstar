@@ -112,7 +112,7 @@ class ScoreController extends Controller
         $notification = new Notification();
         $notification->setTitle(
         "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
-        ." ha borrado el score del partido (id:".$score->getId().")");
+        ." ha borrado el score del partido (id:".$id.")");
         $notification->setType("delete");
         $notification->setEntity("score");
         $notification->setEnvironment("Backend");

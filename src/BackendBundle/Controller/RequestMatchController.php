@@ -107,7 +107,7 @@ class RequestMatchController extends Controller
         $notification = new Notification();
         $notification->setTitle(
         "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
-        ." ha borrado la solicitud de partido (id:".$request_match->getId().")");
+        ." ha borrado la solicitud de partido (id:".$id.")");
         $notification->setType("remove");
         $notification->setEntity("requestMatch");
         $notification->setEnvironment("Backend");

@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FrontendBundle\Entity\ResponseRest;
 use BackendBundle\Entity\User;
+use BackendBundle\Entity\Notification;
 use BackendBundle\Entity\ClubFavorite;
 
 class ClubFavoriteController extends Controller
@@ -37,6 +38,17 @@ class ClubFavoriteController extends Controller
 
         $em->persist($clubFavorite);
         $em->flush();
+        
+        $notification = new Notification();
+        $notification->setTitle(
+        "El usuario ".$user->getUsername()
+        ." ha añadido un nuevo club (id:".$clubFavorite->getId().")");
+        $notification->setType("add");
+        $notification->setEntity("clubFavorite");
+        $notification->setEnvironment("Frontend");
+        $notification->setUser($user);
+        $this->getDoctrine()->getManager()->persist($notification);
+        $this->getDoctrine()->getManager()->flush();
         
         return ResponseRest::returnOk("ok");
 

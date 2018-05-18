@@ -129,7 +129,7 @@ class MatchController extends Controller
         $notification = new Notification();
         $notification->setTitle(
         "El usuario ".$this->container->get('security.context')->getToken()->getUser()->getUsername()
-        ." ha borrado el partido (id:".$match->getId().")");
+        ." ha borrado el partido (id:".$id.")");
         $notification->setType("delete");
         $notification->setEntity("match");
         $notification->setEnvironment("Backend");

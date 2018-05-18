@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use BackendBundle\Entity\Tournament;
 use BackendBundle\Entity\Score;
 use BackendBundle\Entity\UserTournament;
+use BackendBundle\Entity\Notification;
 use FrontendBundle\Entity\ResponseRest;
 
 class TournamentController extends Controller
@@ -102,6 +103,17 @@ class TournamentController extends Controller
         
         $em->persist($tournament);
         $em->flush();
+        
+        $notification = new Notification();
+        $notification->setTitle(
+        "El usuario ".$creator->getUsername()
+        ." ha creado un nuevo torneo(id:".$tournament->getId().")");
+        $notification->setType("add");
+        $notification->setEntity("tournament");
+        $notification->setEnvironment("Frontend");
+        $notification->setUser($creator);
+        $this->getDoctrine()->getManager()->persist($notification);
+        $this->getDoctrine()->getManager()->flush();
 
         return ResponseRest::returnOk("ok");
 

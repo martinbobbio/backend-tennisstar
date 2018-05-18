@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use BackendBundle\Entity\Match;
 use BackendBundle\Entity\Score;
 use BackendBundle\Entity\UserMatch;
+use BackendBundle\Entity\Notification;
 use FrontendBundle\Entity\ResponseRest;
 
 class MatchController extends Controller
@@ -129,6 +130,17 @@ class MatchController extends Controller
 
         $em->persist($userMatch);
         $em->flush();
+        
+        $notification = new Notification();
+        $notification->setTitle(
+        "El usuario ".$creator->getUsername()
+        ." ha creado un nuevo partido (id:".$match->getId().")");
+        $notification->setType("add");
+        $notification->setEntity("match");
+        $notification->setEnvironment("Frontend");
+        $notification->setUser($creator);
+        $this->getDoctrine()->getManager()->persist($notification);
+        $this->getDoctrine()->getManager()->flush();
 
         return ResponseRest::returnOk("ok");
 

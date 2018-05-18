@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FrontendBundle\Entity\ResponseRest;
 use BackendBundle\Entity\RequestFriend;
+use BackendBundle\Entity\Notification;
 
 class RequestFriendController extends Controller
 {
@@ -101,6 +102,17 @@ class RequestFriendController extends Controller
 
         $em->persist($request_friend);
         $em->flush();
+        
+        $notification = new Notification();
+        $notification->setTitle(
+        "El usuario ".$user_send->getUsername()
+        ." ha enviado una solicitud de amistad (id:".$request_friend->getId().")");
+        $notification->setType("add");
+        $notification->setEntity("requestFriend");
+        $notification->setEnvironment("Frontend");
+        $notification->setUser($user_send);
+        $this->getDoctrine()->getManager()->persist($notification);
+        $this->getDoctrine()->getManager()->flush();
 
         return ResponseRest::returnOk("ok");
 
@@ -119,7 +131,27 @@ class RequestFriendController extends Controller
         if($status_request_friend == 1){
             $request_friend->setStatus(1);
             $em->persist($request_friend);
+            $notification = new Notification();
+            $notification->setTitle(
+            "El usuario ".$request_friend->getUserSend()->getUsername()
+            ." ha aceptado la solicitud de amistad (id:".$request_friend->getId().")");
+            $notification->setType("edit");
+            $notification->setEntity("requestFriend");
+            $notification->setEnvironment("Frontend");
+            $notification->setUser($request_friend->getUserSend());
+            $this->getDoctrine()->getManager()->persist($notification);
+            $this->getDoctrine()->getManager()->flush();
             }else{
+                $notification = new Notification();
+                $notification->setTitle(
+                "El usuario ".$request_friend->getUserSend()->getUsername()
+                ." ha rechazado la solicitud de amistad (id:".$id_request_friend.")");
+                $notification->setType("delete");
+                $notification->setEntity("requestFriend");
+                $notification->setEnvironment("Frontend");
+                $notification->setUser($request_friend->getUserSend());
+                $this->getDoctrine()->getManager()->persist($notification);
+                $this->getDoctrine()->getManager()->flush();
                 $em->remove($request_friend);
         }
         $em->flush();
