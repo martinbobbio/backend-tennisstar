@@ -28,13 +28,16 @@ class AuthController extends Controller
         $encoder = $factory->getEncoder($user);
    
         $bool = ($encoder->isPasswordValid($user->getPassword(),$password,$user->getSalt())) ? "true" : "false";
+        $isAdmin=sizeof($user->getRoles());
 
         $arr = [];
         $arr["status"] = $bool;
+        if($isAdmin == 2){
+            $arr["isAdmin"] = 1;
+        }else{
+            $arr["isAdmin"] = 0;
+        }
         $arr["id"] = $user->getId();
-
-
-
 
         return ResponseRest::returnOk($arr);
 

@@ -2,3 +2,9 @@ frontend_get_notifications:
     path:     /get-notifications
     defaults: { _controller: "FrontendBundle:Notification:getNotifications" }
     methods:  GET
+
+frontend_get_notifications_by:
+    path:     /get-notifications-by
+    defaults: { _controller: "FrontendBundle:Notification:getNotificationsBy" }
+    methods:  POST
+

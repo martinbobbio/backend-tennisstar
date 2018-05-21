@@ -35,7 +35,7 @@ class MapController extends Controller
     }
 
     public function getClubAction(Request $request){
-        
+     
         header("Access-Control-Allow-Origin: *");
 
         $id_google_place = $request->get("id_google_place");
