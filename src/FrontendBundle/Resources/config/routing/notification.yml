@@ -8,3 +8,8 @@ frontend_get_notifications_by:
     defaults: { _controller: "FrontendBundle:Notification:getNotificationsBy" }
     methods:  POST
 
+frontend_get_stats:
+    path:   /get-stats
+    defaults: { _controller: "FrontendBundle:Notification:getStats" }
+    methods:  GET
+    

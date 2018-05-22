@@ -37,6 +37,44 @@ class NotificationController extends Controller
         return ResponseRest::returnOk($arr);
 
     }
+    
+    public function getStatsAction(){
+        
+        $userCount = $this->getDoctrine()->getEntityManager()
+        ->createQuery('SELECT COUNT(u) as cantidad FROM BackendBundle:User u'
+        )->getResult();
+        $noticesCount = $this->getDoctrine()->getEntityManager()
+        ->createQuery('SELECT COUNT(n) as cantidad FROM BackendBundle:Notice n'
+        )->getResult();
+        $matchCount = $this->getDoctrine()->getEntityManager()
+        ->createQuery('SELECT COUNT(m) as cantidad FROM BackendBundle:Match m'
+        )->getResult();
+        $matchSinglesCount = $this->getDoctrine()->getEntityManager()
+        ->createQuery("SELECT COUNT(m) as cantidad FROM BackendBundle:Match m where m.type = 'Singles'"
+        )->getResult();
+        $matchDoblesCount = $this->getDoctrine()->getEntityManager()
+        ->createQuery("SELECT COUNT(m) as cantidad FROM BackendBundle:Match m where m.type = 'Dobles'"
+        )->getResult();
+        $tournamentCount = $this->getDoctrine()->getEntityManager()
+        ->createQuery('SELECT COUNT(t) as cantidad FROM BackendBundle:Tournament t'
+        )->getResult();
+        $clubFavoriteCount = $this->getDoctrine()->getEntityManager()
+        ->createQuery('SELECT COUNT(c) as cantidad FROM BackendBundle:ClubFavorite c'
+        )->getResult();
+        
+        $arr['userCount'] = $userCount[0]["cantidad"];
+        $arr['matchCount'] = $matchCount[0]["cantidad"];
+        $arr['matchSinglesCount'] = $matchSinglesCount[0]["cantidad"];
+        $arr['matchDoblesCount'] = $matchDoblesCount[0]["cantidad"];
+        $arr['tournamentCount'] = $tournamentCount[0]["cantidad"];
+        $arr['noticeCount'] = $noticesCount[0]["cantidad"];
+        $arr['clubFavoriteCount'] = $clubFavoriteCount[0]["cantidad"];
+        
+        return ResponseRest::returnOk($arr);
+        
+        
+        
+    }
 
     public function getNotificationsByAction(Request $request){
 

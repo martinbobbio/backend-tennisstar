@@ -20,7 +20,7 @@
     <div class="row tile_count">
         <div class="col-xs-4 tile_stats_count">
             <span class="count_top"><i class="fa fa-user"></i> Total de usuarios</span>
-            <div class="count green animated pulse">20</div>
+            <div class="count green animated pulse">{{userCount.cantidad}}</div>
         </div>
     </div>
 
@@ -29,16 +29,44 @@
     <div class="row tile_count">
         <div class="col-xs-4 tile_stats_count">
             <span class="count_top">Total de partidos</span>
-            <div class="count green animated pulse">65</div>
+            <div class="count green animated pulse">{{matchCount.cantidad}}</div>
         </div>
         <div class="col-xs-4 tile_stats_count">
-            <span class="count_top">Total de partidos en <strong>estado jugado</strong></span>
-            <div class="count green animated pulse">60</div>
+            <span class="count_top">Total de partidos de Singles</span>
+            <div class="count green animated pulse">{{matchSinglesCount.cantidad}}</div>
         </div>
         <div class="col-xs-4 tile_stats_count">
-            <span class="count_top">Total de partidos en <strong>estado cancelado</strong></span>
-            <div class="count red animated pulse">5</div>
+            <span class="count_top">Total de partidos de Dobles</span>
+            <div class="count green animated pulse">{{matchDoblesCount.cantidad}}</div>
         </div>
     </div>
+    
+    <h4>Torneos</h4>
+
+    <div class="row tile_count">
+        <div class="col-xs-4 tile_stats_count">
+            <span class="count_top"><i class="fa fa-user"></i> Total de torneos</span>
+            <div class="count green animated pulse">{{tournamentCount.cantidad}}</div>
+        </div>
+    </div>
+    
+    <h4>Clubes</h4>
+
+    <div class="row tile_count">
+        <div class="col-xs-4 tile_stats_count">
+            <span class="count_top"><i class="fa fa-user"></i> Total de usuarios con clubes favoritos</span>
+            <div class="count green animated pulse">{{clubFavoriteCount.cantidad}}</div>
+        </div>
+    </div>
+    
+    <h4>Noticias</h4>
+
+    <div class="row tile_count">
+        <div class="col-xs-4 tile_stats_count">
+            <span class="count_top"><i class="fa fa-user"></i> Total de noticias</span>
+            <div class="count green animated pulse">{{noticesCount.cantidad}}</div>
+        </div>
+    </div>
+    
     </section>
 {% endblock %}
