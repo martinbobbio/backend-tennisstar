@@ -78,6 +78,72 @@ class MatchController extends Controller
         return ResponseRest::returnOk($arr);
 
     }
+    
+    
+    public function getAllMatchsAction(){
+        
+        header("Access-Control-Allow-Origin: *");
+
+        $match = $this->getDoctrine()->getEntityManager()
+        ->createQuery('SELECT m FROM BackendBundle:Match m 
+        WHERE m.status = :status_aux AND m.google_place_id IS NOT NULL AND m.lat IS NOT NULL AND m.lon IS NOT NULL'
+        )->setParameter('status_aux', 0)
+        ->getResult();
+
+        $arr = [];
+        $arr1 = [];
+
+        foreach($match as $m){
+
+            $players = $this->getDoctrine()->getEntityManager()
+            ->createQuery('SELECT um FROM BackendBundle:UserMatch um
+            WHERE um.match = :match'
+            )->setParameter('match', $m->getId())
+            ->getResult();
+            
+            $arr1['id'] = $m->getId();
+            $arr1['title'] = $m->getTitle();
+            $arr1['dateMatch'] = $m->getDateMatch();
+            $arr1['type'] = $m->getType();
+            $arr1['isPrivate'] = $m->getIsPrivate();
+            $arr1['googlePlaceId'] = $m->getGooglePlaceId();
+            $arr1['lat'] = $m->getLat();
+            $arr1['lon'] = $m->getLon();
+            $arr1['creator'] = $m->getCreator()->getUsername();
+            $arr1['date'] = $m->getDateMatch()->format('d/m/Y')." ".$m->getDateMatch()->format('h:i')."hs";
+            $arr1['player1AUsername'] = null; $arr1['player1AId'] = null;
+            $arr1['player1BUsername'] = null; $arr1['player1BId'] = null;
+            $arr1['player2AUsername'] = null; $arr1['player2AId'] = null;
+            $arr1['player2BUsername'] = null; $arr1['player2BId'] = null;
+
+            if(isset($players[0])){
+                if($players[0]->getUser() != null){
+                    $arr1['player1AUsername'] = $players[0]->getUser()->getUsername();
+                    $arr1['player1AId'] = $players[0]->getUser()->getId();
+                }
+                $arr1['id_um'] = $players[0]->getId();
+            }
+            if(isset($players[0]))
+                if($players[0]->getUser2() != null){
+                    $arr1['player1BUsername'] = $players[0]->getUser2()->getUsername();
+                    $arr1['player1BId'] = $players[0]->getUser2()->getId();
+                }
+            if(isset($players[1]))
+                if($players[1]->getUser() != null){
+                    $arr1['player2AUsername'] = $players[1]->getUser()->getUsername();
+                    $arr1['player2AId'] = $players[1]->getUser()->getId();
+                }
+            if(isset($players[1]))
+                if($players[1]->getUser2() != null){
+                    $arr1['player2BUsername'] = $players[1]->getUser2()->getUsername();
+                    $arr1['player2BId'] = $players[1]->getUser2()->getId();
+                }
+            
+            $arr[] = $arr1;
+        }
+        return ResponseRest::returnOk($arr);
+
+    }
 
 
     public function newMatchAction(Request $request){

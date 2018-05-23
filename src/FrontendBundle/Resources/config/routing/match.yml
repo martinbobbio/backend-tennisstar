@@ -7,6 +7,11 @@ frontend_get_matchs:
     path:     /get-matchs
     defaults: { _controller: "FrontendBundle:Match:getMatchs" }
     methods:  [POST]
+    
+frontend_get_all_matchs:
+    path:     /get-all-matchs
+    defaults: { _controller: "FrontendBundle:Match:getAllMatchs" }
+    methods:  GET
 
 frontend_new_match:
     path:     /new-match

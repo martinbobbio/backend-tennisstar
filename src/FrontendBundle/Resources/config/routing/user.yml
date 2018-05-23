@@ -27,6 +27,11 @@ frontend_get_user_random:
     path:     /get-user-random
     defaults: { _controller: "FrontendBundle:User:getUsersRandom" }
     methods:  [POST]
+    
+frontend_get_all_users:
+    path:     /get-all-users
+    defaults: { _controller: "FrontendBundle:User:getAllUsers" }
+    methods:  POST
 
 frontend_check_if_player:
     path:     /check-if-player/{id}

@@ -264,6 +264,62 @@ class UserController extends Controller
 
         return ResponseRest::returnOk($arr);
     }
+    
+    public function getAllUsersAction(Request $request){
+
+        header("Access-Control-Allow-Origin: *");
+
+        $id = $request->get("id");
+
+        $em = $this->getDoctrine()->getManager();
+        $users = $em->createQuery(
+        'SELECT u
+        FROM BackendBundle:User u
+        WHERE u.id != :id AND u.fullGame = 1
+        ')->setParameter('id', $id)
+        ->getResult();
+
+        $friends = $this->getDoctrine()->getEntityManager()
+        ->createQuery('SELECT f FROM BackendBundle:RequestFriend f 
+        WHERE (f.user_send = :id OR f.user_receive = :id)'
+        )->setParameter('id', $id)
+        ->getResult();
+
+        $arr = [];
+        $arr1 = [];
+
+        foreach($users as $u){
+
+            $userNoFriend = 0;
+
+            foreach($friends as $rf){
+                if($u->getId() != $rf->getUserReceive()->getId() && $u->getId() != $rf->getUserSend()->getId()){
+                    $userNoFriend++;
+                }
+            }
+            
+            $arr1['id'] = $u->getId();
+            $arr1['username'] = $u->getUsername();
+            if(sizeof($friends) == $userNoFriend){
+                $arr1['isFriend'] = 0;
+            }else{
+                $arr1['isFriend'] = 1;
+            }
+            
+            $arr1['firstname'] = $u->getPlayerUser()->getFirstname();
+            $arr1['lastname'] = $u->getPlayerUser()->getLastname();
+            $arr1['gameStyle'] = $u->getSkillUser()->getGameStyle();
+            $arr1['gameLevel'] = $u->getSkillUser()->getGameLevel();
+            if($u->getFullPlayer() == 1){
+                $arr1["path"] = $u->getPlayerUser()->getImgSrc();
+            
+            $arr[] = $arr1;
+            }
+            $userNoFriend = 0;
+        }
+
+        return ResponseRest::returnOk($arr);
+    }
 
     public function getProfileImageAction($id){
         $em = $this->getDoctrine()->getManager();

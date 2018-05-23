@@ -60,6 +60,56 @@ class TournamentController extends Controller
         return ResponseRest::returnOk($arr);
 
     }
+    
+    public function getTournamentsAction(){
+        
+        header("Access-Control-Allow-Origin: *");
+
+        $tournament = $this->getDoctrine()->getEntityManager()
+        ->createQuery('SELECT t FROM BackendBundle:Tournament t 
+        WHERE t.status = :status_aux AND t.google_place_id IS NOT NULL AND t.lat IS NOT NULL AND t.lon IS NOT NULL'
+        )->setParameter('status_aux', 0)
+        ->getResult();
+
+        $arr = [];
+        $arr1 = [];
+
+        foreach($tournament as $t){
+
+            $players = $this->getDoctrine()->getEntityManager()
+            ->createQuery('SELECT ut FROM BackendBundle:UserTournament ut
+            WHERE ut.tournament = :tournament'
+            )->setParameter('tournament', $t->getId())
+            ->getResult();
+            
+            $arr1['id'] = $t->getId();
+            $arr1['title'] = $t->getTitle();
+            $arr1['date'] = $t->getDateTournament()->format('d/m/Y')." ".$t->getDateTournament()->format('h:i')."hs";
+            $arr1['countTotal'] = $t->getCount();
+            $arr1['googlePlaceId'] = $t->getGooglePlaceId();
+            $arr1['creator'] = $t->getCreator()->getUsername();
+            $arr1['lat'] = $t->getLat();
+            $arr1['lon'] = $t->getLon();
+            
+            $countStatus = 0;
+            foreach($players as $p){
+                if($p->getTournament()->getCount() == 4 && $p->getInstance() == "Semifinal" && $p->getUser() != null){
+                    $countStatus++;
+                }
+                if($p->getTournament()->getCount() == 8 && $p->getInstance() == "Cuartos de final" && $p->getUser() != null){
+                    $countStatus++;
+                }
+                if($p->getTournament()->getCount() == 16 && $p->getInstance() == "Octavos de final" && $p->getUser() != null){
+                    $countStatus++;
+                }
+            }
+            $arr1['countStatus'] = $countStatus;
+
+            $arr[] = $arr1;
+        }
+        return ResponseRest::returnOk($arr);
+
+    }
 
 
     public function newTournamentAction(Request $request){
