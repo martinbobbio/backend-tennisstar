@@ -37,5 +37,10 @@ frontend_check_if_player:
     path:     /check-if-player/{id}
     defaults: { _controller: "FrontendBundle:User:checkIfPlayerUser" }
     methods:  [GET]
+    
+frontend_change_password:
+    path:     /change-password
+    defaults: { _controller: "FrontendBundle:User:changePassword" }
+    methods:  POST
 
 

@@ -322,6 +322,7 @@ class UserController extends Controller
     }
 
     public function getProfileImageAction($id){
+        
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('BackendBundle:User')->findOneById($id);
 
@@ -352,6 +353,55 @@ class UserController extends Controller
         }
 
         return ResponseRest::returnOk($arr);
+    }
+    
+    public function changePasswordAction(Request $request){
+
+        header("Access-Control-Allow-Origin: *");
+        
+        $em = $this->getDoctrine()->getManager();
+
+        $id_user = $request->get("id");
+        $newPass = $request->get("newPass");
+        $pass1 = $request->get("pass1");
+        $pass2 = $request->get("pass2");
+        
+        $user_aux = $em->getRepository('BackendBundle:User')->findOneById($id_user);
+        $user_manager = $this->get('fos_user.user_manager');
+        $user = $user_manager->loadUserByUsername($user_aux->getUsername());
+
+        $factory = $this->get('security.encoder_factory');
+        
+        $encoder = $factory->getEncoder($user);
+   
+        $bool1 = ($encoder->isPasswordValid($user->getPassword(),$pass1,$user->getSalt())) ? 1 : 0;
+        $bool2 = ($encoder->isPasswordValid($user->getPassword(),$pass2,$user->getSalt())) ? 1 : 0;
+        
+        dump($pass1);dump($pass2);dump($bool1);dump($bool2);die;
+
+        if($bool1 == 1 && $bool2 == 1){
+            
+            $user->setPassword($this->container->get('security.encoder_factory')->getEncoder($user)
+            ->encodePassword($newPass, $user->getSalt()));
+            $em->persist($user);
+            $em->flush();
+            
+            $notification = new Notification();
+            $notification->setTitle(
+            "El usuario ".$user->getUsername()
+            ." ha cambiado su contraseña(id:".$user->getId().")");
+            $notification->setType("edit");
+            $notification->setEntity("user");
+            $notification->setEnvironment("Frontend");
+            $notification->setUser($user);
+            $this->getDoctrine()->getManager()->persist($notification);
+            $this->getDoctrine()->getManager()->flush();
+            
+            return ResponseRest::returnOk(1);
+        }else{
+            return ResponseRest::returnOk(0);
+        }
+        
     }
 
 
