@@ -40,6 +40,13 @@ class UserMatch
 
     /**
      *
+     * @ORM\ManyToOne(targetEntity="Score")
+     * @ORM\JoinColumn(name="id_score", referencedColumnName="id")
+     */
+    private $score;
+
+    /**
+     *
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="id_user", referencedColumnName="id")
      */
@@ -130,6 +137,93 @@ class UserMatch
     {
         return $this->match;
     }
+
+    /**
+     * Set score
+     *
+     * @param Score $score
+     * @return Score
+     */
+    public function setScore($score)
+    {
+        $this->score = $score;
+
+        return $this;
+    }
+
+    /**
+     * Get score
+     *
+     * @return Score
+     */
+    public function getScore()
+    {
+        return $this->score;
+    }
+
+    
+
+
+    /**
+     * @var string
+     * @ORM\Column(name="finish", type="boolean", nullable=true)
+     */
+    private $finish;
+
+
+    /**
+     * Set finish
+     *
+     * @param string $finish
+     * @return User
+     */
+    public function setFinish($finish)
+    {
+        $this->finish = $finish;
+
+        return $this;
+    }
+
+    /**
+     * Get finish
+     *
+     * @return string 
+     */
+    public function getFinish()
+    {
+        return $this->finish;
+    }
+
+    /**
+     * @var string
+     * @ORM\Column(name="win", type="boolean", nullable=true)
+     */
+    private $win;
+
+
+    /**
+     * Set win
+     *
+     * @param string $win
+     * @return User
+     */
+    public function setWin($win)
+    {
+        $this->win = $win;
+
+        return $this;
+    }
+
+    /**
+     * Get win
+     *
+     * @return string 
+     */
+    public function getWin()
+    {
+        return $this->win;
+    }
+
 
 
 

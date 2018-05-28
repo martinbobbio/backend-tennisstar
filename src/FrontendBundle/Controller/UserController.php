@@ -377,8 +377,6 @@ class UserController extends Controller
         $bool1 = ($encoder->isPasswordValid($user->getPassword(),$pass1,$user->getSalt())) ? 1 : 0;
         $bool2 = ($encoder->isPasswordValid($user->getPassword(),$pass2,$user->getSalt())) ? 1 : 0;
         
-        dump($pass1);dump($pass2);dump($bool1);dump($bool2);die;
-
         if($bool1 == 1 && $bool2 == 1){
             
             $user->setPassword($this->container->get('security.encoder_factory')->getEncoder($user)

@@ -188,6 +188,41 @@ class User extends BaseUser
 
     /**
      * @var string
+     * @ORM\Column(name="points", type="integer", nullable=true)
+     */
+    private $points;
+
+
+    /**
+     * Set points
+     *
+     * @param string $points
+     * @return User
+     */
+    public function setPoints($points)
+    {
+        $this->points = $points;
+
+        return $this;
+    }
+
+    /**
+     * Get points
+     *
+     * @return string 
+     */
+    public function getPoints()
+    {
+        return $this->points;
+    }
+
+    public function addPoints($pointsNew){
+        $this->points += $pointsNew;
+    }
+
+
+    /**
+     * @var string
      * @ORM\Column(name="fullgame", type="boolean", nullable=true)
      */
     private $fullGame;

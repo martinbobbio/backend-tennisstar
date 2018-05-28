@@ -23,3 +23,8 @@ frontend_check_match:
     defaults: { _controller: "FrontendBundle:Match:checkMatch" }
     methods:  [POST]
 
+frontend_upload_match:
+    path:     /upload-score
+    defaults: { _controller: "FrontendBundle:Match:uploadScore" }
+    methods:  [POST]
+

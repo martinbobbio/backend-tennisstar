@@ -97,7 +97,7 @@ class MatchController extends Controller
 
             $players = $this->getDoctrine()->getEntityManager()
             ->createQuery('SELECT um FROM BackendBundle:UserMatch um
-            WHERE um.match = :match'
+            WHERE um.match = :match AND um.finish'
             )->setParameter('match', $m->getId())
             ->getResult();
             
@@ -265,6 +265,8 @@ class MatchController extends Controller
 
         foreach($match as $m){
 
+            if($m->getMatch()->getStatus() !== 1){
+
             $arr1['player1AUsername'] = "";
             $arr1['player1AId'] = null;
             $arr1['player1APath'] = null;
@@ -349,11 +351,139 @@ class MatchController extends Controller
                 $arr[] = $arr1;
         
             }
+
+        }
             
         }
 
         return ResponseRest::returnOk($arr);
         
+    }
+
+
+    public function uploadScoreAction(Request $request){
+
+        header("Access-Control-Allow-Origin: *");
+
+        $em = $this->getDoctrine()->getManager();
+
+        $id_user = $request->get("id_user");
+        $id_match = $request->get("id_match");
+        $set1a = $request->get("set1a");
+        $set1b = $request->get("set1b");
+        $set1c = $request->get("set1c");
+        $set2a = $request->get("set2a");
+        $set2b = $request->get("set2b");
+        $set2c = $request->get("set2c");
+        $win = $request->get("win");
+
+        $scoreWin = new Score();
+        $scoreLoss = new Score();
+
+        $scoreWin->setFirstSetJ1($set1a);
+        $scoreWin->setFirstSetJ2($set2a);
+        $scoreWin->setSecondSetJ1($set1b);
+        $scoreWin->setSecondSetJ2($set2b);
+        $scoreWin->setThirdSetJ1($set1c);
+        $scoreWin->setThirdSetJ2($set2c);
+        $scoreLoss->setFirstSetJ1($set2a);
+        $scoreLoss->setFirstSetJ2($set1a);
+        $scoreLoss->setSecondSetJ1($set2b);
+        $scoreLoss->setSecondSetJ2($set1b);
+        $scoreLoss->setThirdSetJ1($set2c);
+        $scoreLoss->setThirdSetJ2($set1c);
+
+        $em->persist($scoreWin);
+        $em->persist($scoreLoss);
+
+        $user = $em->getRepository('BackendBundle:User')->findOneById($id_user);
+
+        $user_match = $this->getDoctrine()->getEntityManager()
+        ->createQuery('SELECT m FROM BackendBundle:UserMatch m
+        WHERE m.match = :match'
+        )->setParameter('match', $id_match)->getResult();
+
+        foreach($user_match as $um){
+            
+            if($um->getUser() == $user || $um->getUser2() == $user){
+                $um->setFinish(1);
+                $um->setWin($win);
+                if($win){
+                    $um->setScore($scoreWin);
+                    $um->getUser()->addPoints(5);
+                    $this->notificationMatch($um->getUser(),1);
+                    if($um->getMatch()->getType() == "Dobles"){
+                        $um->getUser2()->addPoints(5);
+                        $this->notificationMatch($um->getUser2(),1);
+                    }
+                }else{
+                    $um->setScore($scoreLoss);
+                    $um->getUser()->addPoints(2);
+                    $this->notificationMatch($um->getUser(),0);
+                    if($um->getMatch()->getType() == "Dobles"){
+                        $um->getUser2()->addPoints(2);
+                        $this->notificationMatch($um->getUser2(),0);
+                    }
+                }
+            }else{
+                $um->setFinish(1);
+                $um->setWin(!$win);
+                if($win){
+                    $um->setScore($scoreLoss);
+                    $um->getUser()->addPoints(2);
+                    $this->notificationMatch($um->getUser(),0);
+                    if($um->getMatch()->getType() == "Dobles"){
+                        $um->getUser2()->addPoints(2);
+                        $this->notificationMatch($um->getUser2(),0);
+                    }
+                }else{
+                    $um->setScore($scoreWin);
+                    $um->getUser()->addPoints(5);
+                    $this->notificationMatch($um->getUser(),1);
+                    if($um->getMatch()->getType() == "Dobles"){
+                        $um->getUser2()->addPoints(5);
+                        $this->notificationMatch($um->getUser2(),1);
+                    }
+                }
+            }
+            $em->persist($um);
+        }
+
+        $match = $em->getRepository('BackendBundle:Match')->findOneById($id_match);
+
+        $match->setStatus(1);
+
+        
+        $em->persist($match);
+        $em->flush();
+
+        return ResponseRest::returnOk("ok");
+
+    }
+
+    private function notificationMatch($user,$win){
+
+        $winText;
+        $pointsText;
+
+        if($win == 1){
+            $winText = "ganado";
+            $pointsText = 5;
+        }else{
+            $winText = "perdido";
+            $pointsText = 2;
+        }
+
+        $notification = new Notification();
+        $notification->setTitle(
+        "El usuario ".$user->getUsername()
+        ." ha ".$winText." un partido amistoso (+".$pointsText." puntos de experiencia)");
+        $notification->setType("add");
+        $notification->setEntity("match");
+        $notification->setEnvironment("Frontend");
+        $notification->setUser($user);
+        $this->getDoctrine()->getManager()->persist($notification);
+        $this->getDoctrine()->getManager()->flush();
     }
 
 

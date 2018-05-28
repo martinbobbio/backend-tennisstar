@@ -32,7 +32,7 @@ class Score
 
     /**
      * @var string
-     * @ORM\Column(name="status", type="integer", length=2, nullable=false)
+     * @ORM\Column(name="status", type="integer", length=2, nullable=true)
      */
     private $status;
     
