@@ -320,6 +320,16 @@ class Score
      public function setUpdateAtValue(){
          $this->updateAt = new \DateTime();
      }
+     
+     
+     public function getScoreString(){
+         
+         if($this->third_set_j1 !== null && $this->third_set_j1 !== null){
+             return $this->first_set_j1."-".$this->first_set_j2." ".$this->second_set_j1."-".$this->second_set_j2." ".$this->third_set_j1."-".$this->third_set_j2;
+         }
+         
+         return $this->first_set_j1."-".$this->first_set_j2." ".$this->second_set_j1."-".$this->second_set_j2;
+     }
 
 
     

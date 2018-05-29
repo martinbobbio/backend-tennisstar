@@ -14,20 +14,30 @@ use FrontendBundle\Entity\ResponseRest;
 
 class MatchController extends Controller
 {
-    public function getMatchRandomAction(){
-        
-        header("Access-Control-Allow-Origin: *");
+    public function getMatchRandomAction(Request $request){
+
+        $em = $this->getDoctrine()->getManager();
+        $id_user = $request->get("id_user");
+        $user = $em->getRepository('BackendBundle:User')->findOneById($id_user);
 
         $match = $this->getDoctrine()->getEntityManager()
         ->createQuery('SELECT m FROM BackendBundle:Match m 
         WHERE m.status = :status_aux'
-        )->setParameter('status_aux', 0)->setMaxResults(3)
+        )->setParameter('status_aux', 0)->setMaxResults(20)
         ->getResult();
 
         $arr = [];
         $arr1 = [];
+        
+        $limit = 0;
 
         foreach($match as $m){
+            
+            if($limit == 3){
+                break;
+            }
+            
+            $exist = false;
 
             $players = $this->getDoctrine()->getEntityManager()
             ->createQuery('SELECT um FROM BackendBundle:UserMatch um
@@ -35,12 +45,14 @@ class MatchController extends Controller
             )->setParameter('match', $m->getId())
             ->getResult();
             
+                
             $arr1['id'] = $m->getId();
             $arr1['title'] = $m->getTitle();
             $arr1['dateMatch'] = $m->getDateMatch();
             $arr1['type'] = $m->getType();
             $arr1['isPrivate'] = $m->getIsPrivate();
             $arr1['creator'] = $m->getCreator()->getUsername();
+            $arr1['date'] = $m->getDateMatch()->format('d/m/Y')." ".$m->getDateMatch()->format('h:i')."hs";
             $arr1['player1AUsername'] = null; $arr1['player1AId'] = null; $arr1['player1APath'] = null;
             $arr1['player1BUsername'] = null; $arr1['player1BId'] = null; $arr1['player1BPath'] = null;
             $arr1['player2AUsername'] = null; $arr1['player2AId'] = null; $arr1['player2APath'] = null;
@@ -51,6 +63,9 @@ class MatchController extends Controller
                     $arr1['player1AUsername'] = $players[0]->getUser()->getUsername();
                     $arr1['player1AId'] = $players[0]->getUser()->getId();
                     $arr1['player1APath'] = $players[0]->getUser()->getPlayerUser()->getImgSrc();
+                    if($players[0]->getUser() == $user){
+                        $exist = true;
+                    }
                 }
                 $arr1['id_um'] = $players[0]->getId();
             }
@@ -59,21 +74,38 @@ class MatchController extends Controller
                     $arr1['player1BUsername'] = $players[0]->getUser2()->getUsername();
                     $arr1['player1BId'] = $players[0]->getUser2()->getId();
                     $arr1['player1BPath'] = $players[0]->getUser2()->getPlayerUser()->getImgSrc();
+                    if($players[0]->getUser2() == $user){
+                        $exist = true;
+                    }
                 }
             if(isset($players[1]))
                 if($players[1]->getUser() != null){
                     $arr1['player2AUsername'] = $players[1]->getUser()->getUsername();
                     $arr1['player2AId'] = $players[1]->getUser()->getId();
                     $arr1['player2APath'] = $players[1]->getUser()->getPlayerUser()->getImgSrc();
+                    if($players[1]->getUser() == $user){
+                        $exist = true;
+                    }
                 }
             if(isset($players[1]))
                 if($players[1]->getUser2() != null){
                     $arr1['player2BUsername'] = $players[1]->getUser2()->getUsername();
                     $arr1['player2BId'] = $players[1]->getUser2()->getId();
                     $arr1['player2BPath'] = $players[1]->getUser2()->getPlayerUser()->getImgSrc();
+                    if($players[1]->getUser2() == $user){
+                        $exist = true;
+                    }
                 }
+                
+            if(!$exist){
+                $arr[] = $arr1;
+                $limit++;
+            }
             
-            $arr[] = $arr1;
+            
+                
+            
+            
         }
         return ResponseRest::returnOk($arr);
 
@@ -97,11 +129,10 @@ class MatchController extends Controller
 
             $players = $this->getDoctrine()->getEntityManager()
             ->createQuery('SELECT um FROM BackendBundle:UserMatch um
-            WHERE um.match = :match AND um.finish'
+            WHERE um.match = :match AND um.finish IS NULL'
             )->setParameter('match', $m->getId())
             ->getResult();
             
-            $arr1['id'] = $m->getId();
             $arr1['title'] = $m->getTitle();
             $arr1['dateMatch'] = $m->getDateMatch();
             $arr1['type'] = $m->getType();
@@ -122,6 +153,7 @@ class MatchController extends Controller
                     $arr1['player1AId'] = $players[0]->getUser()->getId();
                 }
                 $arr1['id_um'] = $players[0]->getId();
+                $arr1['id_m'] = $players[0]->getMatch()->getId();
             }
             if(isset($players[0]))
                 if($players[0]->getUser2() != null){
@@ -236,12 +268,27 @@ class MatchController extends Controller
                 $em->flush();
                 return ResponseRest::returnOk("ok");
             }
+            if($userMatch[0]->getUser() == null){
+                $userMatch[0]->setUser($em->getRepository('BackendBundle:User')->findOneById($id_user));
+                $em->persist($userMatch[0]);
+                $em->flush();
+                return ResponseRest::returnOk("ok");
+            }
             if($userMatch[1]->getUser2() == null){
                 $userMatch[1]->setUser2($em->getRepository('BackendBundle:User')->findOneById($id_user));
                 $em->persist($userMatch[1]);
                 $em->flush();
                 return ResponseRest::returnOk("ok");
             }
+        }
+        if(isset($userMatch[0])){
+            $userMatchNew = new UserMatch();
+            $userMatchNew->setUser($em->getRepository('BackendBundle:User')->findOneById($id_user));
+            $userMatchNew->setUser2(null);
+            $userMatchNew->setMatch($userMatch[0]->getMatch());
+            $em->persist($userMatchNew);
+            $em->flush();
+            return ResponseRest::returnOk("ok");
         }
 
         return ResponseRest::returnOk("error");
@@ -407,9 +454,9 @@ class MatchController extends Controller
             
             if($um->getUser() == $user || $um->getUser2() == $user){
                 $um->setFinish(1);
-                $um->setWin($win);
                 if($win){
                     $um->setScore($scoreWin);
+                    $um->setWin(1);
                     $um->getUser()->addPoints(5);
                     $this->notificationMatch($um->getUser(),1);
                     if($um->getMatch()->getType() == "Dobles"){
@@ -418,6 +465,7 @@ class MatchController extends Controller
                     }
                 }else{
                     $um->setScore($scoreLoss);
+                    $um->setWin(0);
                     $um->getUser()->addPoints(2);
                     $this->notificationMatch($um->getUser(),0);
                     if($um->getMatch()->getType() == "Dobles"){
@@ -430,6 +478,7 @@ class MatchController extends Controller
                 $um->setWin(!$win);
                 if($win){
                     $um->setScore($scoreLoss);
+                    $um->setWin(0);
                     $um->getUser()->addPoints(2);
                     $this->notificationMatch($um->getUser(),0);
                     if($um->getMatch()->getType() == "Dobles"){
@@ -438,6 +487,7 @@ class MatchController extends Controller
                     }
                 }else{
                     $um->setScore($scoreWin);
+                    $um->setWin(1);
                     $um->getUser()->addPoints(5);
                     $this->notificationMatch($um->getUser(),1);
                     if($um->getMatch()->getType() == "Dobles"){

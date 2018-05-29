@@ -6,7 +6,7 @@ frontend_get_tournament_random:
 frontend_get_tournament:
     path:     /get-tournament/{id}
     defaults: { _controller: "FrontendBundle:Tournament:getTournament" }
-    methods:  GE
+    methods:  GET
     
 frontend_get_tournaments:
     path:     /get-tournaments

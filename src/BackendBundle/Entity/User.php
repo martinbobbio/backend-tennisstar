@@ -219,6 +219,32 @@ class User extends BaseUser
     public function addPoints($pointsNew){
         $this->points += $pointsNew;
     }
+    
+    public function getLevel(){
+        if($this->points > 3000){
+            return "Nivel 10 - Leyenda TennisStar (".$this->points." puntos)";
+        }else if($this->points > 1500){
+            return "Nivel 9 - Campeón TennisStar (".$this->points." puntos)";
+        }else if($this->points > 750){
+            return "Nivel 8 - Maestro TennisStar (".$this->points." puntos)";
+        }else if($this->points > 400){
+            return "Nivel 7 - Genio TennisStar (".$this->points." puntos)";
+        }else if($this->points > 200){
+            return "Nivel 6 - Jugador TennisStar (".$this->points." puntos)";
+        }else if($this->points > 100){
+            return "Nivel 5 - Promesa TennisStar (".$this->points." puntos)";
+        }else if($this->points > 50){
+            return "Nivel 4 - Futura promesa TennisStar (".$this->points." puntos)";
+        }else if($this->points > 20){
+            return "Nivel 3 - Experimentado TennisStar (".$this->points." puntos)";
+        }else if($this->points > 5){
+            return "Nivel 2 - Aprendiz TennisStar (".$this->points." puntos)";
+        }else if($this->points > 0){
+            return "Nivel 1 - Principiante TennisStar (".$this->points." puntos)";
+        }else if($this->points == null){
+            return "Aún no ha participado en ningún partido o torneo";
+        }
+    }
 
 
     /**

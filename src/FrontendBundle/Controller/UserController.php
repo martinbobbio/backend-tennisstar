@@ -112,6 +112,10 @@ class UserController extends Controller
         $friends = $this->getDoctrine()->getEntityManager()
         ->createQuery('SELECT f FROM BackendBundle:RequestFriend f WHERE (f.user_send = :user OR f.user_receive = :user) AND f.status = 1'
         )->setParameter('user', $id )->getResult();
+        
+        $userMatch = $this->getDoctrine()->getEntityManager()
+        ->createQuery('SELECT um FROM BackendBundle:UserMatch um WHERE (um.user = :user or um.user2 = :user) and um.finish = 1'
+        )->setParameter('user', $id )->getResult();
 
         $arr = [];
         $arr["id"] = $user->getId();
@@ -129,6 +133,7 @@ class UserController extends Controller
         $arr["service"] = $user->getSkillUser()->getService();
         $arr["volley"] = $user->getSkillUser()->getVolley();
         $arr["resistence"] = $user->getSkillUser()->getResistence();
+        $arr["level"] = $user->getLevel();
         if($club_favorite != null){
             $arr["googlePlaceId"] = $club_favorite->getGooglePlaceId();
         }
@@ -159,6 +164,100 @@ class UserController extends Controller
                 $arr_aux[] = $arr1;
             }
             $arr["friends"] = $arr_aux;
+        }
+        if($userMatch != null){
+            $arr_aux = [];
+            $arr1 = [];
+            
+            $countSinglesWin = 0;
+            $countDoblesWin = 0;
+            $countSinglesLoss = 0;
+            $countDoblesLoss = 0;
+            
+            foreach($userMatch as $um){
+    
+                $arr1['id'] = $um->getId();
+                $arr1['win'] = $um->getWin();
+                $arr1['matchType'] = $um->getMatch()->getType();
+                $arr1['matchTitle'] = $um->getMatch()->getTitle();
+                $arr1['score'] = $um->getScore()->getScoreString();
+                
+                if($um->getWin() == 1){
+                    if($um->getMatch()->getType() == "Singles"){
+                        $countSinglesWin += 1;
+                    }else if ($um->getMatch()->getType() == "Dobles"){
+                        $countDoblesWin++;
+                    }
+                }else{
+                    if($um->getMatch()->getType() == "Singles"){
+                        $countSinglesLoss++;
+                    }else if ($um->getMatch()->getType() == "Dobles"){
+                        $countDoblesLoss++;
+                    }
+                }
+                
+                $userMatchAux = $this->getDoctrine()->getEntityManager()
+                ->createQuery('SELECT um FROM BackendBundle:UserMatch um WHERE um.match = :match'
+                 )->setParameter('match', $um->getMatch() )->getResult();
+                 
+                 if($userMatchAux[0]->getUser() == $user && $userMatchAux[0]->getMatch()->getType() == "Singles" ){
+                     $arr1['team1a'] = $userMatchAux[0]->getUser()->getUsername();
+                     $arr1['team1aId'] = $userMatchAux[0]->getUser()->getId();
+                     $arr1['team2a'] = $userMatchAux[1]->getUser()->getUsername();
+                     $arr1['team2aId'] = $userMatchAux[1]->getUser()->getId();
+                 }else{
+                     $arr1['team2a'] = $userMatchAux[1]->getUser()->getUsername();
+                     $arr1['team2a'] = $userMatchAux[0]->getUser()->getUsername();
+                     $arr1['team2aId'] = $userMatchAux[1]->getUser()->getId();
+                     $arr1['team2aId'] = $userMatchAux[0]->getUser()->getId();
+                 }
+                 
+                 if($userMatchAux[0]->getUser() == $user && $userMatchAux[0]->getMatch()->getType() == "Dobles" ){
+                     $arr1['team1a'] = $userMatchAux[0]->getUser()->getUsername();
+                     $arr1['team1b'] = $userMatchAux[0]->getUser2()->getUsername();
+                     $arr1['team2a'] = $userMatchAux[1]->getUser()->getUsername();
+                     $arr1['team2b'] = $userMatchAux[1]->getUser2()->getUsername();
+                     $arr1['team1aId'] = $userMatchAux[0]->getUser()->getId();
+                     $arr1['team1bId'] = $userMatchAux[0]->getUser2()->getId();
+                     $arr1['team2aId'] = $userMatchAux[1]->getUser()->getId();
+                     $arr1['team2bId'] = $userMatchAux[1]->getUser2()->getId();
+                 }else if($userMatchAux[0]->getUser2() == $user && $userMatchAux[0]->getMatch()->getType() == "Dobles" ){
+                     $arr1['team1a'] = $userMatchAux[0]->getUser2()->getUsername();
+                     $arr1['team1b'] = $userMatchAux[0]->getUser()->getUsername();
+                     $arr1['team2a'] = $userMatchAux[1]->getUser()->getUsername();
+                     $arr1['team2b'] = $userMatchAux[1]->getUser2()->getUsername();
+                     $arr1['team1aId'] = $userMatchAux[0]->getUser2()->getId();
+                     $arr1['team1bId'] = $userMatchAux[0]->getUser()->getId();
+                     $arr1['team2aId'] = $userMatchAux[1]->getUser()->getId();
+                     $arr1['team2bId'] = $userMatchAux[1]->getUser2()->getId();
+                 }else if($userMatchAux[1]->getUser() == $user && $userMatchAux[1]->getMatch()->getType() == "Dobles" ){
+                     $arr1['team1a'] = $userMatchAux[1]->getUser()->getUsername();
+                     $arr1['team1b'] = $userMatchAux[1]->getUser2()->getUsername();
+                     $arr1['team2a'] = $userMatchAux[0]->getUser()->getUsername();
+                     $arr1['team2b'] = $userMatchAux[0]->getUser2()->getUsername();
+                     $arr1['team1aId'] = $userMatchAux[1]->getUser()->getId();
+                     $arr1['team1bId'] = $userMatchAux[1]->getUser2()->getId();
+                     $arr1['team2aId'] = $userMatchAux[0]->getUser()->getId();
+                     $arr1['team2bId'] = $userMatchAux[0]->getUser2()->getId();
+                 }else if($userMatchAux[1]->getUser2() == $user && $userMatchAux[1]->getMatch()->getType() == "Dobles" ){
+                     $arr1['team1a'] = $userMatchAux[1]->getUser2()->getUsername();
+                     $arr1['team1b'] = $userMatchAux[1]->getUser()->getUsername();
+                     $arr1['team2a'] = $userMatchAux[0]->getUser()->getUsername();
+                     $arr1['team2b'] = $userMatchAux[0]->getUser2()->getUsername();
+                     $arr1['team1aId'] = $userMatchAux[1]->getUser2()->getId();
+                     $arr1['team1bId'] = $userMatchAux[1]->getUser()->getId();
+                     $arr1['team2aId'] = $userMatchAux[0]->getUser()->getId();
+                     $arr1['team2bId'] = $userMatchAux[0]->getUser2()->getId();
+                 }
+                 
+                $arr_aux[] = $arr1;
+                
+            }
+            $arr["countSinglesWin"] = $countSinglesWin;
+            $arr["countDoblesWin"] = $countDoblesWin;
+            $arr["countSinglesLoss"] = $countSinglesLoss;
+            $arr["countDoblesLoss"] = $countDoblesLoss;
+            $arr["userMatch"] = $arr_aux;
         }
         $requestfriend = $this->getDoctrine()->getEntityManager()
         ->createQuery('SELECT f FROM BackendBundle:RequestFriend f WHERE (f.user_send = :user OR f.user_receive = :user) AND f.status IS NULL'
@@ -310,6 +409,65 @@ class UserController extends Controller
             $arr1['lastname'] = $u->getPlayerUser()->getLastname();
             $arr1['gameStyle'] = $u->getSkillUser()->getGameStyle();
             $arr1['gameLevel'] = $u->getSkillUser()->getGameLevel();
+            $arr1['level'] = $u->getLevel();
+            if($u->getFullPlayer() == 1){
+                $arr1["path"] = $u->getPlayerUser()->getImgSrc();
+            
+            $arr[] = $arr1;
+            }
+            $userNoFriend = 0;
+        }
+
+        return ResponseRest::returnOk($arr);
+    }
+    
+    public function getAllUsersFilterAction(Request $request){
+
+        header("Access-Control-Allow-Origin: *");
+
+        $id = $request->get("id");
+        $filter = $request->get("filter");
+
+        $em = $this->getDoctrine()->getManager();
+        $users = $em->createQuery(
+        'SELECT u
+        FROM BackendBundle:User u
+        WHERE u.id != :id AND u.fullGame = 1 AND u.username LIKE :filter
+        ')->setParameter('id', $id)->setParameter('filter', "%".$filter."%")
+        ->getResult();
+
+        $friends = $this->getDoctrine()->getEntityManager()
+        ->createQuery('SELECT f FROM BackendBundle:RequestFriend f 
+        WHERE (f.user_send = :id OR f.user_receive = :id)'
+        )->setParameter('id', $id)
+        ->getResult();
+
+        $arr = [];
+        $arr1 = [];
+
+        foreach($users as $u){
+
+            $userNoFriend = 0;
+
+            foreach($friends as $rf){
+                if($u->getId() != $rf->getUserReceive()->getId() && $u->getId() != $rf->getUserSend()->getId()){
+                    $userNoFriend++;
+                }
+            }
+            
+            $arr1['id'] = $u->getId();
+            $arr1['username'] = $u->getUsername();
+            if(sizeof($friends) == $userNoFriend){
+                $arr1['isFriend'] = 0;
+            }else{
+                $arr1['isFriend'] = 1;
+            }
+            
+            $arr1['firstname'] = $u->getPlayerUser()->getFirstname();
+            $arr1['lastname'] = $u->getPlayerUser()->getLastname();
+            $arr1['gameStyle'] = $u->getSkillUser()->getGameStyle();
+            $arr1['gameLevel'] = $u->getSkillUser()->getGameLevel();
+            $arr1['level'] = $u->getLevel();
             if($u->getFullPlayer() == 1){
                 $arr1["path"] = $u->getPlayerUser()->getImgSrc();
             
