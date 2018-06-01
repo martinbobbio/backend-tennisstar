@@ -296,6 +296,8 @@ class UserController extends Controller
         header("Access-Control-Allow-Origin: *");
 
         $id = $request->get("id");
+
+        if($id !== "0"){
         
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository('BackendBundle:User')->findOneById($id);
@@ -308,6 +310,10 @@ class UserController extends Controller
         }
 
         return ResponseRest::returnOk($arr);
+        
+        }else{
+            return ResponseRest::returnOk("not found");
+        }
     }
 
     public function getUsersRandomAction(Request $request){

@@ -4,9 +4,9 @@ frontend_get_tournament_random:
     methods:  GET
 
 frontend_get_tournament:
-    path:     /get-tournament/{id}
+    path:     /get-tournament
     defaults: { _controller: "FrontendBundle:Tournament:getTournament" }
-    methods:  GET
+    methods:  POST
     
 frontend_get_tournaments:
     path:     /get-tournaments
@@ -17,3 +17,18 @@ frontend_new_tournament:
     path:     /new-tournament
     defaults: { _controller: "FrontendBundle:Tournament:newTournament" }
     methods:  POST
+    
+frontend_get_my_tournaments:
+    path:     /get-my-tournaments
+    defaults: { _controller: "FrontendBundle:Tournament:getMyTournaments" }
+    methods:  POST
+    
+frontend_inscription:
+    path:     /inscription
+    defaults: { _controller: "FrontendBundle:Tournament:inscription" }
+    methods:  POST
+    
+frontend_upload_tournament:
+    path:     /upload-score
+    defaults: { _controller: "FrontendBundle:Tournament:uploadScore" }
+    methods:  [POST]

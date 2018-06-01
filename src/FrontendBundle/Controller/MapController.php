@@ -17,7 +17,7 @@ class MapController extends Controller
         $latitud = $request->get("lat");
         $longitud = $request->get("lon");
 
-        $url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=".$latitud.",".$longitud."&radius=5000&name=tenis&key=AIzaSyAQZGWfnDR3C28jqGEiJqEQT4BvTXRy_bM";
+        $url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=".$latitud.",".$longitud."&radius=5000&name=tenis&key=AIzaSyAhPtTAhzM__YAfQI1Cyg_QY6Ox-lF8Yks";
         
         $arrContextOptions=array(
             "ssl"=>array(
@@ -40,7 +40,7 @@ class MapController extends Controller
 
         $id_google_place = $request->get("id_google_place");
 
-        $url = "https://maps.googleapis.com/maps/api/place/details/json?placeid=".$id_google_place."&key=AIzaSyAQZGWfnDR3C28jqGEiJqEQT4BvTXRy_bM";
+        $url = "https://maps.googleapis.com/maps/api/place/details/json?placeid=".$id_google_place."&key=AIzaSyAhPtTAhzM__YAfQI1Cyg_QY6Ox-lF8Yks";
         
         $arrContextOptions=array(
             "ssl"=>array(

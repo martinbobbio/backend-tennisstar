@@ -326,7 +326,7 @@ class MatchController extends Controller
             $arr1['player2BUsername'] = "";
             $arr1['player2BId'] = null;
             $arr1['player2BPath'] = null;
-
+    
             if($m->getMatch()->getType() == "Singles" && $m->getUser() != null){
                 $match_aux = $this->getDoctrine()->getEntityManager()
                 ->createQuery('SELECT m FROM BackendBundle:UserMatch m
@@ -357,7 +357,7 @@ class MatchController extends Controller
                     $arr[] = $arr1;
                 }
 
-            }else if($m->getMatch()->getType() == "Dobles" && $m->getUser() != null){
+            }else if($m->getMatch()->getType() == "Dobles"){
                 $match_aux = $this->getDoctrine()->getEntityManager()
                 ->createQuery('SELECT m FROM BackendBundle:UserMatch m
                 WHERE m.match = :match')->setParameter('match', $m->getMatch()->getId())->getResult();

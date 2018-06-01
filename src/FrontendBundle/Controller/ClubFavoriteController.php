@@ -76,7 +76,7 @@ class ClubFavoriteController extends Controller
 
         foreach ($clubs as $c) {
 
-            $url = "https://maps.googleapis.com/maps/api/place/details/json?placeid=".$c["google_place_id"]."&key=AIzaSyAQZGWfnDR3C28jqGEiJqEQT4BvTXRy_bM";
+            $url = "https://maps.googleapis.com/maps/api/place/details/json?placeid=".$c["google_place_id"]."&key=AIzaSyAhPtTAhzM__YAfQI1Cyg_QY6Ox-lF8Yks";
             $json = file_get_contents($url, false, stream_context_create($arrContextOptions));
             $json_data = json_decode($json, true);
 
