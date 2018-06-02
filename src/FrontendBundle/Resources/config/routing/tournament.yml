@@ -17,6 +17,11 @@ frontend_new_tournament:
     path:     /new-tournament
     defaults: { _controller: "FrontendBundle:Tournament:newTournament" }
     methods:  POST
+
+frontend_get_tournament_by_user:
+    path:     /get-tournament-by-user
+    defaults: { _controller: "FrontendBundle:Tournament:getTournamentByUser" }
+    methods:  POST
     
 frontend_get_my_tournaments:
     path:     /get-my-tournaments
@@ -26,6 +31,11 @@ frontend_get_my_tournaments:
 frontend_inscription:
     path:     /inscription
     defaults: { _controller: "FrontendBundle:Tournament:inscription" }
+    methods:  POST
+
+frontend_leave:
+    path:     /leave
+    defaults: { _controller: "FrontendBundle:Tournament:leave" }
     methods:  POST
     
 frontend_upload_tournament:

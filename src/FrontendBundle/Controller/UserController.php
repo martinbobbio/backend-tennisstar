@@ -117,6 +117,10 @@ class UserController extends Controller
         ->createQuery('SELECT um FROM BackendBundle:UserMatch um WHERE (um.user = :user or um.user2 = :user) and um.finish = 1'
         )->setParameter('user', $id )->getResult();
 
+        $userTournament = $this->getDoctrine()->getEntityManager()
+        ->createQuery('SELECT ut FROM BackendBundle:UserTournament ut WHERE ut.user = :user'
+        )->setParameter('user', $id )->getResult();
+
         $arr = [];
         $arr["id"] = $user->getId();
         $arr["username"] = $user->getUsername();
@@ -165,6 +169,89 @@ class UserController extends Controller
             }
             $arr["friends"] = $arr_aux;
         }
+        if($userTournament != null){
+            $arr1 = [];
+            $arr_aux = [];
+
+            $smallSemis = 0;
+            $smallFinal = 0;
+            $smallChampion = 0;
+            $mediumCuartos = 0;
+            $mediumSemis = 0;
+            $mediumFinal = 0;
+            $mediumChampion = 0;
+            $bigOctavos = 0;
+            $bigCuartos = 0;
+            $bigSemis = 0;
+            $bigFinal = 0;
+            $bigChampion = 0;
+
+            foreach($userTournament as $ut){
+                if($ut->getWin() != null){
+                    $arr1['id'] = $ut->getTournament()->getId();
+                    $arr1['win'] = $ut->getWin();
+                    $arr1['title'] = $ut->getTournament()->getTitle();
+                    $arr1['instance'] = $ut->getInstance();
+                    $arr1['score'] = $ut->getScore()->getScoreString();
+                    if($ut->getTournament()->getCount() == 4){
+                        if($ut->getInstance() == "Semifinal"){
+                            $smallSemis++;
+                        }
+                        if($ut->getInstance() == "Final"){
+                            $smallFinal++;
+                            if($ut->getWin() == 1){
+                                $smallChampion++;
+                            }
+                        }
+                    }
+                    if($ut->getTournament()->getCount() == 8){
+                        if($ut->getInstance() == "Cuartos de final"){
+                            $mediumCuartos++;
+                        }
+                        if($ut->getInstance() == "Semifinal"){
+                            $mediumSemis++;
+                        }
+                        if($ut->getInstance() == "Final"){
+                            $mediumFinal++;
+                            if($ut->getWin() == 1){
+                                $mediumChampion++;
+                            }
+                        }
+                    }
+                    if($ut->getTournament()->getCount() == 16){
+                        if($ut->getInstance() == "Octavos de final"){
+                            $bigOctavos++;
+                        }
+                        if($ut->getInstance() == "Cuartos de final"){
+                            $bigCuartos++;
+                        }
+                        if($ut->getInstance() == "Semifinal"){
+                            $bigSemis++;
+                        }
+                        if($ut->getInstance() == "Final"){
+                            $bigFinal++;
+                            if($ut->getWin() == 1){
+                                $bigChampion++;
+                            }
+                        }
+                    }
+                    $arr_aux[] = $arr1;
+                }
+            }
+            $arr["smallSemis"] = $smallSemis;
+            $arr["smallFinal"] = $smallFinal;
+            $arr["smallChampion"] = $smallChampion;
+            $arr["mediumCuartos"] = $mediumCuartos;
+            $arr["mediumSemis"] = $mediumSemis;
+            $arr["mediumFinal"] = $mediumFinal;
+            $arr["mediumChampion"] = $mediumChampion;
+            $arr["bigOctavos"] = $bigOctavos;
+            $arr["bigCuartos"] = $bigCuartos;
+            $arr["bigSemis"] = $bigSemis;
+            $arr["bigFinal"] = $bigFinal;
+            $arr["bigChampion"] = $bigChampion;
+        }
+        $arr["tournaments"] = $arr_aux;
         if($userMatch != null){
             $arr_aux = [];
             $arr1 = [];
