@@ -19,9 +19,11 @@ class UploadListener
     
     public function onUpload(PostPersistEvent $event)
     {
-
         $request_file = $event->getFile();
         $request = $event->getRequest();
+        $extension = strtolower($request_file->getExtension());
+
+        if($extension == "jpg" || $extension == "png" || $extension == "jpeg"){
 
         $response = $event->getResponse();
         $response['success'] = true;
@@ -29,9 +31,12 @@ class UploadListener
         array(
             "type" => $request_file->getMimeType(),
             "path" => $request_file->getFileName()
-        )
-        );
-        return $response;
+        ));
+        return "ok";
+
+        }else{
+            return "error";
+        }
     }
 
 

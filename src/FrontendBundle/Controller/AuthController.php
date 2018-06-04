@@ -27,7 +27,7 @@ class AuthController extends Controller
         $user = $user_manager->loadUserByUsername($username);
         $encoder = $factory->getEncoder($user);
    
-        $bool = ($encoder->isPasswordValid($user->getPassword(),$password,$user->getSalt())) ? "true" : "false";
+        $bool = ($encoder->isPasswordValid($user->getPassword(),$password,$user->getSalt())) ? true : false;
         $isAdmin=sizeof($user->getRoles());
 
         $arr = [];

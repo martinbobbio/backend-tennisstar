@@ -31,7 +31,12 @@ class HomeController extends Controller
         $clubFavoriteCount = $this->getDoctrine()->getEntityManager()
         ->createQuery('SELECT COUNT(c) as cantidad FROM BackendBundle:ClubFavorite c'
         )->getResult();
+
+        //$mailer = $container->get('mailer');
+        $message = new \Swift_Message();
+        $message->setSubject('Bienvenido a tennisstar')->setFrom(['no-reply@tennisstar.com' => 'Tennisstar'])->setTo("martinbobbio1@gmail.com")->setBody("xDD",'text/html');
         
+        $this->get('mailer')->send($message);
         return $this->render("home/stats.html.twig", array(
             'userCount' => $userCount[0],
             'noticesCount' => $noticesCount[0],
