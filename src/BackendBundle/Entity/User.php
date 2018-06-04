@@ -184,6 +184,36 @@ class User extends BaseUser
     {
         return $this->fullPlayer;
     }
+    
+    /**
+     * @var string
+     * @ORM\Column(name="passwordreset", type="integer", nullable=true)
+     */
+    private $passwordreset;
+
+
+    /**
+     * Set passwordreset
+     *
+     * @param string $passwordreset
+     * @return User
+     */
+    public function setPasswordreset($passwordreset)
+    {
+        $this->passwordreset = $passwordreset;
+
+        return $this;
+    }
+
+    /**
+     * Get passwordreset
+     *
+     * @return string 
+     */
+    public function getPasswordreset()
+    {
+        return $this->passwordreset;
+    }
 
 
     /**

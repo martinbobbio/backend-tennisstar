@@ -20,8 +20,8 @@ class TournamentController extends Controller
 
         $tournament = $this->getDoctrine()->getEntityManager()
         ->createQuery('SELECT t FROM BackendBundle:Tournament t 
-        WHERE t.status = :status_aux'
-        )->setParameter('status_aux', 0)->setMaxResults(3)
+        WHERE t.status = :status_aux AND t.dateTournament > :today'
+        )->setParameter('status_aux', 0)->setParameter('today', new \DateTime())->setMaxResults(3)
         ->getResult();
 
         $arr = [];
@@ -67,8 +67,8 @@ class TournamentController extends Controller
 
         $tournament = $this->getDoctrine()->getEntityManager()
         ->createQuery('SELECT t FROM BackendBundle:Tournament t 
-        WHERE t.status = :status_aux AND t.google_place_id IS NOT NULL AND t.lat IS NOT NULL AND t.lon IS NOT NULL'
-        )->setParameter('status_aux', 0)
+        WHERE t.status = :status_aux AND t.google_place_id IS NOT NULL AND t.lat IS NOT NULL AND t.lon IS NOT NULL AND t.dateTournament > :today'
+        )->setParameter('status_aux', 0)->setParameter('today', new \DateTime())
         ->getResult();
 
         $arr = [];
@@ -164,6 +164,29 @@ class TournamentController extends Controller
         $notification->setUser($creator);
         $this->getDoctrine()->getManager()->persist($notification);
         $this->getDoctrine()->getManager()->flush();
+        
+        $message = new \Swift_Message();
+        $swift_Image = new \Swift_Image();
+        $vista = $this->render('Emails/newtournament.html.twig');
+        
+        $name = $tournament->getCreator()->getUsername();
+        $title = "¡Gracias por crear un torneo en tennisstar!";
+        $messageText = "Lorem";
+        $tournamentId = $tournament->getId();
+        $dateText = $tournament->getDateTournament()->format('d/m/Y')." ".$tournament->getDateTournament()->format('h:i')."hs";;
+        
+        $logo = '<img src="' . $message->embed($swift_Image->fromPath('images/logo.png')) .'" alt="tennisstar" style="width:100px;"/>';
+        $facebook1 = '<img src="' . $message->embed($swift_Image->fromPath('images/facebook.png')) .'" alt="facebook" height="25" width="25"/>';
+        $twitter1 = '<img src="' . $message->embed($swift_Image->fromPath('images/twitter.png')) .'" alt="twitter" height="28" width="28"/>';
+        $instagram1 = '<img src="' . $message->embed($swift_Image->fromPath('images/instagram.png')) .'" alt="instagram" height="24" width="24"/>';
+        
+        $body = str_replace(
+            array ("*logo","*name", "*facebook1","*twitter1","*instagram1", "*title","*message","*dateTournament","*tournament_id"), 
+            array ($logo, $name, $facebook1, $twitter1, $instagram1,$title,$messageText,$dateText,$tournamentId), 
+            $vista);
+        
+        $message->setSubject('Gracias por crear el Torneo')->setFrom(['no-reply@tennisstar.com' => 'Tennisstar'])->setTo($tournament->getCreator()->getEmail())->setBody($body,'text/html');
+        $this->get('mailer')->send($message);
 
         return ResponseRest::returnOk("ok");
 
@@ -195,6 +218,7 @@ class TournamentController extends Controller
         $arr['googlePlaceId'] = $t->getGooglePlaceId();
         $arr['inscription'] = false;
         $arr['inscriptionFull'] = false;
+        $arr['inscriptionOld'] = true;
 
         $tournamentStart = false;
         $countStatus = 0;
@@ -202,6 +226,13 @@ class TournamentController extends Controller
         $cuartos = [];
         $semifinal = [];
         $final = [];
+        
+        $date_now = date("m/d/Y");
+        $date_convert = date_format($t->getDateTournament(),"m/d/Y");
+        if($date_now < $date_convert){
+            $arr['inscriptionOld'] = false;
+        }
+        
         foreach($players as $p){
             if($p->getTournament()->getCount() == 4 && $p->getInstance() == "Semifinal" && $p->getUser() != null){
                 $countStatus++;
