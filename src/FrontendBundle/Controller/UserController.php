@@ -250,8 +250,9 @@ class UserController extends Controller
             $arr["bigSemis"] = $bigSemis;
             $arr["bigFinal"] = $bigFinal;
             $arr["bigChampion"] = $bigChampion;
+            $arr["tournaments"] = $arr_aux;
         }
-        $arr["tournaments"] = $arr_aux;
+        
         if($userMatch != null){
             $arr_aux = [];
             $arr1 = [];
