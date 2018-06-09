@@ -81,5 +81,5 @@ doctrine:
 # Swiftmailer Configuration
 swiftmailer:
     transport:  gmail
-    username:   tenisstararg123@gmail.com
+    username:   tenisstararg@gmail.com
     password:   tenisstararg123
