@@ -80,6 +80,9 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport:  gmail
+    transport:  smtp
+    encryption: ssl
+    auth_mode:  login
+    host:       smtp.gmail.com
     username:   tenisstararg@gmail.com
-    password:   tenisstararg123
+    password:   "tenisstararg123"

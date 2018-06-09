@@ -22,8 +22,8 @@ class MatchController extends Controller
 
         $match = $this->getDoctrine()->getEntityManager()
         ->createQuery('SELECT m FROM BackendBundle:Match m 
-        WHERE m.status = :status_aux'
-        )->setParameter('status_aux', 0)->setMaxResults(20)
+        WHERE m.status = :status_aux AND m.dateMatch > :today'
+        )->setParameter('status_aux', 0)->setParameter('today', new \DateTime())->setMaxResults(20)
         ->getResult();
 
         $arr = [];
@@ -118,8 +118,8 @@ class MatchController extends Controller
 
         $match = $this->getDoctrine()->getEntityManager()
         ->createQuery('SELECT m FROM BackendBundle:Match m 
-        WHERE m.status = :status_aux AND m.google_place_id IS NOT NULL AND m.lat IS NOT NULL AND m.lon IS NOT NULL'
-        )->setParameter('status_aux', 0)
+        WHERE m.status = :status_aux AND m.google_place_id IS NOT NULL AND m.lat IS NOT NULL AND m.lon IS NOT NULL AND m.dateMatch > :today'
+        )->setParameter('status_aux', 0)->setParameter('today', new \DateTime())
         ->getResult();
 
         $arr = [];
@@ -252,6 +252,9 @@ class MatchController extends Controller
 
         $id_match = $request->get("id_um");
         $id_user = $request->get("id_user");
+        
+        $user = $em->getRepository('BackendBundle:User')->findOneById($id_user);
+        $match = $em->getRepository('BackendBundle:Match')->findOneById($id_match);
 
         $userMatch = $em->getRepository('BackendBundle:UserMatch')->findByMatch($id_match);
 
@@ -260,24 +263,28 @@ class MatchController extends Controller
                 $userMatch[1]->setUser($em->getRepository('BackendBundle:User')->findOneById($id_user));
                 $em->persist($userMatch[1]);
                 $em->flush();
+                $this->sendEmail($user,$match);
                 return ResponseRest::returnOk("ok");
             }
             if($userMatch[0]->getUser2() == null){
                 $userMatch[0]->setUser2($em->getRepository('BackendBundle:User')->findOneById($id_user));
                 $em->persist($userMatch[0]);
                 $em->flush();
+                $this->sendEmail($user,$match);
                 return ResponseRest::returnOk("ok");
             }
             if($userMatch[0]->getUser() == null){
                 $userMatch[0]->setUser($em->getRepository('BackendBundle:User')->findOneById($id_user));
                 $em->persist($userMatch[0]);
                 $em->flush();
+                $this->sendEmail($user,$match);
                 return ResponseRest::returnOk("ok");
             }
             if($userMatch[1]->getUser2() == null){
                 $userMatch[1]->setUser2($em->getRepository('BackendBundle:User')->findOneById($id_user));
                 $em->persist($userMatch[1]);
                 $em->flush();
+                $this->sendEmail($user,$match);
                 return ResponseRest::returnOk("ok");
             }
         }
@@ -288,6 +295,7 @@ class MatchController extends Controller
             $userMatchNew->setMatch($userMatch[0]->getMatch());
             $em->persist($userMatchNew);
             $em->flush();
+            $this->sendEmail($user,$match);
             return ResponseRest::returnOk("ok");
         }
 
@@ -311,8 +319,10 @@ class MatchController extends Controller
         $arr1 = [];
 
         foreach($match as $m){
-
-            if($m->getMatch()->getStatus() !== 1){
+            
+            $date_now = date("m/d/Y");
+            $date_convert = date_format($m->getMatch()->getDateMatch(),"m/d/Y");
+            if($m->getMatch()->getStatus() !== 1 && $date_now < $date_convert){
 
             $arr1['player1AUsername'] = "";
             $arr1['player1AId'] = null;
@@ -534,6 +544,30 @@ class MatchController extends Controller
         $notification->setUser($user);
         $this->getDoctrine()->getManager()->persist($notification);
         $this->getDoctrine()->getManager()->flush();
+    }
+    
+    private function sendEmail($user,$match){
+        $message = new \Swift_Message();
+        $swift_Image = new \Swift_Image();
+        $vista = $this->render('Emails/newmatch.html.twig');
+        
+        $name = $user->getUsername();
+        $title = "¡Gracias por unirte al partido!";
+        $messageText = $match->getTitle();
+        $dateText = $match->getDateMatch()->format('d/m/Y')." ".$match->getDateMatch()->format('h:i')."hs";;
+        
+        $logo = '<img src="' . $message->embed($swift_Image->fromPath('images/logo.png')) .'" alt="tennisstar" style="width:100px;"/>';
+        $facebook1 = '<img src="' . $message->embed($swift_Image->fromPath('images/facebook.png')) .'" alt="facebook" height="25" width="25"/>';
+        $twitter1 = '<img src="' . $message->embed($swift_Image->fromPath('images/twitter.png')) .'" alt="twitter" height="28" width="28"/>';
+        $instagram1 = '<img src="' . $message->embed($swift_Image->fromPath('images/instagram.png')) .'" alt="instagram" height="24" width="24"/>';
+        
+        $body = str_replace(
+            array ("*logo","*name", "*facebook1","*twitter1","*instagram1", "*title","*message","*dateMatch"), 
+            array ($logo, $name, $facebook1, $twitter1, $instagram1,$title,$messageText,$dateText), 
+            $vista);
+        
+        $message->setSubject('Gracias por unirte al partido')->setFrom(['no-reply@tennisstar.com' => 'Tennisstar'])->setTo($user->getEmail())->setBody($body,'text/html');
+        $this->get('mailer')->send($message);
     }
 
 

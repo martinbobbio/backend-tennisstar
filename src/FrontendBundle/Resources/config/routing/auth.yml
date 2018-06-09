@@ -8,3 +8,8 @@ frontend_new_user:
     path:     /register
     defaults: { _controller: "FrontendBundle:Auth:newUser" }
     methods:  [POST]
+    
+frontend_newpassword:
+    path:     /new-password
+    defaults: { _controller: "FrontendBundle:Auth:newPassword" }
+    methods:  [POST]
