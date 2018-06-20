@@ -28,7 +28,7 @@ Herramientas y tecnologias Utilizadas para el desarrollo:
 
 Torneos:
 
-![Image of tournament](web/images/screen-tournament.png)
+![Image of tournament](web/images/screen-tournamet.png)
 
 Noticias:
 
