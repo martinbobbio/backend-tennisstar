@@ -14,12 +14,18 @@ class RequestFriendController extends Controller
 
     //---------------------INDEX------------------------------
 
-    public function indexAction(){
+    public function indexAction(Request $request){
         
         $con = $this->getDoctrine()->getManager();
-        $request_friend = $con->getRepository('BackendBundle:RequestFriend')->findAll();
+        $request_friend_query = $con->getRepository('BackendBundle:RequestFriend')->findAll();
 
         $delete_form = $this->createCustomForm(':ID','DELETE','request_friend_delete');
+
+        $paginator  = $this->get('knp_paginator');
+        $request_friend = $paginator->paginate(
+          $request_friend_query,
+          $request->query->getInt('page', 1),
+          15);
 
         return $this->render('requestfriend/index.html.twig', array('request_friend' => $request_friend,'delete_form' => $delete_form->createView() ));
 

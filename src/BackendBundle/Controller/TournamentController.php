@@ -15,12 +15,18 @@ class TournamentController extends Controller
 
     //---------------------INDEX------------------------------
 
-    public function indexAction(){
+    public function indexAction(Request $request){
         
         $con = $this->getDoctrine()->getManager();
-        $tournament = $con->getRepository('BackendBundle:Tournament')->findAll();
+        $tournamentQuery = $con->getRepository('BackendBundle:Tournament')->findAll();
 
         $delete_form = $this->createCustomForm(':ID','DELETE','tournament_delete');
+
+        $paginator  = $this->get('knp_paginator');
+        $tournament = $paginator->paginate(
+          $tournamentQuery,
+          $request->query->getInt('page', 1),
+          15);
 
         return $this->render('tournament/index.html.twig', array('tournament' => $tournament,'delete_form' => $delete_form->createView() ));
 

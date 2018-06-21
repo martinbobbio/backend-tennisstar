@@ -16,12 +16,18 @@ class UserController extends Controller
 
     //---------------------INDEX------------------------------
 
-    public function indexAction(){
+    public function indexAction(Request $request){
         
         $con = $this->getDoctrine()->getManager();
-        $user = $con->getRepository('BackendBundle:User')->findAll();
+        $userQuery = $con->getRepository('BackendBundle:User')->findAll();
 
         $delete_form = $this->createCustomForm(':ID','DELETE','user_delete');
+
+        $paginator  = $this->get('knp_paginator');
+        $user = $paginator->paginate(
+          $userQuery,
+          $request->query->getInt('page', 1),
+          12);
 
         return $this->render('user/index.html.twig', array('user' => $user,'delete_form' => $delete_form->createView()));
 

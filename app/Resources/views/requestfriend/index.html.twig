@@ -67,6 +67,10 @@
         </tbody>
     </table>
 
+    <div class="navigation text-center">
+        {{ knp_pagination_render(request_friend) }}
+    </div>
+
     {{ include('Forms/formDelete.html.twig', {form: delete_form, message: 'Estas seguro que quieres borrar la amistad?', id: 'form-delete', with_submit: false}) }}
     
     <script src="{{ asset('js/delete-ajax.js') }}"></script>

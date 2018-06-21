@@ -144,13 +144,16 @@
                 {% if m.status != 1 %}
                     <a href="{{ path('match_players', {id: m.id})}}" class="btn btn-xs btn-success">Ingresar jugadores</a>
                 {% endif %}
-                <a href="{{ path('match_delete', {id: m.id})}}" class="btn btn-xs btn-danger btn-delete">Eliminar</a>
                 </td>
             </tr>
             {% endfor %}
             
         </tbody>
     </table>
+
+    <div class="navigation text-center">
+        {{ knp_pagination_render(match) }}
+    </div>
 
     {{ include('Forms/formDelete.html.twig', {form: delete_form, message: 'Estas seguro que quieres borrar el Resultado?', id: 'form-delete', with_submit: false}) }}
     

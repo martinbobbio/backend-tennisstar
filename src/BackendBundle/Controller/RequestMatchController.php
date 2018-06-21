@@ -14,12 +14,18 @@ class RequestMatchController extends Controller
 
     //---------------------INDEX------------------------------
 
-    public function indexAction(){
+    public function indexAction(Request $request){
         
         $con = $this->getDoctrine()->getManager();
-        $request_match = $con->getRepository('BackendBundle:RequestMatch')->findAll();
+        $request_match_query = $con->getRepository('BackendBundle:RequestMatch')->findAll();
 
         $delete_form = $this->createCustomForm(':ID','DELETE','request_match_delete');
+
+        $paginator  = $this->get('knp_paginator');
+        $request_match = $paginator->paginate(
+          $request_match_query,
+          $request->query->getInt('page', 1),
+          15);
 
         return $this->render('requestmatch/index.html.twig', array('request_match' => $request_match,'delete_form' => $delete_form->createView() ));
 

@@ -46,7 +46,13 @@ class HomeController extends Controller
     public function notificationAction(Request $request)
     {
         $con = $this->getDoctrine()->getManager();
-        $notification = $con->getRepository('BackendBundle:Notification')->findAll();
+        $notificationQuery = $con->getRepository('BackendBundle:Notification')->findAll();
+
+        $paginator  = $this->get('knp_paginator');
+        $notification = $paginator->paginate(
+          $notificationQuery,
+          $request->query->getInt('page', 1),
+          25);
 
         return $this->render('home/notification.html.twig', array('notification' => $notification));
     }

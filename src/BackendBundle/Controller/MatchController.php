@@ -16,15 +16,21 @@ class MatchController extends Controller
 
     //---------------------INDEX------------------------------
 
-    public function indexAction(){
+    public function indexAction(Request $request){
         
         $con = $this->getDoctrine()->getManager();
-        $match = $con->getRepository('BackendBundle:Match')->findAll();
+        $matchQuery = $con->getRepository('BackendBundle:Match')->findAll();
 
-        foreach($match as $m){
+        foreach($matchQuery as $m){
             $players = $con->getRepository('BackendBundle:UserMatch')->findByMatch($m);
             $m->setPlayers($players);
         }
+
+        $paginator  = $this->get('knp_paginator');
+        $match = $paginator->paginate(
+          $matchQuery,
+          $request->query->getInt('page', 1),
+          10);
 
         $delete_form = $this->createCustomForm(':ID','DELETE','match_delete');
 

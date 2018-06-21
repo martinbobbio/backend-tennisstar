@@ -14,12 +14,18 @@ class ClubFavoriteController extends Controller
 
     //---------------------INDEX------------------------------
 
-    public function indexAction(){
+    public function indexAction(Request $request){
         
         $con = $this->getDoctrine()->getManager();
-        $club = $con->getRepository('BackendBundle:ClubFavorite')->findAll();
+        $clubQuery = $con->getRepository('BackendBundle:ClubFavorite')->findAll();
 
         $delete_form = $this->createCustomForm(':ID','DELETE','favorite_club_delete');
+
+        $paginator  = $this->get('knp_paginator');
+        $club = $paginator->paginate(
+          $clubQuery,
+          $request->query->getInt('page', 1),
+          15);
 
         return $this->render('clubfavorite/index.html.twig', array('club' => $club,'delete_form' => $delete_form->createView() ));
 
