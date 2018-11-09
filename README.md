@@ -11,11 +11,6 @@
   <a href="https://github.com/martinbobbio/davinci-tennisstar-mobile">Tennisstar - APP</a>
 </h4>
 
-<br>
-<p align="center">
-    <img src="https://forthebadge.com/images/badges/built-with-love.svg" alt="badge">
-</p>
-
 
 # Descripción
 
