@@ -8,7 +8,7 @@
 <h4 align="center">
   <a href="https://github.com/martinbobbio/davinci-tennisstar-backend">Tennisstar - Frontend</a>
    -  
-  <a href="https://github.com/martinbobbio/davinci-tennisstar-mobile">Tennisstar - Mobile</a>
+  <a href="https://github.com/martinbobbio/davinci-tennisstar-mobile">Tennisstar - APP</a>
 </h4>
 
 <br>
