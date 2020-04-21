@@ -60,9 +60,9 @@ class HomeController extends Controller
     public function redirectLoginAction(){
 
         if($this->container->get('security.context')->getToken()->getUser() == "anon."){
-            return $this->redirect('/web/app_dev.php/login');
+            return $this->redirect('/admin/login');
         }else{
-            return $this->redirect('/web/app_dev.php/admin/stats');
+            return $this->redirect('/admin/stats');
         }
         
     }
