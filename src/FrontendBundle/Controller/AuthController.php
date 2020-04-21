@@ -168,7 +168,7 @@ class AuthController extends Controller
         $this->getDoctrine()->getManager()->persist($notification);
         $this->getDoctrine()->getManager()->flush();
         
-        <!--
+        /*
         $message = new \Swift_Message();
         $swift_Image = new \Swift_Image();
         $vista = $this->render('Emails/newpassword.html.twig');
@@ -189,7 +189,7 @@ class AuthController extends Controller
         
         $message->setSubject('Cambio de contraseña')->setFrom(['no-reply@tennisstar.com' => 'Tennisstar'])->setTo($user->getEmail())->setBody($body,'text/html');
         $this->get('mailer')->send($message);
-        -->
+        */
         
         return ResponseRest::returnOk("Se ha enviado la contraseña a tu email");
         
