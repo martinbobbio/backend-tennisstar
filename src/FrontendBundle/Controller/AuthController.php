@@ -99,7 +99,7 @@ class AuthController extends Controller
         $arr = [];
         $arr["id"] = $user->getId();
         
-        <!--
+        /*
         $message = new \Swift_Message();
         $swift_Image = new \Swift_Image();
         $vista = $this->render('Emails/newuser.html.twig');
@@ -120,7 +120,7 @@ class AuthController extends Controller
         
         $message->setSubject('Bienvenido a tennisstar')->setFrom(['no-reply@tennisstar.com' => 'Tennisstar'])->setTo($user->getEmail())->setBody($body,'text/html');
         $this->get('mailer')->send($message);
-        -->
+        */
 
         return ResponseRest::returnOk($arr);
 
