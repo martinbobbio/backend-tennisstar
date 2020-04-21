@@ -99,6 +99,7 @@ class AuthController extends Controller
         $arr = [];
         $arr["id"] = $user->getId();
         
+        <!--
         $message = new \Swift_Message();
         $swift_Image = new \Swift_Image();
         $vista = $this->render('Emails/newuser.html.twig');
@@ -119,6 +120,7 @@ class AuthController extends Controller
         
         $message->setSubject('Bienvenido a tennisstar')->setFrom(['no-reply@tennisstar.com' => 'Tennisstar'])->setTo($user->getEmail())->setBody($body,'text/html');
         $this->get('mailer')->send($message);
+        -->
 
         return ResponseRest::returnOk($arr);
 
@@ -166,6 +168,7 @@ class AuthController extends Controller
         $this->getDoctrine()->getManager()->persist($notification);
         $this->getDoctrine()->getManager()->flush();
         
+        <!--
         $message = new \Swift_Message();
         $swift_Image = new \Swift_Image();
         $vista = $this->render('Emails/newpassword.html.twig');
@@ -186,6 +189,7 @@ class AuthController extends Controller
         
         $message->setSubject('Cambio de contraseña')->setFrom(['no-reply@tennisstar.com' => 'Tennisstar'])->setTo($user->getEmail())->setBody($body,'text/html');
         $this->get('mailer')->send($message);
+        -->
         
         return ResponseRest::returnOk("Se ha enviado la contraseña a tu email");
         
