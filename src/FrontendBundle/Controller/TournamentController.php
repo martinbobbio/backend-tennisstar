@@ -164,7 +164,7 @@ class TournamentController extends Controller
         $notification->setUser($creator);
         $this->getDoctrine()->getManager()->persist($notification);
         $this->getDoctrine()->getManager()->flush();
-        
+        <!--
         $message = new \Swift_Message();
         $swift_Image = new \Swift_Image();
         $vista = $this->render('Emails/newtournament.html.twig');
@@ -187,6 +187,7 @@ class TournamentController extends Controller
         
         $message->setSubject('Gracias por crear el Torneo')->setFrom(['no-reply@tennisstar.com' => 'Tennisstar'])->setTo($tournament->getCreator()->getEmail())->setBody($body,'text/html');
         $this->get('mailer')->send($message);
+        -->
 
         return ResponseRest::returnOk("ok");
 
