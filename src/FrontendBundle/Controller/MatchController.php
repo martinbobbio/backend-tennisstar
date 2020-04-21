@@ -547,7 +547,7 @@ class MatchController extends Controller
     }
     
     private function sendEmail($user,$match){
-        <!--
+        /*
         $message = new \Swift_Message();
         $swift_Image = new \Swift_Image();
         $vista = $this->render('Emails/newmatch.html.twig');
@@ -569,7 +569,7 @@ class MatchController extends Controller
         
         $message->setSubject('Gracias por unirte al partido')->setFrom(['no-reply@tennisstar.com' => 'Tennisstar'])->setTo($user->getEmail())->setBody($body,'text/html');
         $this->get('mailer')->send($message);
-        -->
+        */
     }
 
 
